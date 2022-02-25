@@ -13,6 +13,8 @@ non-type:
 
 compile:
 	c++ *.cpp -c
+typedefs:
+	c++ -Itypedefs.hpp *typedefs*.cpp -o test
 
 clean:
 	rm -rf *.o

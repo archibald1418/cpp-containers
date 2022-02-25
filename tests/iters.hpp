@@ -9,6 +9,7 @@ template<class T,
         class Pt = T*,
         class Rt = T&>
     struct iterator {
+        // Type defenitions for addressing and manipulating allocated objects
         typedef C iterator_category;
         typedef T value_type;
         typedef Dist difference_type;
