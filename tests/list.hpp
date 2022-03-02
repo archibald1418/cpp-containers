@@ -25,7 +25,8 @@ struct Node<std::string> : public Node<std::string>{};
 
 // Partial specialization
 template <typename T>
-struct Node<T*>{
+struct Node<T*>
+{
     std::cout << "Hey! No pointers in Nodes allowed!" << std::endl;
 };
 
