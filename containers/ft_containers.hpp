@@ -12,6 +12,7 @@
 #include "vector.hpp"
 #include "stack.hpp"
 #include "map.hpp"
+#include "iterators.hpp"
 
 # define GREEN "\x1b[32m"
 # define BLUE "\x1b[34m"

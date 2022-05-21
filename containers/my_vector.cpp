@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "iterators.hpp"
 
 typedef int8_t byte;
 
@@ -8,6 +9,7 @@ class Vector {
     private:
         
         
+		// TODO: rewrite and test with traits
         typedef T                       value_type;
         typedef Alloc		            allocator_type;
         typedef T&                      reference;
@@ -77,8 +79,9 @@ class Vector {
         }
 
         // ver 1
+        // FIXME: fails for zero arg vector
         void push_back(const T& value){
-            if (cap == sz && cap != 0){
+            if (cap == sz){
                 reserve(2 * sz);
             }
             new (arr + sz) T(value);
@@ -99,11 +102,11 @@ class Vector {
             - the container is guaranteed to end in a valid state
         */
        T& operator[](size_t i) {
-           return (arr + i);
+           return *(arr + i);
        }
 
        const T& operator[](size_t i)const {
-           return (arr + i);
+           return *(arr + i);
        }
 
        T& at(size_t i) { // every []-defined container has .at, which throws an error
@@ -120,23 +123,25 @@ class Vector {
        }
         
         // explicit means 'No, compiler! No arguments means this ctor is called, don't second-guess'
-       explicit Vector(const alloc& = allocator_type()) : _alloc(alloc), cap(0), sz(0), arr(NULL) {}
-       excplicit Vector(size_type size, 
+       explicit Vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), cap(0), sz(0), arr(NULL) {}
+       explicit Vector(size_type size, 
                         const value_type& value = value_type(),
-                        const alloc& = allocator_type())
+                        const allocator_type& alloc = allocator_type())
                         : _alloc(alloc), sz(size), cap(size){
-           arr = _alloc.allocate()
-           for (size_type i = 0; i < size;)
+           arr = _alloc.allocate(size);
+           for (size_type i = 0; i < size; i++){
+			   _alloc.construct(arr + i, value);
+		   }
        }
 
        
 };
 
 int main(){
-    std::vector<int> v; //
+    Vector<int> v; //
     
     int i = 0;
-    std::cout << v.size() << ' ' << v.capacity() << ' ' << v[i] << std::endl;
+    // std::cout << v.size() << ' ' << v.capacity() << ' ' << v[i] << std::endl;
     for (; i < 10; ++i)
     {
         v.push_back(i);
