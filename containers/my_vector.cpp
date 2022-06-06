@@ -138,14 +138,14 @@ class Vector {
 };
 
 int main(){
-    Vector<int> v; //
+	//Vector<int> v; //
+    std::vector<int> v(1);
     
     int i = 0;
-    // std::cout << v.size() << ' ' << v.capacity() << ' ' << v[i] << std::endl;
     for (; i < 10; ++i)
     {
         v.push_back(i);
-        std::cout << v.size() << ' ' << v.capacity() << ' ' << v[i] << std::endl;
+        std::cout << "size -> " << v.size() << '\t' << "cap -> " << v.capacity() << '\t' << "elem -> " << v[i] << std::endl;
     }
 
     v.size();
