@@ -77,13 +77,12 @@ namespace ft {
                 }
             }
 
-            // ver 1
-            // FIXME: fails for zero arg vector
             void push_back(const T& value){
                 if (cap == 0 && sz == 0){
                     reserve(1);
                 }
-                if (cap == sz){
+                // else if
+                else if (cap == sz){
                     reserve(2 * sz);
                 }
                 new (arr + sz) T(value);

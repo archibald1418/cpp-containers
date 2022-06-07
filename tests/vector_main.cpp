@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <type_traits>
+#include "tests.hpp"
 
 #ifdef MY
 # define MY 1
@@ -13,38 +14,6 @@
 # define MY 0
   using std::vector;
 #endif
-
-typedef struct test {
-  int a;
-  char b;
-  std::string c;
-
-  test(int a, char b, std::string &c) : a(a), b(b), c(c)
-  {};
-  test() : a(1), b('1'), c(std::string("1")){};
-  test(const struct test& other){
-    this->a = other.a;
-    this->b = other.b;
-    this->c = other.c;
-  }
-
-  friend std::ostream& operator<<(std::ostream& os, const struct test& t)
-  {
-      (void)t;
-      os << "{a: " << t.a \
-        << ", b: " << '\'' << t.b << '\'' \
-          << ", c: \"" << t.c << "\"}" << std::endl;
-      return (os);
-  }
-  
-  struct test& operator++(int){
-    this->a++;
-    this->b++;
-    this->c = std::string(std::to_string(this->b));
-    return (*this);
-  } 
-
-} my_class;
 
 
 const std::string vector_types[2] = {
@@ -72,7 +41,7 @@ void  test_vector(V &v){
 template <typename V>
 void test_vector_custom_type(V &v){
 
-  my_class my_obj;
+  test::my_class my_obj;
 
   int i = 0;
   std::cout << "size" << "\t" << "cap" << "\t" << "elem" << std::endl;
@@ -87,10 +56,10 @@ int main(){
     std::cout << "TESTING " << vector_types[MY] << std::endl;
 
     // vector<int> vzero; //
-    my_class my_object;
+    test::my_class my_object;
 
     vector<int> vnonzero(5);
-    vector<my_class> vmyclass(5);
+    vector<test::my_class> vmyclass(5);
 
     // test_vector(vzero);
     // test_vector(vnonzero);
