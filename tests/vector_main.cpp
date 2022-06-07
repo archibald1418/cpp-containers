@@ -7,7 +7,9 @@
 # define MY 1
 # include "ft_containers.hpp"
   using ft::vector;
-#else
+#endif
+
+#ifndef MY
 # define MY 0
   using std::vector;
 #endif
