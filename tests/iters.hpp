@@ -17,7 +17,7 @@ template<class T,
         typedef Rt reference;
     };
 
-template<class It> // 
+template<class It> 
     struct iterator_traits {
         typedef typename It::iterator_category      iterator_category;
         typedef typename It::value_type             value_type;
@@ -28,7 +28,16 @@ template<class It> //
 
 template <class T>
     struct iterator_traits<T*>{
-        typedef std::random_access_iterator_tag iterator_category;
+        typedef iterator_category iterator_category;
+        typedef T value_type;
+        typedef ptrdiff_t distance_type;
+        typedef T* pointer;
+        typedef T& reference;
+    };
+
+template <class T, class It>
+    struct iterator_traits<T*>{
+        typedef typename It::iterator_category iterator_category;
         typedef T value_type;
         typedef ptrdiff_t distance_type;
         typedef T* pointer;

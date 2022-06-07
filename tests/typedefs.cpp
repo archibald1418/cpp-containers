@@ -1,10 +1,10 @@
 #include "typedefs.hpp"
 #include <iostream>
 
-int main(
+int main()
 {
 
-    Node<> node
+    // Node<> node;
     
     // node1.content = "Pi is ";
     // node2.content = 3.14;

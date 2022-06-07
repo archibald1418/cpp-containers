@@ -1,3 +1,5 @@
+CONTAINERS=../containers
+
 all:
 	c++ *.cpp
 
@@ -15,6 +17,13 @@ compile:
 	c++ *.cpp -c
 typedefs:
 	c++ -Itypedefs.hpp *typedefs*.cpp -o test
+
+# Containers
+
+vector_my:
+	c++ vector_main.cpp -I ${CONTAINERS} -D MY=1
+vector_sys:
+	c++ vector_main.cpp
 
 clean:
 	rm -rf *.o
