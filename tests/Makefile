@@ -31,4 +31,5 @@ vector_sys:
 clean:
 	rm -rf *.o
 	rm -rf test
+	rm -rf *.dSYM
 re-test: clean test
