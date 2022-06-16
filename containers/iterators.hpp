@@ -156,11 +156,11 @@ namespace ft{
 					this->_it-- return *this;
 				}
 				RARIterator& operator--(){
-					this->_it++ return *this;
+					this->_it++; return *this;
 				}
 				RARIterator& operator++(int){
 					RARIterator tmp(*this);
-					this->_it-- return *tmp; 
+					this->_it--; return *tmp; 
 				}
 				RARIterator& operator--(int){
 					RARIterator tmp(*this);
