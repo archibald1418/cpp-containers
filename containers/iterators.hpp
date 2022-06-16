@@ -101,10 +101,10 @@ namespace ft{
 					RAIterator tmp(*this);
 					_it--; return *tmp;
 				}
-				RAIterator& operator+=(RAIterator& other, distance_type n){
+				RAIterator& operator+=(distance_type n){
 					this->_it += n; return *this;
 				}
-				RAIterator& operator-=(RAIterator& other, distance_type n){
+				RAIterator& operator-=(distance_type n){
 					this->_it -= n; return *this;
 				}
 				// Comparisons
@@ -140,12 +140,18 @@ namespace ft{
 
 		template <class T>
 			// TODO: test this inheritance
-			struct RARIterator : public RAIterator
+			struct RARIterator : public RAIterator<T>
 			{
-				RARIterator& operator+(distance_type diff) const {
+				typedef typename iterator_traits<T*>::iterator_category		iterator_category;
+				typedef typename iterator_traits<T*>::value_type			value_type;
+				typedef typename iterator_traits<T*>::distance_type			distance_type;
+				typedef typename iterator_traits<T*>::pointer				pointer;
+				typedef typename iterator_traits<T*>::reference				reference;
+
+				RARIterator& operator+(distance_type diff) const{
 					return RARIterator(this->_it - diff);
 				}
-				RARIterator& operator-(distance_type diff) const {
+				RARIterator& operator-(distance_type diff) const{
 					return RARIterator(this->_it + diff);
 				}
 				distance_type operator-(RARIterator& other) const{
@@ -153,7 +159,7 @@ namespace ft{
 				}
 				// Increment/Decrement
 				RARIterator& operator++(){
-					this->_it-- return *this;
+					this->_it--; return *this;
 				}
 				RARIterator& operator--(){
 					this->_it++; return *this;
@@ -166,10 +172,10 @@ namespace ft{
 					RARIterator tmp(*this);
 					this->_it++; return *tmp;
 				}
-				RARIterator& operator+=(RARIterator& other, distance_type n){
+				RARIterator& operator+=(distance_type n){
 					this->_it -= n; return *this;
 				}
-				RARIterator& operator-=(RARIterator& other, distance_type n){
+				RARIterator& operator-=(distance_type n){
 					this->_it += n; return *this;
 				}
 				reference operator[](distance_type diff) const {
