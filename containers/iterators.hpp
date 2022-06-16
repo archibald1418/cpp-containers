@@ -2,13 +2,14 @@
 # define ITERATORS_HPP
 
 # include <iterator>
+# include <cstddef>
 
 namespace ft{
 
 	// Explicitly Parametric iterator
 	template<class T,
 			class C = std::random_access_iterator_tag,
-			class Dist = ptrdiff_t,
+			class Dist = std::ptrdiff_t,
 			class Pt = T*,
 			class Rt = T&>
 		struct iterator {
@@ -38,6 +39,109 @@ namespace ft{
 			typedef ptrdiff_t distance_type;
 			typedef T* pointer;
 			typedef T& reference;
+		};
+
+	template <class T>
+		struct iterator_traits<const T*>{
+			typedef std::random_access_iterator_tag iterator_category;
+			typedef T value_type;
+			typedef ptrdiff_t distance_type;
+			typedef T* pointer;
+			typedef T& reference;
+		};
+	
+	template <class T>
+		struct RAIterator{
+			typedef typename iterator_traits<T*>::iterator_category		iterator_category;
+			typedef typename iterator_traits<T*>::value_type			value_type;
+			typedef typename iterator_traits<T*>::distance_type			distance_type;
+			typedef typename iterator_traits<T*>::pointer				pointer;
+			typedef typename iterator_traits<T*>::reference				reference;
+
+			protected:
+				pointer _it;
+			
+			public:
+			// Ctors
+				RAIterator(): _it(0){};
+				RAIterator(pointer it) : _it(it){};
+				RAIterator(const RAIterator &src) : _it(src._it){};
+			// Dtor
+				virtual ~RAIterator(){};
+			// Operators
+				// Arithmetic
+				RAIterator& operator=(const RAIterator& other){
+					if (this == &other)
+						return *this;
+					_it = other._it;
+					return *this;
+				}
+				RAIterator& operator+(distance_type diff) const {
+					return RAIterator(_it + diff);
+				}
+				RAIterator& operator-(distance_type diff) const {
+					return RAIterator(_it - diff);
+				}
+				distance_type operator-(RAIterator& other) const{
+					return _it - other._it;
+				}
+				// Increment/Decrement
+				RAIterator& operator++(){
+					_it++; return *this;
+				}
+				RAIterator& operator--(){
+					_it--; return *this;
+				}
+				RAIterator& operator++(int){
+					RAIterator tmp(*this);
+					_it++; return *tmp; 
+				}
+				RAIterator& operator--(int){
+					RAIterator tmp(*this);
+					_it--; return *tmp;
+				}
+				RAIterator& operator+=(RAIterator& other, distance_type n){
+					this->_it += n; return *this;
+				}
+				RAIterator& operator-=(RAIterator& other, distance_type n){
+					this->_it -= n; return *this;
+				}
+				// Comparisons
+				bool operator==(const RAIterator& other) const {
+					return _it == other._it;
+				}
+				bool operator!=(const RAIterator& other)const {
+					return _it != other._it;
+				}
+				bool operator<(const RAIterator& other)const{
+					return _it < other._it;
+				}
+				bool operator>(const RAIterator& other)const{
+					return _it > other._it;
+				}
+				bool operator<=(const RAIterator& other)const{
+					return _it <= other._it;
+				}
+				bool operator>=(const RAIterator& other)const{
+					return _it >= other._it;
+				}
+				// Dereferencing
+				reference operator[](distance_type diff)const {
+					return *(_it + diff);
+				}
+				reference operator*()const {
+					return *_it;
+				}
+				pointer operator->()const {
+					return _it;
+				}
+				
+
+				
+				
+				
+				
+				
 		};
 
 };
