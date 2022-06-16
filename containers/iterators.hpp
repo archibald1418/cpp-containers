@@ -77,10 +77,10 @@ namespace ft{
 					_it = other._it;
 					return *this;
 				}
-				RAIterator& operator+(distance_type diff) const {
+				RAIterator& operator+(distance_type diff) const{
 					return RAIterator(_it + diff);
 				}
-				RAIterator& operator-(distance_type diff) const {
+				RAIterator& operator-(distance_type diff) const{
 					return RAIterator(_it - diff);
 				}
 				distance_type operator-(RAIterator& other) const{
@@ -108,32 +108,32 @@ namespace ft{
 					this->_it -= n; return *this;
 				}
 				// Comparisons
-				bool operator==(const RAIterator& other) const {
+				bool operator==(const RAIterator& other) const{
 					return _it == other._it;
 				}
-				bool operator!=(const RAIterator& other)const {
+				bool operator!=(const RAIterator& other) const{
 					return _it != other._it;
 				}
-				bool operator<(const RAIterator& other)const{
+				bool operator<(const RAIterator& other) const{
 					return _it < other._it;
 				}
-				bool operator>(const RAIterator& other)const{
+				bool operator>(const RAIterator& other) const{
 					return _it > other._it;
 				}
-				bool operator<=(const RAIterator& other)const{
+				bool operator<=(const RAIterator& other) const{
 					return _it <= other._it;
 				}
-				bool operator>=(const RAIterator& other)const{
+				bool operator>=(const RAIterator& other) const{
 					return _it >= other._it;
 				}
 				// Dereferencing
-				reference operator[](distance_type diff)const {
+				reference operator[](distance_type diff) const{
 					return *(_it + diff);
 				}
-				reference operator*()const {
+				reference operator*() const{
 					return *_it;
 				}
-				pointer operator->()const {
+				pointer operator->() const{
 					return _it;
 				}
 		};
@@ -178,7 +178,7 @@ namespace ft{
 				RARIterator& operator-=(distance_type n){
 					this->_it += n; return *this;
 				}
-				reference operator[](distance_type diff) const {
+				reference operator[](distance_type diff) const{
 					return *(this->_it - diff);
 				}
 			};
