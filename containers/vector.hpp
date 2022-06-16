@@ -19,12 +19,17 @@ namespace ft {
             typedef std::ptrdiff_t          difference_type;
             typedef size_t                  size_type;
 
-            pointer arr;
+            pointer _first;
             size_type sz; // size 
             size_type cap; // capacity
             allocator_type  _alloc;
             
         public:
+            typedef RAIterator<value_type> iterator;
+            typedef RAIterator<const value_type> const_iterator;
+            typedef RARIterator<value_type> reverse_iterator;
+            typedef RARIterator<const value_type> const_reverse_iterator;
+
             // reserve enough memory for n elements 
             void reserve(size_t n)
             {
@@ -37,7 +42,7 @@ namespace ft {
                 // solution: allocate!
                 try {
                     for (size_t i = 0; i < sz; ++i){
-                        new (newarr + i) T(arr[i]); // placement-new syntax; new [address] object
+                        new (newarr + i) T(_first[i]); // placement-new syntax; new [address] object
                         // newarr[i] = arr[i]; 
                         /* with reint_cast this line 27 would be UB
                         newarr[i] has no object, just bare memory
@@ -52,12 +57,12 @@ namespace ft {
                 }
                 for (size_t i = 0; i < sz; ++i){
                     // explicit dtor call:
-                    (arr + i)->~T(); // no handling in case of exceptions
+                    (_first + i)->~T(); // no handling in case of exceptions
                 }
-                delete [] reinterpret_cast<byte*>(arr); 
+                delete [] reinterpret_cast<byte*>(_first); 
                 // we might have extra unfilled memory, so this is bad
                 // moreover, on line 19 our array became interpreted as chararr;
-                arr = newarr;
+                _first = newarr;
                 this->cap = n;
             }
 
@@ -70,7 +75,7 @@ namespace ft {
                 }
                 if (n > sz){
                     for (size_t i = sz; i < n; ++i){
-                        new (arr + i) T(value); // ctor might throw an error!
+                        new (_first + i) T(value); // ctor might throw an error!
                     }
                     if (n < sz) {
                         sz = n;
@@ -86,13 +91,13 @@ namespace ft {
                 else if (cap == sz){
                     reserve(2 * sz);
                 }
-                new (arr + sz) T(value);
+                new (_first + sz) T(value);
                 ++sz;
             }
 
             void pop_back(){
                 --sz;
-                (arr + sz)->~T();
+                (_first + sz)->~T();
             }
 
             /*
@@ -104,17 +109,17 @@ namespace ft {
                 - the container is guaranteed to end in a valid state
             */
         T& operator[](size_t i) {
-            return *(arr + i);
+            return *(_first + i);
         }
 
         const T& operator[](size_t i)const {
-            return *(arr + i);
+            return *(_first + i);
         }
 
         T& at(size_t i) { // every []-defined container has .at, which throws an error
             if (i >= sz)
                     throw std::out_of_range("Index out of range");
-                return arr[i];
+                return _first[i];
         }
 
         size_t size(){
@@ -125,14 +130,14 @@ namespace ft {
         }
             
             // explicit means 'No, compiler! No arguments means this ctor is called, don't second-guess'
-        explicit vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), cap(0), sz(0), arr(NULL) {}
+        explicit vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), cap(0), sz(0), _first(NULL){}
         explicit vector(size_type size, 
                             const value_type& value = value_type(),
                             const allocator_type& alloc = allocator_type())
                             : _alloc(alloc), sz(size), cap(size){
-            arr = _alloc.allocate(size);
+            _first = _alloc.allocate(size);
             for (size_type i = 0; i < size; i++){
-                _alloc.construct(arr + i, value);
+                _alloc.construct(_first + i, value);
             }
         }
     };
