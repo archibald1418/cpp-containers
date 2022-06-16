@@ -51,7 +51,8 @@ namespace ft{
 		};
 	
 	template <class T>
-		struct RAIterator{
+		struct RAIterator
+		{
 			typedef typename iterator_traits<T*>::iterator_category		iterator_category;
 			typedef typename iterator_traits<T*>::value_type			value_type;
 			typedef typename iterator_traits<T*>::distance_type			distance_type;
@@ -135,15 +136,46 @@ namespace ft{
 				pointer operator->()const {
 					return _it;
 				}
-				
-
-				
-				
-				
-				
-				
 		};
 
+		template <class T>
+			// TODO: test this inheritance
+			struct RARIterator : public RAIterator
+			{
+				RARIterator& operator+(distance_type diff) const {
+					return RARIterator(this->_it - diff);
+				}
+				RARIterator& operator-(distance_type diff) const {
+					return RARIterator(this->_it + diff);
+				}
+				distance_type operator-(RARIterator& other) const{
+					return this->_it + other._it;
+				}
+				// Increment/Decrement
+				RARIterator& operator++(){
+					this->_it-- return *this;
+				}
+				RARIterator& operator--(){
+					this->_it++ return *this;
+				}
+				RARIterator& operator++(int){
+					RARIterator tmp(*this);
+					this->_it-- return *tmp; 
+				}
+				RARIterator& operator--(int){
+					RARIterator tmp(*this);
+					this->_it++; return *tmp;
+				}
+				RARIterator& operator+=(RARIterator& other, distance_type n){
+					this->_it -= n; return *this;
+				}
+				RARIterator& operator-=(RARIterator& other, distance_type n){
+					this->_it += n; return *this;
+				}
+				reference operator[](distance_type diff) const {
+					return *(this->_it - diff);
+				}
+			};
 };
 
 #endif 
