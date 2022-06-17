@@ -24,7 +24,7 @@ typedefs:
 # Containers
 
 vector_my:
-	c++ vector_main.cpp -g -I ${CONTAINERS} -D MY=1 ${DO_TESTFILE}
+	c++ vector_main.cpp -g -I ${CONTAINERS} -D MY=1 ${DO_TESTFILE} -fsanitize=address
 vector_sys:
 	c++ vector_main.cpp -g ${DO_TESTFILE}
 

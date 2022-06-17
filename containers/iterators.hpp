@@ -77,12 +77,12 @@ namespace ft{
 					_it = other._it;
 					return *this;
 				}
-				RAIterator& operator+(distance_type diff) const{
+				RAIterator operator+(distance_type diff) const{
 					return RAIterator(_it + diff);
 				}
-				RAIterator& operator-(distance_type diff) const{
+				RAIterator operator-(distance_type diff) const{
 					return RAIterator(_it - diff);
-				}
+				} // +- return new object, so it can't be a constant reference
 				distance_type operator-(RAIterator& other) const{
 					return _it - other._it;
 				}

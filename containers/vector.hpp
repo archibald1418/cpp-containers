@@ -20,7 +20,7 @@ namespace ft {
             typedef size_t                  size_type;
 
             pointer _first;
-            size_type sz; // size 
+            size_type _size; // size 
             size_type cap; // capacity
             allocator_type  _alloc;
             
@@ -41,7 +41,7 @@ namespace ft {
                 // this is bad, objects might be enormous or resource-hungry (mutex, connection etc or a big object)
                 // solution: allocate!
                 try {
-                    for (size_t i = 0; i < sz; ++i){
+                    for (size_t i = 0; i < _size; ++i){
                         new (newarr + i) T(_first[i]); // placement-new syntax; new [address] object
                         // newarr[i] = arr[i]; 
                         /* with reint_cast this line 27 would be UB
@@ -55,7 +55,7 @@ namespace ft {
                     delete[] reinterpret_cast<byte*>(newarr);
                     throw; // throw to next
                 }
-                for (size_t i = 0; i < sz; ++i){
+                for (size_t i = 0; i < _size; ++i){
                     // explicit dtor call:
                     (_first + i)->~T(); // no handling in case of exceptions
                 }
@@ -73,31 +73,31 @@ namespace ft {
                 } catch (...) {
                     return;
                 }
-                if (n > sz){
-                    for (size_t i = sz; i < n; ++i){
+                if (n > _size){
+                    for (size_t i = _size; i < n; ++i){
                         new (_first + i) T(value); // ctor might throw an error!
                     }
-                    if (n < sz) {
-                        sz = n;
+                    if (n < _size) {
+                        _size = n;
                     }
                 }
             }
 
             void push_back(const T& value){
-                if (cap == 0 && sz == 0){
+                if (cap == 0 && _size == 0){
                     reserve(1);
                 }
                 // else if
-                else if (cap == sz){
-                    reserve(2 * sz);
+                else if (cap == _size){
+                    reserve(2 * _size);
                 }
-                new (_first + sz) T(value);
-                ++sz;
+                new (_first + _size) T(value);
+                ++_size;
             }
 
             void pop_back(){
-                --sz;
-                (_first + sz)->~T();
+                --_size;
+                (_first + _size)->~T();
             }
 
             /*
@@ -117,29 +117,42 @@ namespace ft {
         }
 
         T& at(size_t i) { // every []-defined container has .at, which throws an error
-            if (i >= sz)
-                    throw std::out_of_range("Index out of range");
-                return _first[i];
+            if (i >= _size)
+                throw std::out_of_range("Index out of range");
+            return _first[i];
         }
 
         size_t size(){
-            return this->sz;
+            return this->_size;
         }
         size_t capacity(){
             return this->cap;
         }
             
             // explicit means 'No, compiler! No arguments means this ctor is called, don't second-guess'
-        explicit vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), cap(0), sz(0), _first(NULL){}
+        explicit vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), cap(0), _size(0), _first(NULL){}
         explicit vector(size_type size, 
                             const value_type& value = value_type(),
                             const allocator_type& alloc = allocator_type())
-                            : _alloc(alloc), sz(size), cap(size){
+                            : _alloc(alloc), _size(size), cap(size){
             _first = _alloc.allocate(size);
             for (size_type i = 0; i < size; i++){
                 _alloc.construct(_first + i, value);
             }
         }
+
+        // Iterators
+        iterator                begin(){return iterator(_first);};
+        const_iterator          begin()const{return const_iterator(_first);};
+        reverse_iterator        rbegin(){return reverse_iterator(_first + _size - 1);};
+        const_reverse_iterator  rbegin()const{return const_reverse_iterator(_first + _size - 1);};
+        iterator                end(){return iterator(_first + _size);};
+        const_iterator          end()const{return const_iterator(_first + _size);};
+        reverse_iterator        rend(){return reverse_iterator(_first - 1);};
+        const_reverse_iterator  rend()const{return const_reverse_iterator(_first - 1);};
+
+
+        
     };
 
 };

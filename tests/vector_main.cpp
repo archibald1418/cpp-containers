@@ -21,6 +21,13 @@ const std::string vector_types[2] = {
     std::string("MY_VECTOR")
 };
 
+template <typename V>
+void  test_iterators(V &v){
+  typename V::iterator start = v.begin();
+  typename V::iterator end = v.end();
+  std::cout << "First elem of vector V:\t" << *start << "\n";
+  std::cout << "Last elem of vector V:\t" << *(end - 1) << std::endl;
+}
 
 template <typename V>
 void  test_vector(V &v){
@@ -63,7 +70,8 @@ int main(){
 
     // test_vector(vzero);
     // test_vector(vnonzero);
-    test_vector_custom_type(vmyclass);
+    // test_vector_custom_type(vmyclass);
+    test_iterators(vmyclass);
 
 
 };
