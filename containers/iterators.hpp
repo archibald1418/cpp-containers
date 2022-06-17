@@ -77,12 +77,17 @@ namespace ft{
 					_it = other._it;
 					return *this;
 				}
-				RAIterator operator+(distance_type diff) const{
+				RAIterator operator+(distance_type diff)const{
 					return RAIterator(_it + diff);
 				}
-				RAIterator operator-(distance_type diff) const{
+				RAIterator operator-(distance_type diff)const{
 					return RAIterator(_it - diff);
-				} // +- return new object, so it can't be a constant reference
+				} /* 
+					+- return new object, so it can't be a constant reference
+						Since returned object can't be const
+							(because it  could be changed later)
+						ret by ref won't work
+					*/
 				distance_type operator-(RAIterator& other) const{
 					return _it - other._it;
 				}
@@ -93,11 +98,11 @@ namespace ft{
 				RAIterator& operator--(){
 					_it--; return *this;
 				}
-				RAIterator& operator++(int){
+				RAIterator operator++(int){
 					RAIterator tmp(*this);
 					_it++; return *tmp; 
 				}
-				RAIterator& operator--(int){
+				RAIterator operator--(int){
 					RAIterator tmp(*this);
 					_it--; return *tmp;
 				}
