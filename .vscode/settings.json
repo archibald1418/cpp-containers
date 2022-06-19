@@ -80,6 +80,8 @@
         "__bits": "cpp",
         "*.tcc": "cpp",
         "stop_token": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "version": "cpp",
+        "__functional_03": "cpp"
     }
 }

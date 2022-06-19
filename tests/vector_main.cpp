@@ -75,7 +75,7 @@ void test_vector_sizes(V &v)
   // std::cout << v.size() << ' ' << v.capacity() << ' ' << v[i] << std::endl;
   std::cout << "size"
             << "\t"
-            << "cap"
+            << "_cap"
             << "\t"
             << "elem" << std::endl;
   for (; i < 10; ++i)
@@ -84,7 +84,7 @@ void test_vector_sizes(V &v)
     std::cout << v.size() << '\t' << v.capacity() << '\t' << v[i] << std::endl;
   }
   v.size();
-  v.capacity(); // cap *= 2, if newer elem.size overflows capacity
+  v.capacity(); // _cap *= 2, if newer elem.size overflows capacity
 }
 
 template <typename V>
@@ -96,7 +96,7 @@ void test_create_vector_custom_type(V &v)
   int i = 0;
   std::cout << "size"
             << "\t"
-            << "cap"
+            << "_cap"
             << "\t"
             << "elem" << std::endl;
   for (; i < 10; ++i)
@@ -106,6 +106,34 @@ void test_create_vector_custom_type(V &v)
 
     my_obj++;
   }
+}
+
+// template <typename T>
+void  test_vector_reserve(){
+  std::cout << WHITE \
+    << "Changing of capacity during adding 100 new elements" \
+    << std::endl;
+
+  vector<int> foo;
+  vector<int>::size_type size = foo.size();
+
+  
+  for (int i = 0; i < 100; ++i){
+    foo.push_back(i);
+    if (size != foo.capacity())
+      std::cout << BLUE << " " << size;
+    size = foo.capacity();
+  }
+
+  std::cout << WHITE \
+    << "Changing of capacity during adding 100 new elements (100 were reserved)" \
+    << std::endl;
+
+  vector<int> bar;
+  vector<int>::size_type size = bar.size();
+
+  
+  
 }
 
 int main()

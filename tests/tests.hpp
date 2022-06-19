@@ -1,5 +1,12 @@
-#include <iostream>
-#include <string>
+#ifndef TESTS_H
+# define TESTS_H
+
+# include <iostream>
+# include <string>
+
+# define GREEN "\x1b[32m"
+# define BLUE "\x1b[34m"
+# define WHITE "\e[0m"
 
 namespace test {
 
@@ -42,3 +49,5 @@ namespace test {
   } my_class;
 
 };
+
+#endif

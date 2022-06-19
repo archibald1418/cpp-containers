@@ -9,7 +9,6 @@ namespace ft {
     class vector {
         private:
             
-            // TODO: rewrite and test with traits
             typedef T                       value_type;
             typedef Alloc		            allocator_type;
             typedef T&                      reference;
@@ -21,7 +20,7 @@ namespace ft {
 
             pointer _first;
             size_type _size; // size 
-            size_type cap; // capacity
+            size_type _cap; // capacity
             allocator_type  _alloc;
             
         public:
@@ -30,45 +29,74 @@ namespace ft {
             typedef RARIterator<value_type> reverse_iterator;
             typedef RARIterator<const value_type> const_reverse_iterator;
 
-            // reserve enough memory for n elements 
-            void reserve(size_t n)
+            size_type max_size()const{
+                return _alloc.max_size();
+            }
+
+            size_type size()const{
+                return _size;
+            }
+
+            size_type capacity()const{
+                return _cap;
+            }
+
+            void reserve(size_type new_cap)
             {
-                if (n <= this->cap)
-                    return; 
+                /*
+                ** Reserve enough memory for n elements of size T 
+                ** if there is more memory needed
+                */
+
+                if (new_cap <= this->_cap)
+                    return;
+                if (new_cap > max_size())
+                    throw std::length_error("ft::vector<T>::reserve, capacity bigger than max_size"); // as per vector<...>::reserve docs
                 // T* newarr = new T[n]; 
-                size_t i = 0;
-                T* newarr = reinterpret_cast<T*>(new byte[n * sizeof(T)]); // 1 * n * sizeof bytes
+                // T* newarr = reinterpret_cast<T*>(new byte[n * sizeof(T)]); // 1 * n * sizeof bytes
+                // T* newarr = _alloc.allocate
+                pointer newarr = _alloc.allocate(new_cap);
+                /* Raises std::bad_alloc if allocation fails */
                 // this is bad, objects might be enormous or resource-hungry (mutex, connection etc or a big object)
                 // solution: allocate!
+                size_type i = 0;
                 try {
-                    for (size_t i = 0; i < _size; ++i){
-                        new (newarr + i) T(_first[i]); // placement-new syntax; new [address] object
-                        // newarr[i] = arr[i]; 
-                        /* with reint_cast this line 27 would be UB
+                    for (; i < _size; ++i){
+                        _alloc.construct(newarr + i, *(_first + i)); // does the same placement-new call
+                        // new (newarr + i) T(_first[i]); // placement-new syntax; new [address] object
+                        // --- newarr[i] = arr[i]; ---
+                        /* with reint_cast last line would be UB
                         newarr[i] has no object, just bare memory
                         */
                     }
-                } catch (...) {
-                    for (size_t j = 0; j < i; ++j){
-                        (newarr + i)->~T(); // backwards loop for garbage collection
+                } catch (const std::exception& e) {
+                    size_type j = 0;
+                    for (; j < i; ++j){
+                        // (newarr + i)->~T(); // backwards loop for garbage collection
+                        _alloc.destroy(newarr + j);
                     }
-                    delete[] reinterpret_cast<byte*>(newarr);
-                    throw; // throw to next
+                    std::cout << "Error:" << e.what() << '\n' << "Deallocating array" << '\n';
+                    // delete[] reinterpret_cast<byte*>(newarr);
+                    _alloc.deallocate(newarr, j);
+                    throw; // rethrow to next
                 }
-                for (size_t i = 0; i < _size; ++i){
+                for (size_type i = 0; i < _size; ++i){
                     // explicit dtor call:
-                    (_first + i)->~T(); // no handling in case of exceptions
+                    // (_first + i)->~T(); // no handling in case of exceptions
+                    _alloc.destroy(_first + i);
                 }
-                delete [] reinterpret_cast<byte*>(_first); 
+                if (_cap)
+                    // delete [] reinterpret_cast<byte*>(_first);
+                    _alloc.deallocate(_first, _cap);
                 // we might have extra unfilled memory, so this is bad
-                // moreover, on line 19 our array became interpreted as chararr;
+                // moreover, on line 19 our array became interpreted as bytearr;
                 _first = newarr;
-                this->cap = n;
+                this->_cap = new_cap;
             }
 
             void resize(size_t n, const T& value = T()){ // T might not have a default ctor
                 try {
-                    if (n > this->cap)
+                    if (n > this->_cap)
                         reserve(n);
                 } catch (...) {
                     return;
@@ -84,11 +112,11 @@ namespace ft {
             }
 
             void push_back(const T& value){
-                if (cap == 0 && _size == 0){
+                if (_cap == 0 && _size == 0){
                     reserve(1);
-                }
+                } // TODO: check exception guarantees
                 // else if
-                else if (cap == _size){
+                else if (_cap == _size){
                     reserve(2 * _size);
                 }
                 new (_first + _size) T(value);
@@ -126,15 +154,15 @@ namespace ft {
             return this->_size;
         }
         size_t capacity(){
-            return this->cap;
+            return this->_cap;
         }
             
             // explicit means 'No, compiler! No arguments means this ctor is called, don't second-guess'
-        explicit vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), cap(0), _size(0), _first(NULL){}
-        explicit vector(size_type size, 
+        explicit vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _cap(0), _size(0), _first(NULL){}
+        explicit vector(size_type size,
                             const value_type& value = value_type(),
                             const allocator_type& alloc = allocator_type())
-                            : _alloc(alloc), _size(size), cap(size){
+                            : _alloc(alloc), _size(size), _cap(size){
             _first = _alloc.allocate(size);
             for (size_type i = 0; i < size; i++){
                 _alloc.construct(_first + i, value);
