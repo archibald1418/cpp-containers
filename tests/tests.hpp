@@ -31,7 +31,13 @@ namespace test {
       this->b++;
       this->c = std::string(std::to_string(this->b));
       return (*this);
-    } 
+    }
+
+    bool operator==(const struct test& other){
+      return (this->a == other.a && \
+              this->b == other.b && \
+              this->c == other.c);
+    }
 
   } my_class;
 

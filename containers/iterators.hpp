@@ -50,6 +50,11 @@ namespace ft{
 			typedef T& reference;
 		};
 	
+	// Constructing via iterator class template
+	// class MyIterator : public iterator<class T, class std::random_access_iterator_tag>{
+		
+	// };
+
 	template <class T>
 		struct RAIterator
 		{
@@ -100,7 +105,8 @@ namespace ft{
 				}
 				RAIterator operator++(int){
 					RAIterator tmp(*this);
-					_it++; return *tmp; 
+					_it++; 
+					return *tmp;  // NOTE: STL reference recommends converting to const reference
 				}
 				RAIterator operator--(int){
 					RAIterator tmp(*this);
@@ -152,11 +158,18 @@ namespace ft{
 				typedef typename iterator_traits<T*>::distance_type			distance_type;
 				typedef typename iterator_traits<T*>::pointer				pointer;
 				typedef typename iterator_traits<T*>::reference				reference;
+			// Ctors
+				RARIterator(): RAIterator<T>(){};
+				RARIterator(pointer it): RAIterator<T>(it){};
+				RARIterator(const RARIterator &src) : RAIterator<T>(src){};
+			// Dtor
+				virtual ~RARIterator(){};
 
-				RARIterator& operator+(distance_type diff) const{
+			// Arithmetic operators overload
+				RARIterator operator+(distance_type diff) const{
 					return RARIterator(this->_it - diff);
 				}
-				RARIterator& operator-(distance_type diff) const{
+				RARIterator operator-(distance_type diff) const{
 					return RARIterator(this->_it + diff);
 				}
 				distance_type operator-(RARIterator& other) const{
@@ -169,11 +182,11 @@ namespace ft{
 				RARIterator& operator--(){
 					this->_it++; return *this;
 				}
-				RARIterator& operator++(int){
+				RARIterator operator++(int){
 					RARIterator tmp(*this);
 					this->_it--; return *tmp; 
 				}
-				RARIterator& operator--(int){
+				RARIterator operator--(int){
 					RARIterator tmp(*this);
 					this->_it++; return *tmp;
 				}
