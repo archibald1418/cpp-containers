@@ -101,22 +101,24 @@ namespace ft {
                 this->_cap = new_cap;
             }
 
-            void resize(size_t n, const T& value = T()){ // T might not have a default ctor
+            void resize(size_type n, const value_type& value = T()){ // T might not have a default ctor
                 try {
                     if (n > this->_cap)
                         reserve(n);
                 } catch (...) {
-                    return;
+                    return; // Strong guarantee (=no effect)
                 }
                 if (n > _size){
-                    for (size_t i = _size; i < n; ++i){
+                    for (size_type i = _size; i < n; ++i){
                         // new (_first + i) T(value); // ctor might throw an error!
                         _alloc.construct(_first + i, value);
                     }
-                    if (n < _size) {
-                        _size = n;
+                } else if (n < _size) {
+                    for (size_type i = n; i < _size; ++i){
+                        _alloc.destroy(_first + i);
                     }
                 }
+                _size = n;
             }
 
             void push_back(const T& value){
