@@ -7,8 +7,7 @@ namespace ft {
 
     template <typename T, class Alloc = std::allocator<T> >
     class vector {
-        private:
-            
+        public:
             typedef T                       value_type;
             typedef Alloc		            allocator_type;
             typedef T&                      reference;
@@ -16,8 +15,9 @@ namespace ft {
             typedef T*                      pointer;
             typedef const T*                const_pointer;
             typedef std::ptrdiff_t          difference_type;
-            typedef size_t                  size_type;
+            typedef std::size_t             size_type;
 
+        private:
             pointer _first;
             size_type _size; // size 
             size_type _cap; // capacity
@@ -30,7 +30,14 @@ namespace ft {
             typedef RARIterator<const value_type> const_reverse_iterator;
 
             size_type max_size()const{
-                return _alloc.max_size();
+                /*
+                This value typically reflects the theoretical limit on the size of the container,
+                -- at most std::numeric_limits<difference_type>::max() --
+                */
+                return std::min<size_type>(
+                    _alloc.max_size(),
+                    std::numeric_limits<difference_type>::max()                 
+                );
             }
 
             size_type size()const{
@@ -51,7 +58,7 @@ namespace ft {
                 if (new_cap <= this->_cap)
                     return;
                 if (new_cap > max_size())
-                    throw std::length_error("ft::vector<T>::reserve, capacity bigger than max_size"); // as per vector<...>::reserve docs
+                    throw std::length_error("allocator<T>::allocate(size_type n) 'n' exceeds maximum supported size"); // as per vector<...>::reserve docs
                 // T* newarr = new T[n]; 
                 // T* newarr = reinterpret_cast<T*>(new byte[n * sizeof(T)]); // 1 * n * sizeof bytes
                 // T* newarr = _alloc.allocate
@@ -103,7 +110,8 @@ namespace ft {
                 }
                 if (n > _size){
                     for (size_t i = _size; i < n; ++i){
-                        new (_first + i) T(value); // ctor might throw an error!
+                        // new (_first + i) T(value); // ctor might throw an error!
+                        _alloc.construct(_first + i, value);
                     }
                     if (n < _size) {
                         _size = n;
@@ -119,13 +127,15 @@ namespace ft {
                 else if (_cap == _size){
                     reserve(2 * _size);
                 }
-                new (_first + _size) T(value);
+                // new (_first + _size) T(value);
+                _alloc.construct(_first + _size, value);
                 ++_size;
             }
 
             void pop_back(){
                 --_size;
-                (_first + _size)->~T();
+                // (_first + _size)->~T();
+                _alloc.destroy(_first + _size);
             }
 
             /*

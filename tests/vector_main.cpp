@@ -114,23 +114,55 @@ void  test_vector_reserve(){
     << "Changing of capacity during adding 100 new elements" \
     << std::endl;
 
-  vector<int> foo;
-  vector<int>::size_type size = foo.size();
+  typedef vector<int>::size_type size_type;
 
-  
-  for (int i = 0; i < 100; ++i){
+  int amount = 33;
+
+  vector<int> foo;
+  size_type sizefoo = foo.size();
+
+  std::cout << "SIZES OF FOO" << std::endl;
+  for (int i = 0; i < amount; ++i){
     foo.push_back(i);
-    if (size != foo.capacity())
-      std::cout << BLUE << " " << size;
-    size = foo.capacity();
+    std::cout << BLUE << " " << sizefoo;
+    sizefoo = foo.capacity();
   }
 
+  std::cout << "\n";
   std::cout << WHITE \
     << "Changing of capacity during adding 100 new elements (100 were reserved)" \
     << std::endl;
 
   vector<int> bar;
-  vector<int>::size_type size = bar.size();
+  size_type sizebar = bar.size();
+
+  bar.reserve(static_cast<size_type>(amount) - 2);
+  
+  std::cout << "SIZES OF BAR" << std::endl;
+  for (int i = 0; i < amount; ++i){
+    bar.push_back(i);
+    std::cout << BLUE << " " << sizebar;
+    sizebar = bar.capacity();
+  }
+  std::cout << std::endl;
+  std::cout << "------------------" << std::endl;  
+  test_iterate_vector(bar);
+  std::cout << "------------------" << std::endl;  
+  test_iterate_vector(foo);  
+  
+  
+  std::cout << std::endl << "RESERVE >MAX SIZE TEST" << std::endl;
+  
+  typedef vector<char>::size_type stype;
+  vector<char> evil;
+  std::cout << "max size = " << evil.max_size() << std::endl;
+  stype max_size = evil.max_size();
+  try
+  {
+    evil.reserve(max_size + 1);
+  } catch (const std::exception& e){
+    std::cout << "Error: " << e.what() << std::endl;
+  }
 
   
   
@@ -144,12 +176,13 @@ int main()
   // test::my_class my_object;
 
   // vector<int> vnonzero(5);
-  vector<test::my_class> vmyclass(5);
+  // vector<test::my_class> vmyclass(5);
 
   // vector<int> v;
 
   // test_vector(vzero);
   // test_vector(vnonzero);
-  test_create_vector_custom_type(vmyclass);
-  test_iterate_vector(vmyclass);
+  // test_create_vector_custom_type(vmyclass);
+  // test_iterate_vector(vmyclass);
+  test_vector_reserve();
 };

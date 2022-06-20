@@ -8,6 +8,8 @@
 #include <iterator>
 #include <memory>
 #include <exception>
+#include <limits>
+#include <algorithm>
 
 #include "vector.hpp"
 #include "stack.hpp"
