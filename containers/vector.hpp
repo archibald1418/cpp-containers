@@ -141,32 +141,75 @@ namespace ft {
             }
 
             /*
-            Exception safety:
-            - strong guarantee
-                - if no reallocations happen,
-                    there are no changes in the container in case of exception (strong guarantee).
-            - basic guarantee
-                - the container is guaranteed to end in a valid state
+                Exception safety:
+                // basic guarantee
+                    - the container is guaranteed to end in a valid state
+                    (i.e. the data is not corrupted,
+                    and no resources left leaking)
+                // strong guarantee
+                    - if no reallocations happen,
+                        there are no changes in the container in case of exception.
+                    (i.e. the called code has no effect,
+                        and exception handling should
+                        rollback any changes that already happened)
+                // no-throw guarantee
+                    - the container should not throw errors,
+                    meaning that no container code lets any errors
+                    propagate out of the funciton, calling the container
+                    (i.e. the lower exceptions are handled
+                        before they reach the caller,
+                        so the caller doesn't register any errors at all)
             */
-        T& operator[](size_t i) {
+        reference operator[](size_type i) {
             return *(_first + i);
         }
 
-        const T& operator[](size_t i)const {
+        const_referece operator[](size_type i)const {
             return *(_first + i);
         }
 
-        T& at(size_t i) { // every []-defined container has .at, which throws an error
+        const_reference at(size_type i)const {
+            if (i >= _size)
+                throw std::out_of_range("Index out of range");
+                // every []-defined container has .at, which throws an error
+            return _first[i];
+        }
+
+        reference at(size_type i) {
             if (i >= _size)
                 throw std::out_of_range("Index out of range");
             return _first[i];
         }
 
-        size_t size(){
+        size_type size(){
             return this->_size;
         }
-        size_t capacity(){
+        size_type capacity(){
             return this->_cap;
+        }
+// Front and Back
+        reference front(){
+            return _first[0];
+        }
+        const_reference front()const{
+            return _first[0];
+        }
+
+        bool empty()const{
+            return (_size == 0);
+        }
+
+        reference back(){
+            if (empty()){
+                return _first;
+            }
+            return _first[_size - 1];
+        }
+        const_reference back()const{
+            if (empty()){
+                return _first;
+            }
+            return _first[_size - 1];
         }
             
             // explicit means 'No, compiler! No arguments means this ctor is called, don't second-guess'
