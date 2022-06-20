@@ -195,19 +195,19 @@ namespace ft {
             return _first[0];
         }
 
-        bool empty(){
+        bool empty()const{
             return (_size == 0);
         }
 
         reference back(){
             if (empty()){
-                return _first[0];
+                return _first;
             }
             return _first[_size - 1];
         }
         const_reference back()const{
             if (empty()){
-                return _first[0];
+                return _first;
             }
             return _first[_size - 1];
         }
