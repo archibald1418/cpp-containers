@@ -142,16 +142,18 @@ void test_iterate_vector(V &v)
   std::cout << "Iterating through vector" << std::endl;
   for (; start != end; ++start)
   {
-    std::cout << *start << "\n";
+    std::cout << *start << " ";
   }
+  std::cout << "\n";
 
   std::cout << std::string(20, '>') << std::endl;
 
   std::cout << "Iterating through vector backwards" << std::endl;
   for (; rstart != rend; ++rstart)
   {
-    std::cout << *rstart << "\n";
+    std::cout << *rstart << " ";
   }
+  std::cout << "\n";
 }
 
 template <typename V>
@@ -304,6 +306,25 @@ void test_vector_resize_with_default_value(const T &value = T())
 
 }
 
+
+void  test_erase_vector(){
+  vector<int> vints;
+
+  create_vector_of_ints(vints, 10);
+  test_iterate_vector(vints);  
+
+  std::cout << "Delete start" << std::endl;
+  vints.erase(vints.begin());
+  test_iterate_vector(vints);  
+  std::cout << "Delete end" << std::endl;
+  vints.erase(vints.end() - 1);
+  test_iterate_vector(vints);  
+
+  std::cout << "Delete middle element" << std::endl;
+  vints.erase(vints.begin() + (vints.size() / 2));
+  test_iterate_vector(vints);
+}
+
 int main()
 {
   std::cout << "TESTING " << vector_types[MY] << std::endl;
@@ -324,11 +345,20 @@ int main()
 
   // const int &n = -1;
   // test_vector_resize_with_default_value<int>(n);
+  
+  // typedef int ftype;
 
-  VectorFactory < int> VF;
+  // VectorFactory < ftype > VF;
 
-  test_iterate_vector(*VF.create<int>());
-  test_iterate_vector(*VF.create<int>());
-  test_iterate_vector(*VF.create<int>());
+  // test_iterate_vector(*VF.create<ftype>());
+  // test_iterate_vector(*VF.create<ftype>());
+  // test_iterate_vector(*VF.create<ftype>());
+
+  // test_erase_vector();
+  
+  // vector<int> v;
+  
+  // create_vector_of_ints(v, 10);
+  test_erase_vector();
 
 };

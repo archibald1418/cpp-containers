@@ -48,6 +48,7 @@ namespace ft {
                 return _cap;
             }
 
+
             void reserve(size_type new_cap)
             {
                 /*
@@ -135,9 +136,10 @@ namespace ft {
             }
 
             void pop_back(){
+                if (!empty())
+                    _alloc.destroy(_first + _size - 1);
                 --_size;
                 // (_first + _size)->~T();
-                _alloc.destroy(_first + _size);
             }
 
             /*
@@ -222,6 +224,36 @@ namespace ft {
             for (size_type i = 0; i < size; i++){
                 _alloc.construct(_first + i, value);
             }
+        }
+
+        allocator_type get_allocator()const{
+            return (_alloc);
+        }
+
+        iterator erase(iterator pos){
+            if (pos >= begin() && pos <= end()) {
+            // no behaviour defined for pos == end()
+                iterator it = begin();
+                size_type del_index = 0;
+                while (it != pos){
+                    ++it; 
+                    ++del_index;
+                }
+                _alloc.destroy(_first + del_index);
+                --_size;
+                // pulling the vector parts to the left
+                size_type insert_index = del_index;
+                while (insert_index < _size){
+                    // 
+                    _first[insert_index] = _first[insert_index + 1];
+                    // TODO: write assignment
+                    ++insert_index;
+                }
+                // destroy extra bit of T typed memory, left after resizing
+                _alloc.destroy(_first + _size);
+                return begin() + del_index; // return new position   
+            }
+            return (0); // not found in vector
         }
 
         // Iterators

@@ -41,6 +41,16 @@
                 "cwd": "${workspaceFolder}/tests"
             },
             "detail": "Task for testing ft_containers vector",
+        },
+        {
+            "type": "shell",
+            "label": "clean_debug",
+            "command": "make",
+            "args": ["clean"],
+            "options":{
+                "cwd": "${workspaceFolder}/tests"
+            },
+            "detail": "tearDown for testing ft_containers vector",
         }
     ],
     "version": "2.0.0"
