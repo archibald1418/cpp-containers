@@ -164,7 +164,7 @@ namespace ft {
             return *(_first + i);
         }
 
-        const_referece operator[](size_type i)const {
+        const_reference operator[](size_type i)const {
             return *(_first + i);
         }
 
@@ -201,13 +201,13 @@ namespace ft {
 
         reference back(){
             if (empty()){
-                return _first;
+                return _first[0];
             }
             return _first[_size - 1];
         }
         const_reference back()const{
             if (empty()){
-                return _first;
+                return _first[0];
             }
             return _first[_size - 1];
         }
