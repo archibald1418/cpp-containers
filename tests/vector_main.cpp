@@ -4,6 +4,8 @@
 #include <type_traits>
 #include "tests.hpp"
 #include <assert.h>
+#include <stack>
+#include "ft_containers.hpp"
 
 #ifdef MY
 #define MY 1
@@ -16,7 +18,101 @@ using ft::vector;
 using std::vector;
 #endif
 
-const std::string vector_types[2] = {
+
+// template <int B, typename T = void>
+// struct vector_type{};
+
+// template <typename T>
+// struct vector_type<1, T>{
+//   typedef std::vector v;};
+// template <typename T>
+// struct vector_type<0, T>{
+//   typedef ft::vector v;
+//   };
+// typedef vector_type<MY, int>::v vector;
+
+
+
+
+template <typename Container>
+void create_vector_of_ints(Container &vector, int elems)
+{
+
+  for (int i = 0; i < elems; i++)
+  {
+    vector.push_back(i);
+  };
+}
+
+template <typename T>
+class VectorFactory{
+
+  typedef vector<T> container_type;
+  typedef container_type C;
+  typedef T value_type;
+  typedef std::stack< vector<T>* > pointers;
+
+  
+  pointers _ptrs;
+
+  public:
+    VectorFactory(){};
+    virtual ~VectorFactory(){
+      while (!_ptrs.empty()){
+        delete _ptrs.top();
+        _ptrs.pop();
+      }
+    };
+
+    template<typename V>
+    C* create()
+    {
+      return NULL;
+    };
+
+    template<>
+    C* create<char>()
+    {
+      C* c = new C;
+      _ptrs.push(c);
+
+      c->push_back('H');c->push_back('e');
+      c->push_back('l');c->push_back('l');c->push_back('o');
+
+      c->push_back(',');c->push_back(' ');
+
+      c->push_back('W');c->push_back('o');
+      c->push_back('r');c->push_back('l');c->push_back('d');
+
+      c->push_back('!');
+      
+      return c;
+    }
+
+    template<>
+    C* create<int>()
+    {
+      C* c = new C;
+      _ptrs.push(c);
+      create_vector_of_ints(*c, 10);
+
+      return c;
+    }
+
+  // vector<std::string>& create(){
+  //   C* c = new C;
+  //   _ptrs.push(c);
+  //   c->push_back("Hello");
+  //   c->push_back("This");
+  //   c->push_back("Is");
+  //   c->push_back("Dog");
+  //   return *c;
+  // }
+};
+
+
+
+extern const std::string vector_types[2] = {
     std::string("SYS_VECTOR"),
     std::string("MY_VECTOR")};
 
@@ -34,15 +130,6 @@ void test_iterators(V &v)
   std::cout << "Last elem of vector V[::-1]:\t" << *(rend - 1) << std::endl; // will move reverse iterator to first position in array
 }
 
-template <typename Container>
-void create_vector_of_ints(Container &vector, int elems)
-{
-
-  for (int i = 0; i < elems; i++)
-  {
-    vector.push_back(i);
-  };
-}
 
 template <typename V>
 void test_iterate_vector(V &v)
@@ -235,6 +322,13 @@ int main()
   // test_iterate_vector(vmyclass);
   // test_vector_reserve();
 
-  const int &n = -1;
-  test_vector_resize_with_default_value<int>(n);
+  // const int &n = -1;
+  // test_vector_resize_with_default_value<int>(n);
+
+  VectorFactory < int> VF;
+
+  test_iterate_vector(*VF.create<int>());
+  test_iterate_vector(*VF.create<int>());
+  test_iterate_vector(*VF.create<int>());
+
 };

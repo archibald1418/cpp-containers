@@ -8,6 +8,8 @@
 # define BLUE "\x1b[34m"
 # define WHITE "\e[0m"
 
+
+
 namespace test {
 
   typedef struct test {
