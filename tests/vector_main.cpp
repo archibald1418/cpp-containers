@@ -19,6 +19,8 @@ using std::vector;
 #endif
 
 
+// template <int B, template<class>  std::vector<T> >
+
 // template <int B, typename T = void>
 // struct vector_type{};
 
@@ -44,70 +46,82 @@ void create_vector_of_ints(Container &vector, int elems)
   };
 }
 
+
+
+
 template <typename T>
 class VectorFactory{
 
-  typedef vector<T> container_type;
-  typedef container_type C;
   typedef T value_type;
-  typedef std::stack< vector<T>* > pointers;
-
-  
-  pointers _ptrs;
+  typedef vector<value_type> Container;
+  typedef Container* pointer;
 
   public:
+    template <typename V>
+      struct ifactory{
+        static Container* create(void){
+          return VectorFactory::create(V());
+          }
+      };
+
+    typedef struct ifactory<value_type> factory;
+
+    pointer p;
+
     VectorFactory(){};
     virtual ~VectorFactory(){
-      while (!_ptrs.empty()){
-        delete _ptrs.top();
-        _ptrs.pop();
-      }
+      // if (p){
+      //   delete p;
+      // };
     };
 
-    template<typename V>
-    C* create()
+template<bool B, class T = void>
+	struct enable_if {};
+
+void f1(int a, int)
+
+
+template <typename T>
+
+
+
+private:
+
+    static Container* create(char)
     {
-      return NULL;
+      Container* cc = new Container;
+
+      Container& c = *cc;
+
+      c.push_back('H');c.push_back('e');
+      c.push_back('l');c.push_back('l');c.push_back('o');
+
+      c.push_back(',');c.push_back(' ');
+
+      c.push_back('W');c.push_back('o');
+      c.push_back('r');c.push_back('l');c.push_back('d');
+
+      c.push_back('!');      
+
+      return cc;
     };
 
-    template<>
-    C* create<char>()
+    static Container* create(int)
     {
-      C* c = new C;
-      _ptrs.push(c);
-
-      c->push_back('H');c->push_back('e');
-      c->push_back('l');c->push_back('l');c->push_back('o');
-
-      c->push_back(',');c->push_back(' ');
-
-      c->push_back('W');c->push_back('o');
-      c->push_back('r');c->push_back('l');c->push_back('d');
-
-      c->push_back('!');
-      
-      return c;
-    }
-
-    template<>
-    C* create<int>()
-    {
-      C* c = new C;
-      _ptrs.push(c);
+      Container* c = new Container;
       create_vector_of_ints(*c, 10);
-
       return c;
+    };
+  
+    static Container* create(std::string){
+      Container* cc = new Container;
+      Container& c = *cc;
+      c.push_back("Hello");
+      c.push_back("This");
+      c.push_back("Is");
+      c.push_back("Dog");
+      return cc;
     }
-
-  // vector<std::string>& create(){
-  //   C* c = new C;
-  //   _ptrs.push(c);
-  //   c->push_back("Hello");
-  //   c->push_back("This");
-  //   c->push_back("Is");
-  //   c->push_back("Dog");
-  //   return *c;
-  // }
 };
 
 
@@ -147,6 +161,7 @@ void test_iterate_vector(V &v)
   std::cout << "\n";
 
   std::cout << std::string(20, '>') << std::endl;
+  ol_
 
   std::cout << "Iterating through vector backwards" << std::endl;
   for (; rstart != rend; ++rstart)
@@ -348,17 +363,23 @@ int main()
   
   // typedef int ftype;
 
-  // VectorFactory < ftype > VF;
+  // VectorFactory<int> VF;
+  
+  // vector<int>* v = VectorFactory<int>::factory::create();
 
-  // test_iterate_vector(*VF.create<ftype>());
-  // test_iterate_vector(*VF.create<ftype>());
-  // test_iterate_vector(*VF.create<ftype>());
+  test_iterate_vector(*VectorFactory<char>::factory::create());
+
+  // test_iterate_vector(*VectorFactory<char>().create());
+  // test_iterate_vector(*VectorFactory<std::string>().create());
 
   // test_erase_vector();
   
   // vector<int> v;
   
   // create_vector_of_ints(v, 10);
-  test_erase_vector();
+  // test_erase_vector();
+
+  
+  // system("leaks test");
 
 };
