@@ -6,6 +6,24 @@
 
 namespace ft{
 
+	template <typename T>
+	struct is_const{
+		static const bool value = false;
+		};
+
+	template<typename T>
+	struct is_const<const T>{
+		static const bool value = true;
+		};
+
+	template <bool B, class T = void>
+	struct enable_if{};
+
+	template<class T>
+	struct enable_if<true, T>{
+		typedef T type;
+	};
+
 	// Explicitly Parametric iterator
 	template<class T,
 			class C = std::random_access_iterator_tag,
