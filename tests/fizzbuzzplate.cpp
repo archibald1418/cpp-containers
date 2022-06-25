@@ -7,6 +7,7 @@ struct false_type{ static const bool value = false;};
 template <int a, int b>
 struct divides{static const bool value = (a % b == 0);};
 		
+// Type traits
 template <typename T, int N>
 struct fizzbuzz_traits{
 	typedef T type;
@@ -18,6 +19,7 @@ struct fizzbuzz_traits<char*, 0>{
 	typedef char* type;
 };
 
+// fizzbuzz type initializaers
 template <bool A, bool B>
 struct fizzbuzz{};
 
@@ -44,7 +46,7 @@ const char *buzz_type::value = "buzz";
 
 template <> struct fizzbuzz<false, false> : fizzbuzz_traits<bool, false>{};
 
-
+// Pick type based on bool value
 template <bool B, typename T, typename U>
 struct conditional{
 	typedef T type;
@@ -55,11 +57,13 @@ struct conditional<false, T, U>{
 	typedef U type;
 };
 
+// Compare two types
 template <typename T, typename U>
 struct is_same : public false_type{};
 
 template <typename T>
 struct is_same<T, T> : public true_type{};
+
 
 template <int N>
 class FizzBuzz{
@@ -87,7 +91,7 @@ class FizzBuzz{
 template <int N, int M>
 struct static_for{
 	static void value(){
-	std::cout <<  FizzBuzz<N>::print_type::value << std::endl;
+	std::cout << FizzBuzz<N>::print_type::value << std::endl;
 	static_for<N + 1, M>::value();
 	}
 };
