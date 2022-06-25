@@ -1,57 +1,85 @@
-
 #include <iostream>
 
-struct true_type{
-	static const bool value = true;
-};
+// Trutiness
+struct true_type{static const bool value = true;};
+struct false_type{ static const bool value = false;};
 
 template <int a, int b>
-struct divides{
-	static const bool value = (a % b == 0);
+struct divides{static const bool value = (a % b == 0);};
+		
+template <typename T, int N>
+struct fizzbuzz_traits{
+	typedef T type;
+	static const int value = N;
 };
 
+template <>
+struct fizzbuzz_traits<char*, 0>{
+	typedef char* type;
+};
+
+template <bool A, bool B>
+struct fizzbuzz{};
+
+
+template <> struct fizzbuzz<true, false> : public fizzbuzz_traits<char*, 0> {
+	static const char* value;
+};
+typedef fizzbuzz<true, false> fizz_type;
+const char* fizz_type::value = "fizz";
+
+
+template <> struct fizzbuzz<true, true> : public fizzbuzz_traits<char*, 0> {
+	static const char* value;
+};
+typedef fizzbuzz<true, true> fizzbuzz_type;
+const char *fizzbuzz_type::value = "fizzbuzz";
+
+template <> struct fizzbuzz<false, true> : public fizzbuzz_traits<char*, 0> {
+	static const char* value;
+};
+
+typedef fizzbuzz<false, true> buzz_type;
+const char *buzz_type::value = "buzz";
+
+template <> struct fizzbuzz<false, false> : fizzbuzz_traits<bool, false>{};
+
+
+template <bool B, typename T, typename U>
+struct conditional{
+	typedef T type;
+};
+
+template <typename T, typename U>
+struct conditional<false, T, U>{
+	typedef U type;
+};
+
+template <typename T, typename U>
+struct is_same : public false_type{};
+
+template <typename T>
+struct is_same<T, T> : public true_type{};
+
+template <int N>
 class FizzBuzz{
-	public:
-		// FizzBuzz solvers
-		template <bool A, bool B>
-		struct fizzbuzz{};
-		
-		/*
-		 * FIXME options:
-		 * - const char*s -> char array/int array
-		 * - fizzbuzz_type_traits with storing the type of value (for printing template)
-		 * - empty string checks (crutch)
-		 * - int as third argument of fizzbuzz template (also crutch)
-		 * - some kind of sfinae magic for printing templates
-		 * */
+	struct is_divisible : public true_type{
 
-		template <>
-		struct fizzbuzz<true, false>{
-			static const char* value;
-		};
-		template <>
-		struct fizzbuzz<false, false>{
-			//static const bool value = false;
-			static const char* value;
-		};
-		template <>
-		struct fizzbuzz<false, true>{
-			static const char* value;
-		};
-		template <>
-		struct fizzbuzz<true, true>{
-			static const char* value;
-		};
+		struct by3 : public divides<N, 3>{};
 
-		template <int a>
-		struct is_divisible : public true_type{
+		struct by5 : public divides<N, 5>{};
+	};
 
-			static const int divisor = a;
-			
-			struct by3 : public divides<a, 3>{};
 
-			struct by5 : public divides<a, 5>{};
-		};
+	public: 
+	typedef fizzbuzz< is_divisible::by3::value, is_divisible::by5::value > solution_type; 
+	// stores string or 'false'
+	
+	typedef fizzbuzz_traits<int, N> non_divisible_type; 
+	// stores number
+	typedef typename conditional< !is_same<bool, typename solution_type::type>::value,\
+		solution_type, \
+		non_divisible_type>::type print_type;
 };
 
 
@@ -59,10 +87,8 @@ class FizzBuzz{
 template <int N, int M>
 struct static_for{
 	static void value(){
-	std::cout << \
-			FizzBuzz::fizzbuzz<  FizzBuzz::is_divisible<N>::by3::value, FizzBuzz::is_divisible<N>::by5::value>::value \
-		<< std::endl;
-		static_for<N + 1, M>::value();
+	std::cout <<  FizzBuzz<N>::print_type::value << std::endl;
+	static_for<N + 1, M>::value();
 	}
 };
 
@@ -72,17 +98,6 @@ struct static_for<101, 100>
 	static void value(){};
 };
 
-
-const char* FizzBuzz::fizzbuzz<true, false>::value = "fizz";
-const char* FizzBuzz::fizzbuzz<false, true>::value = "buzz";
-const char* FizzBuzz::fizzbuzz<true, true>::value = "fizzbuzz";
-const char* FizzBuzz::fizzbuzz<false, false>::value = "---";
-
-
 int main(){
-	
-	
-		//std::cout << FizzBuzz::fizzbuzz<FizzBuzz::is_divisible<i>::by3::value, FizzBuzz::is_divisible<i>::by5::value>::value << std::endl;
-
-	static_for<0, 100>::value();
+	static_for<1, 100>::value();
 }
