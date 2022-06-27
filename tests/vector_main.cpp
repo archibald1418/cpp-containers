@@ -2,128 +2,15 @@
 #include <string>
 #include <iostream>
 #include <type_traits>
-#include "tests.hpp"
 #include <assert.h>
 #include <stack>
 #include "ft_containers.hpp"
+#include "pick_vector.hpp"
+#include "VectorFactory.hpp"
+#include "Test.hpp"
+#include "utils.hpp"
 
-#ifdef MY
-#define MY 1
-#include "ft_containers.hpp"
-using ft::vector;
-#endif
-
-#ifndef MY
-#define MY 0
-using std::vector;
-#endif
-
-
-// template <int B, template<class>  std::vector<T> >
-
-// template <int B, typename T = void>
-// struct vector_type{};
-
-// template <typename T>
-// struct vector_type<1, T>{
-//   typedef std::vector v;};
-// template <typename T>
-// struct vector_type<0, T>{
-//   typedef ft::vector v;
-//   };
-// typedef vector_type<MY, int>::v vector;
-
-
-
-
-template <typename Container>
-void create_vector_of_ints(Container &vector, int elems)
-{
-
-  for (int i = 0; i < elems; i++)
-  {
-    vector.push_back(i);
-  };
-}
-
-
-
-
-template <typename T>
-class VectorFactory{
-
-  typedef T value_type;
-  typedef vector<value_type> Container;
-  typedef Container* pointer;
-
-  public:
-    template <typename V>
-      struct ifactory{
-        static Container* create(void){
-          return VectorFactory::create(V());
-          }
-      };
-
-    typedef struct ifactory<value_type> factory;
-
-    pointer p;
-
-    VectorFactory(){};
-    virtual ~VectorFactory(){
-      // if (p){
-      //   delete p;
-      // };
-    };
-
-template<bool B, class T = void>
-	struct enable_if {};
-
-void f1(int a, int)
-
-
-template <typename T>
-
-
-
-private:
-
-    static Container* create(char)
-    {
-      Container* cc = new Container;
-
-      Container& c = *cc;
-
-      c.push_back('H');c.push_back('e');
-      c.push_back('l');c.push_back('l');c.push_back('o');
-
-      c.push_back(',');c.push_back(' ');
-
-      c.push_back('W');c.push_back('o');
-      c.push_back('r');c.push_back('l');c.push_back('d');
-
-      c.push_back('!');      
-
-      return cc;
-    };
-
-    static Container* create(int)
-    {
-      Container* c = new Container;
-      create_vector_of_ints(*c, 10);
-      return c;
-    };
-  
-    static Container* create(std::string){
-      Container* cc = new Container;
-      Container& c = *cc;
-      c.push_back("Hello");
-      c.push_back("This");
-      c.push_back("Is");
-      c.push_back("Dog");
-      return cc;
-    }
-};
-
+using test::VectorFactory;
 
 
 extern const std::string vector_types[2] = {
@@ -161,7 +48,6 @@ void test_iterate_vector(V &v)
   std::cout << "\n";
 
   std::cout << std::string(20, '>') << std::endl;
-  ol_
 
   std::cout << "Iterating through vector backwards" << std::endl;
   for (; rstart != rend; ++rstart)
@@ -281,7 +167,7 @@ void test_vector_resize_with_default_value(const T &value = T())
   vector<T> vints;
 
 // Create size 10
-  create_vector_of_ints(vints, 10);
+  ::create_vector_of_ints(vints, 10);
   std::cout << WHITE << "Elements in vector 10" << std::endl;
   for (vector<int>::size_type i = 0; i < vints.size(); ++i){
     std::cout << BLUE << ' ' << vints[i];
@@ -368,6 +254,7 @@ int main()
   // vector<int>* v = VectorFactory<int>::factory::create();
 
   test_iterate_vector(*VectorFactory<char>::factory::create());
+  // TODO:  test with const type!!!111
 
   // test_iterate_vector(*VectorFactory<char>().create());
   // test_iterate_vector(*VectorFactory<std::string>().create());

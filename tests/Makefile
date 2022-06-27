@@ -1,7 +1,11 @@
+SHELL:=/bin/bash
+
 CONTAINERS=../containers
 TESTFILE=test
 DO_TESTFILE=-o ${TESTFILE}
 DO_DSYM=-g
+TESTSRC=vector_main.cpp utils.cpp
+
 
 all:
 	c++ *.cpp
@@ -24,12 +28,18 @@ typedefs:
 # Containers
 
 vector_my:
-	c++ vector_main.cpp -g -I ${CONTAINERS} -D MY=1 ${DO_TESTFILE} -fsanitize=address
+	c++ $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=1 ${DO_TESTFILE}my -fsanitize=address
+	./testmy;
 vector_sys:
-	c++ vector_main.cpp -g -I ${CONTAINERS} ${DO_TESTFILE}
+	c++ $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=address
+	./testsys;
+vector_compare: testmy testsys
+	@#ignore diff writing to stderr
+	-diff <(./testmy) <(./testsys)
 
 clean:
 	rm -rf *.o
-	rm -rf test
+	rm -rf test testmy testsys
 	rm -rf *.dSYM
+	rm -rf .*.swp
 re-test: clean test

@@ -6,23 +6,66 @@
 
 namespace ft{
 
-	template <typename T>
-	struct is_const{
-		static const bool value = false;
-		};
+	
+template <class InputIterator1, class InputIterator2>
+  bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
+                                InputIterator2 first2, InputIterator2 last2)
+{
+  while (first1 != last1)
+  {
+    if (first2 == last2 || (*first2) < (*first1))
+		return false;
+    else if (*first1 < *first2)
+		return true;
+    ++first1; 
+	++first2;
+  }
+  return (first2 != last2);
+};
 
-	template<typename T>
-	struct is_const<const T>{
-		static const bool value = true;
-		};
-
-	template <bool B, class T = void>
-	struct enable_if{};
-
-	template<class T>
-	struct enable_if<true, T>{
-		typedef T type;
+template <typename T>
+struct is_const{
+	static const bool value = false;
 	};
+
+template<typename T>
+struct is_const<const T>{
+	static const bool value = true;
+	};
+
+template <bool B, class T = void>
+struct enable_if{};
+
+template<class T>
+struct enable_if<true, T>{
+	typedef T type;
+};
+
+template <class T, T v> struct integral_constant
+{
+  static const T value = v;
+  typedef T value_type;
+  typedef integral_constant<T,v> type;
+  operator T() const { return v; }
+};
+
+template <class T> struct is_integral				: public ft::integral_constant<bool, false> {};
+template <> struct is_integral<bool>				: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<char>				: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<char16_t>			: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<char32_t>			: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<wchar_t>				: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<signed char>			: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<short>				: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<int>					: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<long>				: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<long long>			: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<unsigned char>		: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<unsigned short>		: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<unsigned int>		: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<unsigned long> 		: public ft::integral_constant<bool, true> {};
+template <> struct is_integral<unsigned long long>	: public ft::integral_constant<bool, true> {};
+
 
 	// Explicitly Parametric iterator
 	template<class T,
@@ -44,7 +87,7 @@ namespace ft{
 		struct iterator_traits {
 			typedef typename It::iterator_category      iterator_category;
 			typedef typename It::value_type             value_type;
-			typedef typename It::distance_type          distance_type;
+			typedef typename It::difference_type          difference_type;
 			typedef typename It::pointer                pointer;
 			typedef typename It::reference              reference;
 		};
@@ -54,7 +97,7 @@ namespace ft{
 		struct iterator_traits<T*>{
 			typedef std::random_access_iterator_tag iterator_category;
 			typedef T value_type;
-			typedef ptrdiff_t distance_type;
+			typedef ptrdiff_t difference_type;
 			typedef T* pointer;
 			typedef T& reference;
 		};
@@ -63,7 +106,7 @@ namespace ft{
 		struct iterator_traits<const T*>{
 			typedef std::random_access_iterator_tag iterator_category;
 			typedef T value_type;
-			typedef ptrdiff_t distance_type;
+			typedef ptrdiff_t difference_type;
 			typedef T* pointer;
 			typedef T& reference;
 		};
@@ -78,7 +121,7 @@ namespace ft{
 		{
 			typedef typename iterator_traits<T*>::iterator_category		iterator_category;
 			typedef typename iterator_traits<T*>::value_type			value_type;
-			typedef typename iterator_traits<T*>::distance_type			distance_type;
+			typedef typename iterator_traits<T*>::difference_type		difference_type;
 			typedef typename iterator_traits<T*>::pointer				pointer;
 			typedef typename iterator_traits<T*>::reference				reference;
 
@@ -100,10 +143,10 @@ namespace ft{
 					_it = other._it;
 					return *this;
 				}
-				RAIterator operator+(distance_type diff)const{
+				RAIterator operator+(difference_type diff)const{
 					return RAIterator(_it + diff);
 				}
-				RAIterator operator-(distance_type diff)const{
+				RAIterator operator-(difference_type diff)const{
 					return RAIterator(_it - diff);
 				} /* 
 					+- return new object, so it can't be a constant reference
@@ -111,7 +154,7 @@ namespace ft{
 							(because it  could be changed later)
 						ret by ref won't work
 					*/
-				distance_type operator-(RAIterator& other) const{
+				difference_type operator-(RAIterator& other) const{
 					return _it - other._it;
 				}
 				// Increment/Decrement
@@ -130,10 +173,10 @@ namespace ft{
 					RAIterator tmp(*this);
 					_it--; return *tmp;
 				}
-				RAIterator& operator+=(distance_type n){
+				RAIterator& operator+=(difference_type n){
 					this->_it += n; return *this;
 				}
-				RAIterator& operator-=(distance_type n){
+				RAIterator& operator-=(difference_type n){
 					this->_it -= n; return *this;
 				}
 				// Comparisons
@@ -156,7 +199,7 @@ namespace ft{
 					return _it >= other._it;
 				}
 				// Dereferencing
-				reference operator[](distance_type diff) const{
+				reference operator[](difference_type diff) const{
 					return *(_it + diff);
 				}
 				reference operator*() const{
@@ -168,12 +211,11 @@ namespace ft{
 		};
 
 		template <class T>
-			// TODO: test this inheritance
 			struct RARIterator : public RAIterator<T>
 			{
 				typedef typename iterator_traits<T*>::iterator_category		iterator_category;
 				typedef typename iterator_traits<T*>::value_type			value_type;
-				typedef typename iterator_traits<T*>::distance_type			distance_type;
+				typedef typename iterator_traits<T*>::difference_type			difference_type;
 				typedef typename iterator_traits<T*>::pointer				pointer;
 				typedef typename iterator_traits<T*>::reference				reference;
 			// Ctors
@@ -184,13 +226,13 @@ namespace ft{
 				virtual ~RARIterator(){};
 
 			// Arithmetic operators overload
-				RARIterator operator+(distance_type diff) const{
+				RARIterator operator+(difference_type diff) const{
 					return RARIterator(this->_it - diff);
 				}
-				RARIterator operator-(distance_type diff) const{
+				RARIterator operator-(difference_type diff) const{
 					return RARIterator(this->_it + diff);
 				}
-				distance_type operator-(RARIterator& other) const{
+				difference_type operator-(RARIterator& other) const{
 					return this->_it + other._it;
 				}
 				// Increment/Decrement
@@ -208,13 +250,13 @@ namespace ft{
 					RARIterator tmp(*this);
 					this->_it++; return *tmp;
 				}
-				RARIterator& operator+=(distance_type n){
+				RARIterator& operator+=(difference_type n){
 					this->_it -= n; return *this;
 				}
-				RARIterator& operator-=(distance_type n){
+				RARIterator& operator-=(difference_type n){
 					this->_it += n; return *this;
 				}
-				reference operator[](distance_type diff) const{
+				reference operator[](difference_type diff) const{
 					return *(this->_it - diff);
 				}
 			};

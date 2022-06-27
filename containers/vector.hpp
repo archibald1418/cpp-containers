@@ -25,9 +25,9 @@ namespace ft {
             
         public:
             typedef RAIterator<value_type> iterator;
-            typedef RAIterator<const value_type> const_iterator;
+            typedef RAIterator<const value_type*> const_iterator;
             typedef RARIterator<value_type> reverse_iterator;
-            typedef RARIterator<const value_type> const_reverse_iterator;
+            typedef RARIterator<const value_type*> const_reverse_iterator;
 
             size_type max_size()const{
                 /*
@@ -266,8 +266,50 @@ namespace ft {
         reverse_iterator        rend(){return reverse_iterator(_first - 1);};
         const_reverse_iterator  rend()const{return const_reverse_iterator(_first - 1);};
 
-
+        void swap (vector& other)
+        {
+            vector tmp(*this);
+            *this = other;
+            other = tmp;
+        }
         
     };
 
+// Non-member comparison operators
+
+template <class T, class Alloc>
+bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+    return !(lhs == rhs);
+}
+
+template <class T, class Alloc>
+    bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    }
+
+template <class T, class Alloc>
+    bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return !(rhs < lhs);
+    }
+
+template <class T, class Alloc>
+    bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return rhs < lhs;
+    }
+
+template <class T, class Alloc>
+    bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return !(lhs < rhs);
+    }
+
+template <class T, class Alloc>
+    void swap (vector<T,Alloc>& lhs, vector<T,Alloc>& rhs)
+    {
+        lhs.swap(rhs);
+    }
 };

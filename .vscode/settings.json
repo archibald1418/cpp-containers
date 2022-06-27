@@ -82,6 +82,16 @@
         "stop_token": "cpp",
         "cinttypes": "cpp",
         "version": "cpp",
-        "__functional_03": "cpp"
+        "__functional_03": "cpp",
+        "__functional_base_03": "cpp",
+        "__undef_macros": "cpp",
+        "cassert": "cpp",
+        "ccomplex": "cpp",
+        "cerrno": "cpp",
+        "cfloat": "cpp",
+        "climits": "cpp",
+        "ctgmath": "cpp",
+        "test": "cpp",
+        "cstdbool": "cpp"
     }
 }
