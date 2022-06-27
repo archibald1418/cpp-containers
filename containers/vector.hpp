@@ -18,10 +18,10 @@ namespace ft {
             typedef std::size_t             size_type;
 
         private:
-            pointer _first;
-            size_type _size; // size 
-            size_type _cap; // capacity
             allocator_type  _alloc;
+            size_type _cap; // capacity
+            size_type _size; // size 
+            pointer _first;
             
         public:
             typedef RAIterator<value_type> iterator;
@@ -219,7 +219,7 @@ namespace ft {
         explicit vector(size_type size,
                             const value_type& value = value_type(),
                             const allocator_type& alloc = allocator_type())
-                            : _alloc(alloc), _size(size), _cap(size){
+                            : _alloc(alloc), _cap(size), _size(size) {
             _first = _alloc.allocate(size);
             for (size_type i = 0; i < size; i++){
                 _alloc.construct(_first + i, value);

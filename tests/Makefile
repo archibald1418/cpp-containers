@@ -1,5 +1,7 @@
 SHELL:=/bin/bash
 
+CC=c++
+CFLAGS=-Wall -Wextra -Werror
 CONTAINERS=../containers
 TESTFILE=test
 DO_TESTFILE=-o ${TESTFILE}
@@ -8,34 +10,34 @@ TESTSRC=vector_main.cpp utils.cpp
 
 
 all:
-	c++ *.cpp
+	${CC} ${CFLAGS} *.cpp
 
 test:
-	c++ *sandbox.cpp -o test
+	${CC} ${CFLAGS} sandbox/*sandbox.cpp -o test
 
 overload:
-	c++ *overload*.cpp -o test
+	${CC} ${CFLAGS} sandbox/*overload*.cpp -o test
 spec:
-	c++ *spec*.cpp -o test
+	${CC} ${CFLAGS} sandbox/*spec*.cpp -o test
 non-type:
-	c++ *non_type*.cpp -o test
+	${CC} ${CFLAGS} sandbox/*non_type*.cpp -o test
 
 compile:
-	c++ *.cpp -c
+	${CC} ${CFLAGS} *.cpp -c
 typedefs:
-	c++ -Itypedefs.hpp *typedefs*.cpp ${DO_TESTFILE}
+	${CC} ${CFLAGS} -Itypedefs.hpp *typedefs*.cpp ${DO_TESTFILE}
 
 # Containers
 
 vector_my:
-	c++ $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=1 ${DO_TESTFILE}my -fsanitize=address
+	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=1 ${DO_TESTFILE}my -fsanitize=address
 	./testmy;
 vector_sys:
-	c++ $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=address
+	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=address
 	./testsys;
-vector_compare: testmy testsys
-	@#ignore diff writing to stderr
+vector_compare: testmy vector_sys
 	-diff <(./testmy) <(./testsys)
+	@#ignore diff writing to stderr
 
 clean:
 	rm -rf *.o
