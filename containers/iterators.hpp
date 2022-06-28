@@ -3,6 +3,7 @@
 
 # include <iterator>
 # include <cstddef>
+# include "templates.hpp"
 
 namespace ft{
 
@@ -54,20 +55,20 @@ template <class InputIterator1, class InputIterator2>
 	template <class T>
 		struct iterator_traits<T*>{
 			typedef std::random_access_iterator_tag iterator_category;
-			typedef T value_type;
+			typedef typename ft::conditional<is_const<T>::value, const T, T>::type value_type;
 			typedef ptrdiff_t difference_type;
-			typedef T* pointer;
-			typedef T& reference;
+			typedef value_type* pointer;
+			typedef value_type& reference;
 		};
 
-	template <class T>
-		struct iterator_traits<const T*>{
-			typedef std::random_access_iterator_tag iterator_category;
-			typedef T value_type;
-			typedef ptrdiff_t difference_type;
-			typedef T* pointer;
-			typedef T& reference;
-		};
+	// template <class T>
+	// 	struct iterator_traits<const T*>{
+	// 		typedef std::random_access_iterator_tag iterator_category;
+	// 		typedef T value_type;
+	// 		typedef ptrdiff_t difference_type;
+	// 		typedef T* pointer;
+	// 		typedef T& reference;
+	// 	};
 	
 	// Constructing via iterator class template
 	// class MyIterator : public iterator<class T, class std::random_access_iterator_tag>{

@@ -12,10 +12,10 @@ namespace ft {
     };
 
 template <typename T>
-struct is_const{} : public ft::false_type;
+struct is_const : public ft::false_type{};
 
 template<typename T>
-struct is_const<const T>{} : public ft::true_type;
+struct is_const<const T> : public ft::true_type{};
 
 template <bool B, class T = void>
 struct enable_if{};

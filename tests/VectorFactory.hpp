@@ -9,28 +9,22 @@ namespace test {
 template <typename T>
 class VectorFactory{
 
+public:
   typedef T value_type;
   typedef vector<value_type> Container;
   typedef Container* pointer;
 
-  public:
-    template <typename V>
-      struct ifactory{
-        static Container* create(void){
-          return VectorFactory::create(V());
-          }
-      };
+  template <typename V>
+    struct ifactory{
+      static pointer create(void){
+        return VectorFactory::create(V());
+        }
+    };
 
     typedef struct ifactory<value_type> factory;
 
-    pointer p;
-
     VectorFactory(){};
-    virtual ~VectorFactory(){
-      // if (p){
-      //   delete p;
-      // };
-    };
+    virtual ~VectorFactory(){};
 
 private:
 

@@ -5,6 +5,11 @@
 # include <vector>
 # include "ft_containers.hpp"
 
+extern const std::string vector_types[2] = {
+    std::string("SYS_VECTOR"),
+    std::string("MY_VECTOR")
+    };
+
 # ifdef MY
 #  if MY == 1
     using ft::vector;

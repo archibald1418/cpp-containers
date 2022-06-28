@@ -13,10 +13,6 @@
 using test::VectorFactory;
 
 
-extern const std::string vector_types[2] = {
-    std::string("SYS_VECTOR"),
-    std::string("MY_VECTOR")};
-
 template <typename V>
 void test_iterators(V &v)
 {
@@ -230,30 +226,14 @@ int main()
 {
   std::cout << "TESTING " << vector_types[MY] << std::endl;
 
-  // vector<int> vzero; //
-  // test::my_class my_object;
+  typedef 
+          const char type;
 
-  // vector<int> vnonzero(5);
-  // vector<test::my_class> vmyclass(5);
+  typedef VectorFactory<type> VF;
 
-  // vector<int> v;
+  VF::pointer pt = VF::factory::create();
 
-  // test_vector(vzero);
-  // test_vector(vnonzero);
-  // test_create_vector_custom_type(vmyclass);
-  // test_iterate_vector(vmyclass);
-  // test_vector_reserve();
-
-  // const int &n = -1;
-  // test_vector_resize_with_default_value<int>(n);
-  
-  // typedef int ftype;
-
-  // VectorFactory<int> VF;
-  
-  // vector<int>* v = VectorFactory<int>::factory::create();
-
-  test_iterate_vector(*VectorFactory<char>::factory::create());
+  test_iterate_vector(*pt);
   // TODO:  test with const type!!!111
 
   // test_iterate_vector(*VectorFactory<char>().create());
