@@ -227,14 +227,14 @@ int main()
   std::cout << "TESTING " << vector_types[MY] << std::endl;
 
   typedef 
-          const char type;
+          int type;
 
   typedef VectorFactory<type> VF;
 
   VF::pointer pt = VF::factory::create();
 
   test_iterate_vector(*pt);
-  // TODO:  test with const type!!!111
+  // TODO:  // make sense out of const in vector!!11
 
   // test_iterate_vector(*VectorFactory<char>().create());
   // test_iterate_vector(*VectorFactory<std::string>().create());
@@ -247,6 +247,6 @@ int main()
   // test_erase_vector();
 
   
-  // system("leaks test");
+  // system("leaks testmy");
 
 };
