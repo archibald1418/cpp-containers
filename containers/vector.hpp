@@ -10,12 +10,12 @@ namespace ft {
         public:
             typedef T                       value_type;
             typedef Alloc		            allocator_type;
+            typedef std::size_t             size_type;
+            typedef std::ptrdiff_t          difference_type;
             typedef T&                      reference;
             typedef const T&                const_reference;
-            typedef T*                      pointer;
+            typedef T*                      pointer;    
             typedef const T*                const_pointer;
-            typedef std::ptrdiff_t          difference_type;
-            typedef std::size_t             size_type;
 
         private:
             allocator_type  _alloc;
@@ -26,8 +26,8 @@ namespace ft {
         public:
             typedef RAIterator<value_type> iterator;
             typedef RAIterator<const value_type*> const_iterator;
-            typedef RARIterator<value_type> reverse_iterator;
-            typedef RARIterator<const value_type*> const_reverse_iterator;
+            typedef reverse_iterator<value_type> reverse_iterator; // FIXME: should be a std::reverse_iterator<iterator>
+            typedef reverse_iterator<const value_type*> const_reverse_iterator;
 
             size_type max_size()const{
                 /*

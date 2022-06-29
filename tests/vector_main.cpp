@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <assert.h>
 #include <stack>
+#include <iterator>
 #include "ft_containers.hpp"
 #include "pick_vector.hpp"
 #include "VectorFactory.hpp"
@@ -235,6 +236,12 @@ int main()
 
   test_iterate_vector(*pt);
   // TODO:  // make sense out of const in vector!!11
+
+  /*
+    - why can't I std::vector<const int> vector; ?
+    - which methods are available for const std::vector<int> vector ?
+      (- should I only leave non-const reference methods)
+  */
 
   // test_iterate_vector(*VectorFactory<char>().create());
   // test_iterate_vector(*VectorFactory<std::string>().create());
