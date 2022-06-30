@@ -42,9 +42,9 @@ int main()
                       std::istream_iterator<double>(),
                       std::ostream_iterator<double>(std::cout, ","));
 	
-	std::istream_operator<double> it(str);
+	// std::istream_operator<double> it(str);
 
-	whil
+	// whil
 
 	
 

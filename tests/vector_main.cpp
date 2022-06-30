@@ -10,6 +10,7 @@
 #include "VectorFactory.hpp"
 #include "Test.hpp"
 #include "utils.hpp"
+#include "type_traits.hpp"
 
 using test::VectorFactory;
 
@@ -28,29 +29,72 @@ void test_iterators(V &v)
   std::cout << "Last elem of vector V[::-1]:\t" << *(rend - 1) << std::endl; // will move reverse iterator to first position in array
 }
 
+template <bool B>
+struct signal_const {
+  static void prnt(){}
+};
+template <>
+struct signal_const<true>{
+  static void prnt(){std::cout << "CONST!" << std::endl;}
+};
 
 template <typename V>
 void test_iterate_vector(V &v)
 {
-  typename V::iterator start = v.begin();
-  typename V::iterator end = v.end();
-  typename V::reverse_iterator rstart = v.rbegin();
-  typename V::reverse_iterator rend = v.rend();
+  signal_const<ft::is_const<V>::value>::prnt();
+  
+  typedef typename ft::conditional<
+    ft::is_const<V>::value,
+    typename V::const_iterator,
+    typename V::iterator>::type
+  iterator_type;
+
+  typedef typename ft::conditional<
+    ft::is_const<V>::value,
+    typename V::const_reverse_iterator,
+    typename V::reverse_iterator>::type
+  reverse_iterator_type;
+
+  iterator_type begin = v.begin(); // implicitly requiring an iterator based on vector constness
+  iterator_type end = v.end();
+  typename V::const_iterator cend = v.cend(); // explicitly requiring a const iterator
+  typename V::const_iterator cbegin = v.cbegin();
+  reverse_iterator_type rbegin = v.rbegin();
+  reverse_iterator_type rend = v.rend();
+  typename V::const_reverse_iterator crbegin = v.crbegin();
+  typename V::const_reverse_iterator crend = v.crend();
 
   std::cout << "Iterating through vector" << std::endl;
-  for (; start != end; ++start)
+  for (; begin != end; ++begin)
   {
-    std::cout << *start << " ";
+    std::cout << *begin << " ";
+  }
+  std::cout << "\n";
+  std::cout << "Iterating through vector using const iterator" << std::endl;
+  for (; cbegin != cend; ++cbegin)
+  {
+    std::cout << *cbegin << " ";
+    // *cbegin = 5
+    // compile error
   }
   std::cout << "\n";
 
   std::cout << std::string(20, '>') << std::endl;
 
   std::cout << "Iterating through vector backwards" << std::endl;
-  for (; rstart != rend; ++rstart)
+  for (; rbegin != rend; ++rbegin)
   {
-    std::cout << *rstart << " ";
+    std::cout << *rbegin << " ";
   }
+  std::cout << "\n";
+
+  std::cout << "Iterating through vector backwards using const reverse iterator" << std::endl;
+  for (; crbegin != crend; ++crbegin)
+  {
+    std::cout << *crbegin << " ";
+  }
+    // *crbegin = 5
+    // compile error
   std::cout << "\n";
 }
 
@@ -233,15 +277,10 @@ int main()
   typedef VectorFactory<type> VF;
 
   VF::pointer pt = VF::factory::create();
+  const VF::Container const_vector = *pt;
 
-  test_iterate_vector(*pt);
-  // TODO:  // make sense out of const in vector!!11
-
-  /*
-    - why can't I std::vector<const int> vector; ?
-    - which methods are available for const std::vector<int> vector ?
-      (- should I only leave non-const reference methods)
-  */
+  // test_iterate_vector(*pt);
+  test_iterate_vector(const_vector);
 
   // test_iterate_vector(*VectorFactory<char>().create());
   // test_iterate_vector(*VectorFactory<std::string>().create());
