@@ -9,7 +9,7 @@ int main(){
 
 	const int i = 5;
 	
-	v.push_back(i);
+	// v.push_back(i); CE - can't apply to const object
 
 	const_vector::const_iterator it = v.begin();
 
@@ -17,7 +17,7 @@ int main(){
 	std::cout << &(*v.begin()) << std::endl;
 	std::cout << &i << std::endl;
 	
-	v[0] = 6;
+	// v[0] = 6; same
 
 	std::cout << *v.begin() << std::endl;
 	std::cout << i << std::endl;
