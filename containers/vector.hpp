@@ -26,8 +26,8 @@ namespace ft {
         public:
             typedef RAIterator<value_type> iterator;
             typedef RAIterator<const value_type*> const_iterator;
-            typedef reverse_iterator<value_type> reverse_iterator; // FIXME: should be a std::reverse_iterator<iterator>
-            typedef reverse_iterator<const value_type*> const_reverse_iterator;
+            typedef ft::reverse_iterator<iterator> reverse_iterator;
+            typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
             size_type max_size()const{
                 /*

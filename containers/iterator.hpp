@@ -20,7 +20,7 @@ namespace ft{
 
 	// Explicitly Parametric iterator
 	template<class T,
-			class C = std::random_access_iterator_tag,
+			class C = ft::random_access_iterator_tag,
 			class Dist = std::ptrdiff_t,
 			class Pt = T*,
 			class Rt = T&>
@@ -41,71 +41,26 @@ namespace ft{
 			typedef typename It::difference_type		difference_type;
 			typedef typename It::pointer                pointer;
 			typedef typename It::reference              reference;
-			typedef typename iterator_concept			It::iterator_category;
 		};
 
 	// Define iterator in terms of type
 	template <class T>
 		struct iterator_traits<T*>{
-			typedef std::random_access_iterator_tag iterator_category;
+			typedef ft::random_access_iterator_tag iterator_category;
 			typedef typename ft::remove_const<T> value_type; // stl source removes const altogether - they create const_iterator later
-			typedef ptrdiff_t difference_type;
+			typedef std::ptrdiff_t difference_type;
 			typedef value_type* pointer;
 			typedef value_type& reference;
 		};
 
-	// template <class T>
-	// 	struct iterator_traits<const T*>{
-	// 		typedef std::random_access_iterator_tag iterator_category;
-	// 		typedef T value_type;
-	// 		typedef ptrdiff_t difference_type;
-	// 		typedef T* pointer;
-	// 		typedef T& reference;
-	// 	};
-	
-	// Constructing via iterator class template
-	// class MyIterator : public iterator<class T, class std::random_access_iterator_tag>{
-		
-	// };
-
-
 	template <class T>
-	struct input_iterator : public iterator<T, input_iterator_tag> {
-		typedef __base iterator<T, input_iterator_tag>;
-		
-		typedef typename iterator_traits<__base>::iterator_category		iterator_category;
-		typedef typename iterator_traits<__base>::value_type			value_type;
-		typedef typename iterator_traits<__base>::difference_type		difference_type;
-		typedef typename iterator_traits<__base>::pointer				pointer;
-		typedef typename iterator_traits<__base>::reference				reference;
-
-		protected:
-			pointer _it;
-		
-		virtual bool operator!=(const input_iterator& other) const{
-					return _it != other._it;
-				}
-		
-		virtual bool operator==(const input_iterator& other) const{
-				return _it == other._it;
-			}
-		
-		virtual reference operator*() const{
-					return *_it;
-				}
-		virtual pointer operator->() const{
-					return _it;
-				}
-		virtual reference& operator++(){
-					this->_it++; return *this;
-				}
-		virtual void operator++(int){
-					input_iterator tmp(*this);
-					_it++; 
-					return *tmp;  // NOTE: STL reference recommends converting to const reference
-				}
-	};
-
+		struct iterator_traits<const T*>{
+			typedef ft::random_access_iterator_tag iterator_category;
+			typedef const T value_type;
+			typedef std::ptrdiff_t difference_type;
+			typedef const T* pointer;
+			typedef const T& reference;
+		};
 
 	template <class T>
 		struct RAIterator
@@ -202,22 +157,15 @@ namespace ft{
 		};
 
 		template <class Iter>
-			struct reverse_iterator : public RAItererator< iterator_traits<Iter>::value_type >
+			struct reverse_iterator : public RAItererator< typename iterator_traits<Iter>::value_type >
 			{
-				/*
-					Member type
-					iterator_concept	
-					If Iter models std::random_access_iterator, this is std::random_access_iterator_tag. 
-					Otherwise, this is std::bidirectional_iterator_tag
-				*/
-				typedef Iter iterator_type;
+				typedef typename Iter iterator_type; // base iterator type
 				typedef typename iterator_type::iterator_category	iterator_category;
 				typedef typename iterator_type::value_type			value_type;
 				typedef typename iterator_type::difference_type		difference_type;
 				typedef typename iterator_type::pointer				pointer;
 				typedef typename iterator_type::reference			reference;
 
-				typedef 
 			// Ctors
 				reverse_iterator(): RAItererator<value_type>(){};
 				reverse_iterator(pointer it): RAItererator<value_type>(it){};
@@ -225,7 +173,7 @@ namespace ft{
 			// Dtor
 				virtual ~reverse_iterator(){};
 
-			// Arithmetic operators overload
+			// Arithmetic operators override
 				reverse_iterator operator+(difference_type diff) const{
 					return reverse_iterator(this->_it - diff);
 				}
@@ -259,9 +207,16 @@ namespace ft{
 				reference operator[](difference_type diff) const{
 					return *(this->_it - diff);
 				}
+
+				iterator_type base()const {
+					return ++iterator_type(*this); // converts rend/rbegin to begin/end
+				}
 			};
 
 
+
+// TODO: advance, distance, front_inserter, back_inserter, inserter
+// TODO: iterators: back_insert_iterator, front_insert_iterator, insert_iterator
 // 	template< class InputIt >
 // typename ft::iterator_traits<InputIt>::difference_type
 //     distance(InputIt first, InputIt last){
