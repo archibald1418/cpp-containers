@@ -25,7 +25,7 @@ namespace ft {
             
         public:
             typedef RAIterator<value_type> iterator;
-            typedef RAIterator<const value_type*> const_iterator;
+            typedef RAIterator<const value_type> const_iterator;
             typedef ft::reverse_iterator<iterator> reverse_iterator;
             typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
@@ -258,13 +258,28 @@ namespace ft {
 
         // Iterators
         iterator                begin(){return iterator(_first);};
-        const_iterator          begin()const{return const_iterator(_first);};
+        const_iterator         cbegin()const{
+            return const_iterator(const_cast<const_pointer>(_first));
+        };
+        const_iterator          begin()const{return cbegin();};
+
         reverse_iterator        rbegin(){return reverse_iterator(_first + _size - 1);};
-        const_reverse_iterator  rbegin()const{return const_reverse_iterator(_first + _size - 1);};
+        const_reverse_iterator  rbegin()const{
+            return const_reverse_iterator(const_cast<const_pointer>(_first + _size - 1));
+        };
+        const_reverse_iterator  crbegin()const{return rbegin();};
+
         iterator                end(){return iterator(_first + _size);};
-        const_iterator          end()const{return const_iterator(_first + _size);};
+        const_iterator          end()const{
+            return const_iterator(const_cast<const_pointer>(_first + _size));
+        };
+        const_iterator         cend()const{return end();};
+
         reverse_iterator        rend(){return reverse_iterator(_first - 1);};
-        const_reverse_iterator  rend()const{return const_reverse_iterator(_first - 1);};
+        const_reverse_iterator  rend()const{
+            return const_reverse_iterator(const_cast<const_pointer>(_first - 1));
+        };
+        const_reverse_iterator  crend()const{return rend();};
 
         void swap (vector& other)
         {
