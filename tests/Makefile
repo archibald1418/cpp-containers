@@ -31,10 +31,8 @@ typedefs:
 
 vector_my:
 	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=1 ${DO_TESTFILE}my -fsanitize=address
-	./testmy;
 vector_sys:
 	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=address
-	./testsys;
 vector_compare: testmy vector_sys
 	-diff <(./testmy) <(./testsys)
 	@#ignore diff writing to stderr

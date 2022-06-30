@@ -7,3 +7,4 @@ a.out
 *.gch
 */*.dSYM/
 tests/test*
+marina_containers/

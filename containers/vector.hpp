@@ -10,12 +10,12 @@ namespace ft {
         public:
             typedef T                       value_type;
             typedef Alloc		            allocator_type;
+            typedef std::size_t             size_type;
+            typedef std::ptrdiff_t          difference_type;
             typedef T&                      reference;
             typedef const T&                const_reference;
-            typedef T*                      pointer;
+            typedef T*                      pointer;    
             typedef const T*                const_pointer;
-            typedef std::ptrdiff_t          difference_type;
-            typedef std::size_t             size_type;
 
         private:
             allocator_type  _alloc;
@@ -25,9 +25,9 @@ namespace ft {
             
         public:
             typedef RAIterator<value_type> iterator;
-            typedef RAIterator<const value_type*> const_iterator;
-            typedef RARIterator<value_type> reverse_iterator;
-            typedef RARIterator<const value_type*> const_reverse_iterator;
+            typedef RAIterator<const value_type> const_iterator;
+            typedef ft::reverse_iterator<iterator> reverse_iterator;
+            typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
             size_type max_size()const{
                 /*
@@ -258,13 +258,28 @@ namespace ft {
 
         // Iterators
         iterator                begin(){return iterator(_first);};
-        const_iterator          begin()const{return const_iterator(_first);};
+        const_iterator         cbegin()const{
+            return const_iterator(const_cast<const_pointer>(_first));
+        };
+        const_iterator          begin()const{return cbegin();};
+
         reverse_iterator        rbegin(){return reverse_iterator(_first + _size - 1);};
-        const_reverse_iterator  rbegin()const{return const_reverse_iterator(_first + _size - 1);};
+        const_reverse_iterator  rbegin()const{
+            return const_reverse_iterator(const_cast<const_pointer>(_first + _size - 1));
+        };
+        const_reverse_iterator  crbegin()const{return rbegin();};
+
         iterator                end(){return iterator(_first + _size);};
-        const_iterator          end()const{return const_iterator(_first + _size);};
+        const_iterator          end()const{
+            return const_iterator(const_cast<const_pointer>(_first + _size));
+        };
+        const_iterator         cend()const{return end();};
+
         reverse_iterator        rend(){return reverse_iterator(_first - 1);};
-        const_reverse_iterator  rend()const{return const_reverse_iterator(_first - 1);};
+        const_reverse_iterator  rend()const{
+            return const_reverse_iterator(const_cast<const_pointer>(_first - 1));
+        };
+        const_reverse_iterator  crend()const{return rend();};
 
         void swap (vector& other)
         {

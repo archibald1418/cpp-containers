@@ -17,6 +17,11 @@ struct is_const : public ft::false_type{};
 template<typename T>
 struct is_const<const T> : public ft::true_type{};
 
+template <typename T>
+struct remove_const{typedef T type;};
+template <typename T>
+struct remove_const<const T>{typedef T type;};
+
 template <bool B, class T = void>
 struct enable_if{};
 
