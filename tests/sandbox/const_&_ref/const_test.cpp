@@ -13,6 +13,8 @@ int main(){
 
 	const_vector::const_iterator it = v.begin();
 
+	const_vector::const_iterator it = v.begin();
+
 	std::cout << v.at(0) << std::endl;
 	std::cout << &(*v.begin()) << std::endl;
 	std::cout << &i << std::endl;
