@@ -277,17 +277,13 @@ int main()
   typedef VectorFactory<type> VF;
 
   VF::pointer pt = VF::factory::create();
-  const VF::Container const_vector = *pt;
+  // const VF::Container const_vector = *pt;
 
-<<<<<<< HEAD
-  const VF::Container& const_container = *pt;
+  test_iterate_vector(*pt);
 
-  test_iterate_vector(const_container);
-  // TODO:  // make sense out of const in vector!!11
-=======
-  // test_iterate_vector(*pt);
-  test_iterate_vector(const_vector);
->>>>>>> reverse_iterator
+  delete pt;
+  // new int;
+  // test_iterate_vector(const_vector);
 
   // test_iterate_vector(*VectorFactory<char>().create());
   // test_iterate_vector(*VectorFactory<std::string>().create());

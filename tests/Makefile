@@ -1,6 +1,6 @@
-SHELL:=/bin/bash
+SHELL:=/bin/zsh
 
-CC=c++
+CC=clang++
 CFLAGS=-Wall -Wextra -Werror
 CONTAINERS=../containers
 TESTFILE=test
@@ -30,9 +30,9 @@ typedefs:
 # Containers
 
 vector_my:
-	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=1 ${DO_TESTFILE}my -fsanitize=address
+	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=1 ${DO_TESTFILE}my -fsanitize=leak;
 vector_sys:
-	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=address
+	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=leak;
 vector_compare: testmy vector_sys
 	-diff <(./testmy) <(./testsys)
 	@#ignore diff writing to stderr

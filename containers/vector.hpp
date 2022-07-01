@@ -226,6 +226,16 @@ namespace ft {
             }
         }
 
+        // Destructor
+        ~vector(){
+            for (size_type i = 0; i < _size; ++i){
+                _alloc.destroy(_first + i);
+            }
+            if (_cap){
+                _alloc.deallocate(_first, _cap);
+            }
+        }
+
         allocator_type get_allocator()const{
             return (_alloc);
         }
