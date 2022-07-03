@@ -81,7 +81,9 @@ namespace ft {
                     size_type j = 0;
                     for (; j < i; ++j){
                         // (newarr + i)->~T(); // backwards loop for garbage collection
-                        _alloc.destroy(newarr + j);
+                        _alloc.destroy(newarr + j); 
+                        // Dtors in c++ are no-throw guarantee
+                        // It's on the destructor's side to catch errors before they rise up the stack
                     }
                     std::cout << "Error:" << e.what() << '\n' << "Deallocating array" << '\n';
                     // delete[] reinterpret_cast<byte*>(newarr);
