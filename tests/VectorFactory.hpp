@@ -3,6 +3,7 @@
 
 #include "pick_vector.hpp"
 #include "utils.hpp"
+#include <random>
 
 namespace test {
 
@@ -62,9 +63,14 @@ private:
       c.push_back("Is");
       c.push_back("Dog");
       return cc;
-    }
+    };
+
 };
-    
+
+  template <typename T>
+  struct factory_type{
+    typedef VectorFactory<T> type;
+  };
 }
 
 #endif
