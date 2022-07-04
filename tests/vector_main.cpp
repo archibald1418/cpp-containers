@@ -300,7 +300,7 @@ void test_vector_equality(){
 
   // test_vector_iterate(a);
 
-  
+// TODO: vector.erase should work with both iterators (const_iter and iter)  
   vint::iterator cit = a.begin(); //NOTE: iterators should be convertible from and to const
 
   // a.erase(a.cbegin());
@@ -308,7 +308,7 @@ void test_vector_equality(){
   
   // test_vector_iterate(a);
 
-  // assert (a != b); assert (a < b);
+  // assert (a != b); assert (a < b); (
   // assert (b != a); assert (b >= a);
 }
 
