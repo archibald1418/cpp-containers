@@ -262,7 +262,7 @@ void test_vector_resize_with_default_value(const T &value = T())
 }
 
 template <typename T>
-void  test_erase_vector(){
+void  test_vector_erase(){
 
   vector<T> Vector(*unique_ptr<vector<T>>(VectorFactory<T>::factory::create()));
 
@@ -281,19 +281,51 @@ void  test_erase_vector(){
   test_vector_iterate(Vector);
 }
 
+void test_vector_equality(){
+
+  std::cout << "Equality tests" << std::endl;
+
+  typedef vector<int> vint;
+  typedef typename VectorFactory<int>::factory factory;
+
+  vint a = *unique_ptr<vint>(factory::create());
+  vint b(a);
+
+  // int value = 42;
+
+  // assert (a == b);
+
+  // a.push_back(value);
+  // assert (a != b); assert (a > b); assert (b <= a);
+
+  // test_vector_iterate(a);
+
+  
+  vint::iterator cit = a.begin(); //NOTE: iterators should be convertible from and to const
+
+  // a.erase(a.cbegin());
+  // a.erase(a.crbegin());
+  
+  // test_vector_iterate(a);
+
+  // assert (a != b); assert (a < b);
+  // assert (b != a); assert (b >= a);
+}
+
+
 int main()
 {
   std::cout << RED << "\nTESTING " << vector_types[MY] << "\n\n" << RESET;
 
-  test_erase_vector<int>();
-  test_erase_vector<std::string>();
-  test_erase_vector<char>();
-  test_vector_reserve<int>();
-  test_vector_resize_with_default_value<std::string>("spam");
+  // test_vector_erase<int>();
+  // test_vector_erase<std::string>();
+  // test_vector_erase<char>();
+  // test_vector_reserve<int>();
+  // test_vector_resize_with_default_value<std::string>("spam");
   
-  test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
+  // test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
 
   
-  // system("leaks testmy");
+  test_vector_equality();
 
 };

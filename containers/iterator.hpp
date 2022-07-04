@@ -70,6 +70,7 @@ namespace ft{
 			typedef typename iterator_traits<T*>::difference_type		difference_type;
 			typedef typename iterator_traits<T*>::pointer				pointer;
 			typedef typename iterator_traits<T*>::reference				reference;
+			// typedef typename const_pointer
 
 			protected:
 				pointer _it;
@@ -78,6 +79,7 @@ namespace ft{
 			// Ctors
 				RAIterator(): _it(0){};
 				RAIterator(pointer it) : _it(it){};
+				// RAIterator(const pointer it) : _it(it){};
 				RAIterator(const RAIterator &src) : _it(src._it){};
 			// Dtor
 				virtual ~RAIterator(){};

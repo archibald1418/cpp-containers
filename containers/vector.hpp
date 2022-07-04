@@ -25,7 +25,7 @@ namespace ft {
             
         public:
             typedef RAIterator<value_type> iterator;
-            typedef RAIterator<const value_type> const_iterator;
+            typedef RAIterator<const value_type> const_iterator; // const_iterator should be convertible to iterator, but it is not : (check traits(
             typedef ft::reverse_iterator<iterator> reverse_iterator;
             typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
@@ -263,7 +263,7 @@ namespace ft {
                 }
                 // destroy extra bit of T typed memory, left after resizing
                 _alloc.destroy(_first + _size);
-                return begin() + del_index; // return new position   
+                return begin() + del_index; // return new position  
             }
             return (0); // not found in vector
         }
@@ -271,7 +271,7 @@ namespace ft {
         // Iterators
         iterator                begin(){return iterator(_first);};
         const_iterator         cbegin()const{
-            return const_iterator(const_cast<const_pointer>(_first));
+            return const_iterator(const_pointer(_first));
         };
         const_iterator          begin()const{return cbegin();};
 
@@ -309,7 +309,7 @@ template <class T, class Alloc>
 bool operator==(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs){
     if (rhs.size() != lhs.size())
         return false;
-    for (typename ft::vector<T, Alloc>::size_type i = 0; i < lhs.size();){
+    for (typename ft::vector<T, Alloc>::size_type i = 0; i < lhs.size(); ++i){
         if (lhs[i] != rhs[i])
             return false;
     }
