@@ -288,7 +288,7 @@ void test_vector_equality(){
   typedef vector<int> vint;
   typedef typename VectorFactory<int>::factory factory;
 
-  vint a = *unique_ptr<vint>(factory::create());
+  const vint a = *unique_ptr<vint>(factory::create());
   vint b(a);
 
   // int value = 42;
@@ -298,17 +298,21 @@ void test_vector_equality(){
   // a.push_back(value);
   // assert (a != b); assert (a > b); assert (b <= a);
 
+
   // test_vector_iterate(a);
 
-  
-  vint::iterator cit = a.begin(); //NOTE: iterators should be convertible from and to const
+  vint::const_iterator cit = a.begin();
+
+  (void)cit;
+
+  // *cit = 5;
 
   // a.erase(a.cbegin());
   // a.erase(a.crbegin());
   
   // test_vector_iterate(a);
 
-  // assert (a != b); assert (a < b);
+  // assert (a != b); assert (a < b); (
   // assert (b != a); assert (b >= a);
 }
 

@@ -49,8 +49,8 @@ namespace ft{
 			typedef ft::random_access_iterator_tag iterator_category;
 			typedef typename ft::remove_const<T>::type value_type; // stl source removes const altogether - they create const_iterator later
 			typedef std::ptrdiff_t difference_type;
-			typedef value_type* pointer;
-			typedef value_type& reference;
+			typedef T* pointer;
+			typedef T& reference;
 		};
 
 	template <class T>
@@ -65,11 +65,11 @@ namespace ft{
 	template <class T>
 		struct RAIterator
 		{
-			typedef typename iterator_traits<T*>::iterator_category		iterator_category;
-			typedef typename iterator_traits<T*>::value_type			value_type;
-			typedef typename iterator_traits<T*>::difference_type		difference_type;
-			typedef typename iterator_traits<T*>::pointer				pointer;
-			typedef typename iterator_traits<T*>::reference				reference;
+			typedef typename iterator_traits<T>::iterator_category		iterator_category;
+			typedef typename iterator_traits<T>::value_type			value_type;
+			typedef typename iterator_traits<T>::difference_type		difference_type;
+			typedef typename iterator_traits<T>::pointer				pointer;
+			typedef typename iterator_traits<T>::reference				reference;
 			// typedef typename const_pointer
 
 			protected:
