@@ -301,11 +301,8 @@ void test_vector_equality(){
 
   // test_vector_iterate(a);
 
-  vint::const_iterator cit = a.begin();
-
-  (void)cit;
-
-  // *cit = 5;
+// TODO: vector.erase should work with both iterators (const_iter and iter)  
+  vint::iterator cit = a.begin(); //NOTE: iterators should be convertible from and to const
 
   // a.erase(a.cbegin());
   // a.erase(a.crbegin());
