@@ -254,7 +254,8 @@ namespace ft {
         }
 
         iterator erase(iterator pos){
-            if (pos >= begin() && pos <= end()) {
+            // REVIEW: rewrite int fail-fast style
+            if (pos >= begin() && pos <= end()) { 
             // no behaviour defined for pos == end()
                 iterator it = begin();
                 size_type del_index = 0;
@@ -278,6 +279,30 @@ namespace ft {
             }
             return (0); // not found in vector
         }
+
+        iterator erase(iterator first, iterator last){
+            
+            // Check if they in vector at all
+            if (not (begin() <= first && \
+                first <= last && \
+                last <= end())) return (0);
+            if (first == last) // empty range
+                return (last);
+            for (iterator it = first; it < last; ++it){
+                _alloc.destroy(&(*it));
+                _size--;
+            }
+            size_type len = last - first;
+            for (size_type i = 0; i < len; ++i){
+                first[i] = first[len + i];
+            }
+
+            return last; // 
+        }
+
+        
+
+        
 
         // Iterators
         iterator                begin(){return iterator(_first);};

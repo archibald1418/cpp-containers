@@ -30,16 +30,17 @@ typedefs:
 # Containers
 
 vector_my:
-	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=1 ${DO_TESTFILE}my -fsanitize=leak;
+	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=1 ${DO_TESTFILE}my -fsanitize=address;
 vector_sys:
-	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=leak;
+	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=address; # -fsanitize=leak; export ASAN_OPTIONS=detect_leak=1
 vector_compare: vector_my vector_sys
 	-diff <(./testmy) <(./testsys)
 	@#ignore diff writing to stderr
 
 clean:
-	rm -rf *.o
+	-rm -rf *.o
 	rm -rf test testmy testsys
-	rm -rf *.dSYM
-	rm -rf .*.swp
+	-rm -rf *.dSYM
+	-rm -rf .*.swp
+	rm -rf a.out
 re-test: clean test

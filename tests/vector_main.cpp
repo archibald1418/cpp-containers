@@ -289,7 +289,7 @@ void test_vector_equality(){
   typedef typename VectorFactory<int>::factory factory;
 
   const vint a = *unique_ptr<vint>(factory::create());
-  vint b(a);
+  (void)a;
 
   // int value = 42;
 
@@ -302,7 +302,7 @@ void test_vector_equality(){
   // test_vector_iterate(a);
 
 // TODO: vector.erase should work with both iterators (const_iter and iter)  
-  vint::iterator cit = a.begin(); //NOTE: iterators should be convertible from and to const
+  // vint::iterator cit = a.begin(); //NOTE: iterators should be convertible from and to const
 
   // a.erase(a.cbegin());
   // a.erase(a.crbegin());
@@ -327,6 +327,21 @@ int main()
   // test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
 
   
-  test_vector_equality();
+  vector<int> v;
+  vector<int> dummy;
+  create_vector_of_ints(v, 10);
+  v[0] = -1;
 
+  test_vector_iterate(v);
+  // vector<int>::const_iterator last = v.cend() - 1;
+  // vector<int>::iterator it = v.erase(dummy.end() - 1);
+  // (void)it;
+  vector<int>::iterator range_it = v.erase(v.begin(), v.end() - 1);
+  // (void)range_it;
+
+
+  test_vector_iterate(v);
+
+  std::cout << *range_it << std::endl;
+  std::cout << v.empty() << std::endl;
 };
