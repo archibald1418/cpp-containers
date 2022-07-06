@@ -144,7 +144,7 @@ namespace ft {
                     reserve(2 * _size);
                 }
                 // new (_first + _size) T(value);
-                _alloc.construct(_first + _size, value);
+                _alloc.construct(_first + _size, T(value));
                 ++_size;
             }
 
@@ -255,6 +255,7 @@ namespace ft {
 
         iterator erase(iterator pos){
             // REVIEW: rewrite int fail-fast style
+            // if (not (pos <= ))
             if (pos >= begin() && pos <= end()) { 
             // no behaviour defined for pos == end()
                 iterator it = begin();
@@ -283,23 +284,66 @@ namespace ft {
         iterator erase(iterator first, iterator last){
             
             // Check if they in vector at all
-            if (not (begin() <= first && \
-                first <= last && \
-                last <= end())) return (0);
-            if (first == last) // empty range
-                return (last);
+            difference_type len = last - first;
+
+            if (not (begin() <= first <= last <= end())) return (0);
+            if (first == last) return (last); // empty range
+            if (len < 0) return (0); // 
+
             for (iterator it = first; it < last; ++it){
                 _alloc.destroy(&(*it));
                 _size--;
             }
-            size_type len = last - first;
+            // REVIEW: can do in one pass
             for (size_type i = 0; i < len; ++i){
-                first[i] = first[len + i];
+                _alloc.construct(&first[i], first[last + i]);
+                _alloc.destroy(&first[last + i]);
             }
 
-            return last; // 
+            return last;
         }
 
+        void clear(){
+            for (iterator it = begin(); it < end(); ++it){
+                _alloc.destroy(&(*it));
+            }
+        }
+
+        void assign(size_type count, const T& value){
+            for (size_type i = 0; i < count; ++i){
+                _alloc.destroy(_first + i);
+                _alloc.construct(_first + i, T(value));
+            }
+        }
+
+        // SFINAE overload to account for vector<:integral_type:> cases
+        template <typename InputIt>
+        void assign(InputIt first, InputIt last, typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type isIterator = InputIt()){
+            (void)isIterator;
+
+            for (InputIt it = first; first < last; ++first){
+                _alloc.destroy(&(*first));
+                _alloc.construct(&(*first), T(*last));
+            }
+        };
+
+        vector& operator=(const vector& other){
+            if (this == &other)
+                return *this;
+
+           this->_alloc = allocator_type(other._alloc);
+            /*
+                std::allocator_traits<allocator_type>::propagate_on_container_copy_assignment::value  ( since C++11 )
+                Different allocators might share a memory pool
+            */
+           
+           this->_cap = other._cap;
+           this->_size = other._size;
+           this->_first = NULL;
+           assign(other.begin(), other.end());
+        }
+
+        
         
 
         
