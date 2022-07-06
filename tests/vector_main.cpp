@@ -137,27 +137,6 @@ void test_vector_sizes(V &v)
   v.capacity(); // _cap *= 2, if newer elem.size overflows capacity
 }
 
-template <typename V>
-void test_create_vector_custom_type(V &v)
-{
-
-  test::my_class my_obj;
-
-  int i = 0;
-  std::cout << "size"
-            << "\t"
-            << "_cap"
-            << "\t"
-            << "elem" << std::endl;
-  for (; i < 10; ++i)
-  {
-    v.push_back(my_obj);
-    std::cout << v.size() << '\t' << v.capacity() << '\t' << v[i] << std::endl;
-
-    my_obj++;
-  }
-}
-
 template <typename T>
 void test_vector_reserve()
 {
@@ -264,7 +243,7 @@ void test_vector_resize_with_default_value(const T &value = T())
 template <typename T>
 void  test_vector_erase(){
 
-  vector<T> Vector(*unique_ptr<vector<T>>(VectorFactory<T>::factory::create()));
+  const vector<T> Vector(*unique_ptr<vector<T>>(VectorFactory<T>::factory::create()));
 
   test_vector_iterate(Vector);
 
@@ -313,6 +292,13 @@ void test_vector_equality(){
   // assert (b != a); assert (b >= a);
 }
 
+template <typename T>
+void test_vector_erase_range(){
+  typedef vector<T> vector_of;
+
+  vector_of v = *unique_ptr<T>(VectorFactory::factory::create());
+  
+}
 
 int main()
 {
@@ -333,15 +319,15 @@ int main()
   v[0] = -1;
 
   test_vector_iterate(v);
-  // vector<int>::const_iterator last = v.cend() - 1;
+  vector<int>::const_iterator last = v.cend() - 1;
   // vector<int>::iterator it = v.erase(dummy.end() - 1);
   // (void)it;
-  vector<int>::iterator range_it = v.erase(v.begin(), v.end() - 1);
+  vector<int>::iterator range_it = v.erase(v.begin(), v.begin());
   // (void)range_it;
 
 
   test_vector_iterate(v);
 
   std::cout << *range_it << std::endl;
-  std::cout << v.empty() << std::endl;
+  // std::cout << v.empty() << std::endl;
 };

@@ -3,6 +3,7 @@
 
 #include "pick_vector.hpp"
 #include "utils.hpp"
+#include "Test.hpp"
 #include <random>
 
 namespace test{
@@ -76,6 +77,19 @@ namespace test{
           c.push_back("Dog");
           return cc;
         };
+
+      static Container* test_create_vector_custom_type(test::test my_obj)
+      {
+        Container* cc = new Container;
+        Container& c = *cc;
+
+        for (int i = 0; i < 10; ++i){
+          c.push_back(my_obj);
+          ++my_obj;
+        }
+        return cc;
+      }
+
   };
 
   template <typename T>
