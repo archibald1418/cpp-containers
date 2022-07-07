@@ -304,12 +304,23 @@ void test_vector_erase_range(){
   test_vector_iterate(v);
 }
 
-template <typename T>
-void  test_vector_assign(){
-  typedef vector<T> vector_of;
-  typedef typename VectorFactory<T>::factory factory;
+void  test_vector_assign_count()
+{
+    vector<int> v1(5, 0);
+    vector<int> v2(10, 42);
+try {
+    v1.assign(-4, 42);
+} catch (const std::exception& e){
+  std::cout << "Error: e" << e.what() << std::endl;
+}
+    // entirely replaces the vector contents, regardless of size, + deletes redundant if any
 
-  vector_of v = *(unique_ptr<vector_of>(factory::create()));
+
+    // v1.assign(v1.begin(), v2.begin());
+    // std::cout << diff << std::endl;
+    for (auto it = v1.begin(); it < v1.end(); ++it){
+        std::cout << *it << ' ';
+    }
 }
 
 int main()
@@ -344,8 +355,8 @@ int main()
   // std::cout << v.empty() << std::endl;
   
   // test_vector_iterate(*unique_ptr< const vector<int> >(VectorFactory<int>::factory::create()));
-  test_vector_erase<int>();
-  // test_vector_assign<int>();
+  // test_vector_erase<int>();
+  test_vector_assign<int>();
 
   // vector<int> v;
 };

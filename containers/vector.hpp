@@ -1,4 +1,5 @@
 #include "iterator.hpp"
+#include "utility.hpp"
 #include <cstdint>
 
 namespace ft {
@@ -312,28 +313,52 @@ namespace ft {
             for (iterator it = begin(); it < end(); ++it){
                 _alloc.destroy(&(*it));
             }
+            _size = 0;
         }
 
         void assign(size_type count, const T& value){
-
-            bool growing = count > size();
-            for (size_type i = 0; i < count; ++i){
-                _alloc.destroy(_first + i);
-                _alloc.construct(_first + i, T(value));
+            if count > max_size(){
+                throw std::length_error(
+                        "ft::vector<T, Alloc>::assign(size_type count, const T& value) 'count' exceeds maximum supported size"
+                    );
             }
+            clear();
+            try {
+                if (_cap < count)
+                    reserve(count);
+            } catch (...){
+                throw;
+            }
+            for (; _size < count; _size++)
+                _alloc.construct(_first + _size, val);
         }
 
         // SFINAE overload to account for vector<:integral_type:> cases
         template <typename InputIt>
-        void assign(InputIt first, InputIt last, typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type isIterator = InputIt()){
+        void assign(InputIt first, InputIt last, typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type isIterator = InputIt())
+        {
             (void)isIterator;
-            
-            difference
-            for (InputIt it = first; first < last; ++first){
-                _alloc.destroy(&(*first));
-                _alloc.construct(&(*first), T(*last));
+            size_type len = static_cast<size_type>(last - first);
+            if len > max_size(){
+                throw std::length_error(
+                        "ft::vector<T, Alloc>::assign(InputIt first, InputIt last) iterator difference exceeds maximum supported size"
+                    );
             }
-        };
+            clear();
+            size_type new_size = len;
+            try {
+                if (_cap < new_size)
+                    reserve(new_size);
+            } catch (...){
+                throw;
+            }
+            while (_size < new_size)
+            {
+                _alloc.construct(_first + _size, *first);
+                _size++;
+                ++first;
+            }
+        }
 
         vector& operator=(const vector& other){
             if (this == &other)
@@ -344,11 +369,8 @@ namespace ft {
                 std::allocator_traits<allocator_type>::propagate_on_container_copy_assignment::value  ( since C++11 )
                 Different allocators might share a memory pool
             */
-           
-           this->_cap = other._cap;
-           this->_size = other._size;
            this->_first = NULL;
-           assign(other.begin(), other.end());
+           assign(other.begin(), other.end()); // changes size and capacity
            return *this;
         }
 
