@@ -243,7 +243,8 @@ void test_vector_resize_with_default_value(const T &value = T())
 template <typename T>
 void  test_vector_erase(){
 
-  const vector<T> Vector(*unique_ptr<vector<T>>(VectorFactory<T>::factory::create()));
+  unique_ptr<vector<T> > ptr = unique_ptr<vector<T>>(VectorFactory<T>::factory::create());
+  vector<T> Vector = *ptr;
 
   test_vector_iterate(Vector);
 
@@ -297,7 +298,18 @@ void test_vector_erase_range(){
   typedef vector<T> vector_of;
 
   vector_of v = *unique_ptr<T>(VectorFactory<T>::factory::create());
-  
+
+  test_vector_iterate(v);
+  v.erase(v.begin(), v.end());
+  test_vector_iterate(v);
+}
+
+template <typename T>
+void  test_vector_assign(){
+  typedef vector<T> vector_of;
+  typedef typename VectorFactory<T>::factory factory;
+
+  vector_of v = *(unique_ptr<vector_of>(factory::create()));
 }
 
 int main()
@@ -331,5 +343,9 @@ int main()
   // std::cout << *range_it << std::endl;
   // std::cout << v.empty() << std::endl;
   
-  test_vector_iterate(*unique_ptr< const vector<int> >(VectorFactory<int>::factory::create()));
+  // test_vector_iterate(*unique_ptr< const vector<int> >(VectorFactory<int>::factory::create()));
+  test_vector_erase<int>();
+  // test_vector_assign<int>();
+
+  // vector<int> v;
 };

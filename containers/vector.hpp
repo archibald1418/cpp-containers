@@ -238,6 +238,9 @@ namespace ft {
                 _alloc.construct(_first + i, value);
             }
         }
+        vector(const vector& src){
+            *this = src;
+        }
 
         // Destructor
         ~vector(){
@@ -290,7 +293,7 @@ namespace ft {
                 first <= last && \
                 last <= end())) return (0);
             if (first == last) return (last); // empty range
-            size_type len = last - first; // guaranteed to be > 0
+            size_type len = static_cast<size_type(last - first); // guaranteed to be > 0
 
             for (iterator it = first; it < last; ++it){
                 _alloc.destroy(&(*it));
@@ -312,6 +315,8 @@ namespace ft {
         }
 
         void assign(size_type count, const T& value){
+
+            bool growing = count > size();
             for (size_type i = 0; i < count; ++i){
                 _alloc.destroy(_first + i);
                 _alloc.construct(_first + i, T(value));
@@ -322,7 +327,8 @@ namespace ft {
         template <typename InputIt>
         void assign(InputIt first, InputIt last, typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type isIterator = InputIt()){
             (void)isIterator;
-
+            
+            difference
             for (InputIt it = first; first < last; ++first){
                 _alloc.destroy(&(*first));
                 _alloc.construct(&(*first), T(*last));
@@ -343,6 +349,7 @@ namespace ft {
            this->_size = other._size;
            this->_first = NULL;
            assign(other.begin(), other.end());
+           return *this;
         }
 
         
