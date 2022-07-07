@@ -284,11 +284,13 @@ namespace ft {
         iterator erase(iterator first, iterator last){
             
             // Check if they in vector at all
-            difference_type len = last - first;
 
-            if (not (begin() <= first <= last <= end())) return (0);
+            if (not (
+                begin() <= first && \
+                first <= last && \
+                last <= end())) return (0);
             if (first == last) return (last); // empty range
-            if (len < 0) return (0); // 
+            size_type len = last - first; // guaranteed to be > 0
 
             for (iterator it = first; it < last; ++it){
                 _alloc.destroy(&(*it));
@@ -296,8 +298,8 @@ namespace ft {
             }
             // REVIEW: can do in one pass
             for (size_type i = 0; i < len; ++i){
-                _alloc.construct(&first[i], first[last + i]);
-                _alloc.destroy(&first[last + i]);
+                _alloc.construct(&first[i], T(last[i]));
+                _alloc.destroy(&last[i]);
             }
 
             return last;
@@ -352,24 +354,24 @@ namespace ft {
         iterator                begin(){return iterator(_first);};
         const_iterator          begin()const{return cbegin();};
         const_iterator         cbegin()const{
-            return const_iterator(_first);
+            return const_iterator(const_cast<const_pointer>(_first));
         };
 
         reverse_iterator        rbegin(){return reverse_iterator(_first + _size - 1);};
         const_reverse_iterator  rbegin()const{
-            return const_reverse_iterator(_first + _size - 1);
+            return const_reverse_iterator(const_cast<const_pointer>(_first + _size - 1));
         };
         const_reverse_iterator  crbegin()const{return rbegin();};
 
         iterator                end(){return iterator(_first + _size);};
         const_iterator          end()const{
-            return const_iterator(_first + _size);
+            return const_iterator(const_cast<const_pointer>(_first + _size));
         };
         const_iterator         cend()const{return end();};
 
         reverse_iterator        rend(){return reverse_iterator(_first - 1);};
         const_reverse_iterator  rend()const{
-            return const_reverse_iterator(_first - 1);
+            return const_reverse_iterator(const_cast<const_pointer>(_first - 1));
         };
         const_reverse_iterator  crend()const{return rend();};
 

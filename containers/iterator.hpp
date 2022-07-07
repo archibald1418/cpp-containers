@@ -166,7 +166,7 @@ namespace ft{
 		};
 
 		template <class Iter>
-			struct reverse_iterator : public RAIterator< typename iterator_traits<Iter>::value_type >
+			struct reverse_iterator : public RAIterator< typename iterator_traits<Iter>::pointer > // Fixed inheritance
 			{
 				// typename reverse_iterator<Iter> reverse_iterator_t;
 
@@ -178,9 +178,9 @@ namespace ft{
 				typedef typename iterator_type::reference			reference;
 
 			// Ctors
-				reverse_iterator(): RAIterator<value_type>(){};
-				reverse_iterator(pointer it): RAIterator<value_type>(it){};
-				reverse_iterator(const reverse_iterator &src) : RAIterator<value_type>(src){};
+				reverse_iterator(): iterator_type(){};
+				reverse_iterator(pointer it): iterator_type(it){};
+				reverse_iterator(const reverse_iterator &src) : iterator_type(src){};
 			// Dtor
 				virtual ~reverse_iterator(){};
 

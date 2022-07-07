@@ -296,7 +296,7 @@ template <typename T>
 void test_vector_erase_range(){
   typedef vector<T> vector_of;
 
-  vector_of v = *unique_ptr<T>(VectorFactory::factory::create());
+  vector_of v = *unique_ptr<T>(VectorFactory<T>::factory::create());
   
 }
 
@@ -313,21 +313,23 @@ int main()
   // test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
 
   
-  vector<int> v;
-  vector<int> dummy;
-  create_vector_of_ints(v, 10);
-  v[0] = -1;
+  // vector<int> v;
+  // vector<int> dummy;
+  // create_vector_of_ints(v, 10);
+  // v[0] = -1;
 
-  test_vector_iterate(v);
-  vector<int>::const_iterator last = v.cend() - 1;
-  // vector<int>::iterator it = v.erase(dummy.end() - 1);
-  // (void)it;
-  vector<int>::iterator range_it = v.erase(v.begin(), v.begin());
-  // (void)range_it;
+  // test_vector_iterate(v);
+  // vector<int>::const_iterator last = v.cend() - 1;
+  // // vector<int>::iterator it = v.erase(dummy.end() - 1);
+  // // (void)it;
+  // vector<int>::iterator range_it = v.erase(v.begin(), v.begin());
+  // // (void)range_it;
 
 
-  test_vector_iterate(v);
+  // test_vector_iterate(v);
 
-  std::cout << *range_it << std::endl;
+  // std::cout << *range_it << std::endl;
   // std::cout << v.empty() << std::endl;
+  
+  test_vector_iterate(*unique_ptr< const vector<int> >(VectorFactory<int>::factory::create()));
 };
