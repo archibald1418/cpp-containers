@@ -13,10 +13,10 @@ namespace ft {
             typedef Alloc		            allocator_type;
             typedef std::size_t             size_type;
             typedef std::ptrdiff_t          difference_type;
-            typedef T&                      reference;
-            typedef const T&                const_reference;
-            typedef T*                      pointer;    
-            typedef const T*                const_pointer;
+            typedef typename Alloc::reference        reference;
+            typedef typename Alloc::const_reference  const_reference;
+            typedef typename Alloc::pointer          pointer;    
+            typedef typename Alloc::const_pointer    const_pointer;
 
         
             typedef RAIterator<pointer> iterator;
