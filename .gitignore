@@ -8,3 +8,4 @@ a.out
 */*.dSYM/
 tests/test*
 marina_containers/
+*.log

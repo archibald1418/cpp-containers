@@ -34,7 +34,7 @@ vector_my:
 vector_sys:
 	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=address; # -fsanitize=leak; export ASAN_OPTIONS=detect_leak=1
 vector_compare: vector_my vector_sys
-	-diff <(./testmy) <(./testsys)
+	-diff <(./testmy | tee my.log) <(./testsys | tee sys.log)
 	@#ignore diff writing to stderr
 
 clean:
