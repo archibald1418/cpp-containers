@@ -294,7 +294,8 @@ namespace ft {
                 first <= last && \
                 last <= end())) return (0);
             if (first == last) return (last); // empty range
-            size_type len = static_cast<size_type(last - first); // guaranteed to be > 0
+
+            size_type len = static_cast<size_type>(last - first); // guaranteed to be > 0
 
             for (iterator it = first; it < last; ++it){
                 _alloc.destroy(&(*it));
@@ -317,7 +318,7 @@ namespace ft {
         }
 
         void assign(size_type count, const T& value){
-            if count > max_size(){
+            if (count > max_size()){
                 throw std::length_error(
                         "ft::vector<T, Alloc>::assign(size_type count, const T& value) 'count' exceeds maximum supported size"
                     );
@@ -330,7 +331,7 @@ namespace ft {
                 throw;
             }
             for (; _size < count; _size++)
-                _alloc.construct(_first + _size, val);
+                _alloc.construct(_first + _size, T(value));
         }
 
         // SFINAE overload to account for vector<:integral_type:> cases
@@ -339,7 +340,7 @@ namespace ft {
         {
             (void)isIterator;
             size_type len = static_cast<size_type>(last - first);
-            if len > max_size(){
+            if (len > max_size()){
                 throw std::length_error(
                         "ft::vector<T, Alloc>::assign(InputIt first, InputIt last) iterator difference exceeds maximum supported size"
                     );

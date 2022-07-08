@@ -308,19 +308,17 @@ void  test_vector_assign_count()
 {
     vector<int> v1(5, 0);
     vector<int> v2(10, 42);
+
+    test_vector_iterate(v1);
 try {
-    v1.assign(-4, 42);
+    v1.assign(2, -1);
 } catch (const std::exception& e){
   std::cout << "Error: e" << e.what() << std::endl;
 }
     // entirely replaces the vector contents, regardless of size, + deletes redundant if any
-
-
     // v1.assign(v1.begin(), v2.begin());
     // std::cout << diff << std::endl;
-    for (auto it = v1.begin(); it < v1.end(); ++it){
-        std::cout << *it << ' ';
-    }
+    test_vector_iterate(v1);
 }
 
 int main()
@@ -356,7 +354,7 @@ int main()
   
   // test_vector_iterate(*unique_ptr< const vector<int> >(VectorFactory<int>::factory::create()));
   // test_vector_erase<int>();
-  test_vector_assign<int>();
+  test_vector_assign_count();
 
   // vector<int> v;
 };
