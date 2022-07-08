@@ -165,7 +165,7 @@ namespace ft{
 					return _it;
 				}
 
-				pointer 
+				// pointer 
 		};
 
 		template <class Iter>
@@ -187,7 +187,7 @@ namespace ft{
 			public:
 				reverse_iterator(): iterator_type(){};
 				reverse_iterator(iterator_type it): _it(it){};
-				reverse_iterator(const reverse_iterator &src) : iterator_type(src){};
+				reverse_iterator(const reverse_iterator &src) : _it(src._it){};
 			// Dtor
 				virtual ~reverse_iterator(){};
 
@@ -230,6 +230,7 @@ namespace ft{
 					return (this->_it);
 				}
 			};
+
 
 
 
