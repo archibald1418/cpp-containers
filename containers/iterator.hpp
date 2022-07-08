@@ -164,10 +164,12 @@ namespace ft{
 				pointer operator->() const{
 					return _it;
 				}
+
+				pointer 
 		};
 
 		template <class Iter>
-			struct reverse_iterator : public RAIterator< typename iterator_traits<Iter>::pointer > // Fixed inheritance
+			struct reverse_iterator : public iterator<typename Iter::iterator_category, typename Iter::value_type> // Fixed inheritance
 			{
 				// typename reverse_iterator<Iter> reverse_iterator_t;
 
@@ -179,8 +181,12 @@ namespace ft{
 				typedef typename iterator_type::reference			reference;
 
 			// Ctors
+			private:
+				iterator_type _it;
+
+			public:
 				reverse_iterator(): iterator_type(){};
-				reverse_iterator(pointer it): iterator_type(it){};
+				reverse_iterator(iterator_type it): _it(it){};
 				reverse_iterator(const reverse_iterator &src) : iterator_type(src){};
 			// Dtor
 				virtual ~reverse_iterator(){};
@@ -221,7 +227,7 @@ namespace ft{
 				}
 
 				iterator_type base()const {
-					return ++iterator_type(*this); // converts rend/rbegin to begin/end
+					return (this->_it);
 				}
 			};
 
