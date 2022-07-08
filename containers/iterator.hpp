@@ -19,18 +19,19 @@ namespace ft{
 // NOTE: iterator can be output iterator if it's allowed to write to it!!!
 
 	// Explicitly Parametric iterator
-	template<class T,
-			class C = ft::random_access_iterator_tag,
-			class Dist = std::ptrdiff_t,
-			class Pt = T*,
-			class Rt = T&>
+	template<
+			class Category,
+			class T,
+			class Distance = std::ptrdiff_t,
+			class Pointer = T*,
+			class Reference = T&>
 		struct iterator {
 			// Type defenitions for addressing and manipulating allocated objects
-			typedef C iterator_category;
+			typedef Category iterator_category;
 			typedef T value_type;
-			typedef Dist difference_type;
-			typedef Pt pointer;
-			typedef Rt reference;
+			typedef Distance difference_type;
+			typedef Pointer pointer;
+			typedef Reference reference;
 		};
 
 	// Copy iterator template
@@ -46,27 +47,27 @@ namespace ft{
 	// Define iterator in terms of type
 	template <class T>
 		struct iterator_traits<T*>{
-			typedef ft::random_access_iterator_tag iterator_category;
-			typedef typename ft::remove_const<T>::type value_type; // stl source removes const altogether - they create const_iterator later
-			typedef std::ptrdiff_t difference_type;
-			typedef T* pointer;
-			typedef T& reference;
+			typedef random_access_iterator_tag				iterator_category;
+			typedef typename ft::remove_const<T>::type		value_type; // stl source removes const altogether - they create const_iterator later
+			typedef std::ptrdiff_t						 	difference_type;
+			typedef T* 										pointer;
+			typedef T&										reference;
 		};
 
 	template <class T>
 		struct iterator_traits<const T*>{
-			typedef ft::random_access_iterator_tag iterator_category;
-			typedef const T value_type;
-			typedef std::ptrdiff_t difference_type;
-			typedef const T* pointer;
-			typedef const T& reference;
+			typedef random_access_iterator_tag			iterator_category;
+			typedef T									value_type;
+			typedef std::ptrdiff_t						difference_type;
+			typedef const T*							pointer;
+			typedef const T& 							reference;
 		};
 
 	template <class T>
-		struct RAIterator
+		struct RAIterator : iterator<random_access_iterator_tag, T>
 		{
 			typedef typename iterator_traits<T>::iterator_category		iterator_category;
-			typedef typename iterator_traits<T>::value_type			value_type;
+			typedef typename iterator_traits<T>::value_type				value_type;
 			typedef typename iterator_traits<T>::difference_type		difference_type;
 			typedef typename iterator_traits<T>::pointer				pointer;
 			typedef typename iterator_traits<T>::reference				reference;
