@@ -17,6 +17,11 @@ struct is_const : public ft::false_type{};
 template<typename T>
 struct is_const<const T> : public ft::true_type{};
 
+template <typename T, typename U>
+struct is_same: public false_type{};
+template <typename T>
+struct is_same<T, T> : public true_type{};
+
 template <typename T>
 struct remove_const{typedef T type;};
 template <typename T>
@@ -42,6 +47,12 @@ template <class _If, class _Then>
 struct conditional<true, _If, _Then>{
 	typedef _If type;
 };
+
+template <typename T, typename U, typename V>
+struct is_one_of{
+    typedef typename ft::conditional<ft::is_same<T, U>::value, U, V>::type type;
+};
+
 
 template <class T, T v>
 struct integral_constant
