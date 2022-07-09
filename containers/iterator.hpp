@@ -123,11 +123,11 @@ namespace ft{
 				RAIterator operator++(int){
 					RAIterator tmp(*this);
 					_it++; 
-					return *tmp;
+					return tmp;
 				}
 				RAIterator operator--(int){
 					RAIterator tmp(*this);
-					_it--; return *tmp;
+					_it--; return tmp;
 				}
 				virtual RAIterator& operator+=(difference_type n){
 					this->_it += n; return *this;
@@ -135,8 +135,8 @@ namespace ft{
 				virtual RAIterator& operator-=(difference_type n){
 					this->_it -= n; return *this;
 				}
-				// Comparisons
-				bool operator==(const RAIterator& other) const{
+				// // Comparisons
+				inline bool operator==(const RAIterator& other) const{
 					return _it == other._it;
 				}
 				bool operator!=(const RAIterator& other) const{
@@ -165,11 +165,16 @@ namespace ft{
 					return _it;
 				}
 
-				// pointer 
+				RAIterator base()const{
+					return RAIterator(_it);
+				}
+
 		};
 
+		
+
 		template <class Iter>
-			struct reverse_iterator : public iterator<typename Iter::iterator_category, typename Iter::value_type> // Fixed inheritance
+			struct reverse_iterator : public iterator<typename Iter::iterator_category, typename Iter::value_type>
 			{
 				// typename reverse_iterator<Iter> reverse_iterator_t;
 
@@ -198,8 +203,27 @@ namespace ft{
 				reverse_iterator operator-(difference_type diff) const{
 					return reverse_iterator(this->_it + diff);
 				}
-				difference_type operator-(reverse_iterator& other) const{
-					return this->_it + other._it;
+				reverse_iterator& operator=(const reverse_iterator& other){
+					this->_it = other._it;
+					return (*this);
+				}
+
+				reference operator*()const{
+					iterator_type copy = _it;
+					return (*--copy);
+					/*
+						NOTE: 
+						reverse_iterator is an ADAPTER - it extends a source class (ADAPTEE) to behave differently
+						(suiting certain needs that source class can't meet)
+						Adapter adapts source class interface (RAIterator<T>) to meet new requirements (iterating backwards)
+						without changing the source class (=without modifying the class)
+						and without changing the contexts that source class is usually used in
+
+						I guess,  operator* := *(copy - 1) is to use the original behaviour of the begin() and end() methods (without '- 1' add-on) 
+					*/ 
+				}
+				pointer operator->()const{
+					(&(operator*()));
 				}
 				// Increment/Decrement
 				reverse_iterator& operator++(){
@@ -223,7 +247,7 @@ namespace ft{
 					this->_it += n; return *this;
 				}
 				reference operator[](difference_type diff) const{
-					return *(this->_it - diff);
+					return (base()[-diff - 1]);
 				}
 
 				iterator_type base()const {
@@ -233,6 +257,42 @@ namespace ft{
 
 
 
+// Reverse iterator non-members
+template <typename _It>
+inline bool operator==(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs){
+	return lhs.base() == rhs.base();
+}
+template <typename _It>
+inline bool operator!=(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
+	return !(lhs == rhs);
+}
+template <typename _It>
+inline bool operator<(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
+	return lhs.base() < rhs.base();
+}
+template <typename _It>
+inline bool operator>(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
+	return rhs < lhs;
+}
+template <typename _It>
+inline bool operator<=(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
+	return !(lhs < rhs);
+}
+template <typename _It>
+inline bool operator>=(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
+	return !(lhs < rhs);
+}
+
+template <typename _It>
+inline bool operator-(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs){
+	return reverse_iterator<_It>(rhs.base() - lhs.base());
+}
+
+template <typename _It>
+inline typename reverse_iterator<_It>::difference_type 
+operator-(typename reverse_iterator<_It>::difference_type n, const reverse_iterator<_It>& rev_it){
+	return reverse_iterator<_It>(rev_it.base() - n);
+}
 
 // TODO: advance, distance, front_inserter, back_inserter, inserter
 // TODO: iterators: back_insert_iterator, front_insert_iterator, insert_iterator

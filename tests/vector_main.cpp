@@ -62,14 +62,41 @@ void test_vector_iterate(V &v)
     typename V::iterator>::type
   iterator_type;
 
+  static_assert (
+    ft::is_same<
+      typename ft::conditional<
+        ft::is_const<V>::value,
+        typename V::const_iterator,
+        typename V::iterator
+      >::type, 
+      iterator_type
+    >::value,
+    "Const vector must yield const_iterator"
+    );
+
+
+  static_assert (
+    ft::is_same<
+      typename ft::conditional<
+        !ft::is_const<V>::value,
+        typename V::iterator,
+        typename V::const_iterator
+      >::type,
+      iterator_type
+    >::value,
+    "Non-const vector must yield iterator"
+    );
+
   typedef typename ft::conditional<
     ft::is_const<V>::value,
     typename V::const_reverse_iterator,
     typename V::reverse_iterator>::type
   reverse_iterator_type;
 
+
   iterator_type begin = v.begin(); // implicitly requiring an iterator based on vector constness
   iterator_type end = v.end();
+  
   typename V::const_iterator cend = v.cend(); // explicitly requiring a const iterator
   typename V::const_iterator cbegin = v.cbegin();
   reverse_iterator_type rbegin = v.rbegin();
@@ -354,7 +381,8 @@ int main()
   
   // test_vector_iterate(*unique_ptr< const vector<int> >(VectorFactory<int>::factory::create()));
   // test_vector_erase<int>();
-  test_vector_assign_count();
+  // test_vector_assign_count();
 
-  // vector<int> v;
+  const vector<int> v(12, 10);
+  test_vector_iterate(v);
 };
