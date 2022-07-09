@@ -30,18 +30,37 @@ void test_iterators(V &v)
   typename V::const_reverse_iterator crbegin = v.crbegin();
   typename V::const_reverse_iterator crend = v.crend();
 
+  vector<char> vchar(5, 'h');
+
   // vector<std::string> vstring(5, "Hello!111");
 
   // Comparison
-  // assert (crbegin != crend);
-  // assert (end == cend);
-  // assert (end > begin);
-  // assert (begin == cbegin);
-  // assert (cbegin == begin);
-  // assert (crbegin >= rend);
-  // assert (begin < end);
-  // assert (begin != end);
+  assert (crbegin != crend);
+  assert (end == cend);
+  assert (end > begin);
+  assert (begin == cbegin);
+  assert (cbegin == begin);
+  assert (crbegin >= rend);
+  assert (begin < end);
+  assert (begin != end);
   assert (rbegin == crbegin);
+  
+  assert ((rend - rbegin) == static_cast<typename V::difference_type>(v.size()));
+  assert ((end - begin) == static_cast<typename V::difference_type>(v.size()));
+  assert ((cend - begin) == static_cast<typename V::difference_type>(v.size()));
+  assert ((crend - rbegin) == static_cast<typename V::difference_type>(v.size()));
+
+  assert ((begin + 1) == (cbegin + 1));
+  assert ((end - 1) == (cend - 1));
+  // ((rbegin + 1) == (end - 1));  CE
+  // end[0]; rend[0]; CE + heap-buffer-overflow ('ends' are invalid iterators)
+  assert (begin[v.size() - 1] == end[-1]);
+  assert (begin[v.size() - 1] == rbegin[0]);
+  assert (rbegin[0] == end[-1]);
+  assert (&rbegin[-1] == end.base()); 
+
+
+  // vchar.begin() == vhar.en;
 
   // Wrong type comparison
   // std::cout << (begin > vstring.begin()) << std::endl; CE

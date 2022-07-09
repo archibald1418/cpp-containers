@@ -173,30 +173,30 @@ template <typename T, typename U>
 inline bool 
 operator==( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
 	return lhs.base() == rhs.base();
-				}
+}
 template <typename T, typename U>
 inline bool 
 operator!=( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
 	return lhs.base() != rhs.base();
 }
-template <typename T>
+template <typename T, typename U>
 inline bool 
-operator<( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+operator<( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
 	return lhs.base() < rhs.base();
 }
-template <typename T>
+template <typename T, typename U>
 inline bool 
-operator>( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+operator>( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
 	return lhs.base() > rhs.base();
 }
-template <typename T>
+template <typename T, typename U>
 inline bool 
-operator<=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+operator<=( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
 	return lhs.base() <= rhs.base();
 }
-template <typename T>
+template <typename T, typename U>
 inline bool 
-operator>=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+operator>=( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
 	return lhs.base() >= rhs.base();
 }
 
