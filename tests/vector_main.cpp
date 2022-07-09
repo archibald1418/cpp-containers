@@ -21,32 +21,44 @@ using test::unique_ptr;
 template <typename V>
 void test_iterators(V &v)
 {
-  typename V::iterator begin = v.begin();
-  typename V::iterator end = v.end();
-  typename V::reverse_iterator rbegin = v.rbegin();
-  typename V::reverse_iterator rend = v.rend();
-  typename V::const_iterator cbegin = v.cbegin();
-  typename V::const_iterator cend = v.cend();
-  typename V::const_reverse_iterator crbegin = v.crbegin();
-  typename V::const_reverse_iterator crend = v.crend();
+  typename V::const_iterator begin = v.begin();
+  // typename V::iterator end = v.end();
+  // typename V::reverse_iterator rbegin = v.rbegin();
+  // typename V::reverse_iterator rend = v.rend();
+  // typename V::const_iterator cbegin = v.cbegin();
+  // typename V::const_iterator cend = v.cend();
+  // typename V::const_reverse_iterator crbegin = v.crbegin();
+  // typename V::const_reverse_iterator crend = v.crend();
 
-  // Mutable elems
-  std::cout << GREEN << "Iterators to mutable elements\n" << RESET;
+  // assert (crbegin != crend);
+  // assert (end > (end - 1));
+  // assert (end == cend);
+  // assert (end > begin);
+  // assert (begin == cbegin);
+  // assert (cbegin == begin);
+  // assert (crbegin >= crend);
+  // assert (begin < end);
+  // assert (begin != end);
+  // // assert (rbegin > end); compile error
   
-  std::cout << "First elem of vector V:\t"              << *begin << "\n";
-  std::cout << "Last elem of vector V:\t"               << *(end - 1) << std::endl;
-  std::cout << "First elem of vector V[::-1]:\t"        << *rbegin << std::endl;    // will take the last item of array
-  std::cout << "Last elem of vector V[::-1]:\t"         << *(rend - 1) << std::endl; // will move reverse iterator to first position in array
 
-  std::cout << std::endl;
-  // Constant elems
-  // Assigning to these leads to CE
-  std::cout << RED << "Iterators to constant elements\n" << RESET;
+  // // Mutable elems
+  // std::cout << GREEN << "Iterators to mutable elements\n" << RESET;
+  
+  // std::cout << "First elem of vector V:\t"              << *begin << "\n";
+  // std::cout << "Last elem of vector V:\t"               << *(end - 1) << std::endl;
+  // std::cout << "First elem of vector V[::-1]:\t"        << *rbegin << std::endl;    // will take the last item of array
+  // std::cout << "Last elem of vector V[::-1]:\t"         << *(rend - 1) << std::endl; // will move reverse iterator to first position in array
 
-  std::cout << "First const elem of vector V:\t"        << *cbegin << "\n";
-  std::cout << "Last const elem of vector V:\t"         << *(cend - 1) << std::endl;
-  std::cout << "First const elem of vector V[::-1]:\t"  << *crbegin << std::endl;    // will take the last item of array
-  std::cout << "Last const elem of vector V[::-1]:\t"   << *(crend - 1) << std::endl; // will move reverse iterator to first position in array
+  // std::cout << std::endl;
+  // // Constant elems
+  // // Assigning to these leads to CE
+  // std::cout << RED << "Iterators to constant elements\n" << RESET;
+
+  // std::cout << "First const elem of vector V:\t"        << *cbegin << "\n";
+  // std::cout << "Last const elem of vector V:\t"         << *(cend - 1) << std::endl;
+  // std::cout << "First const elem of vector V[::-1]:\t"  << *crbegin << std::endl;    // will take the last item of array
+  // std::cout << "Last const elem of vector V[::-1]:\t"   << *(crend - 1) << std::endl; // will move reverse iterator to first position in array
 }
 
 
@@ -384,5 +396,5 @@ int main()
   // test_vector_assign_count();
 
   const vector<int> v(12, 10);
-  test_vector_iterate(v);
+  test_iterators(v);
 };

@@ -136,24 +136,24 @@ namespace ft{
 					this->_it -= n; return *this;
 				}
 				// // Comparisons
-				inline bool operator==(const RAIterator& other) const{
-					return _it == other._it;
-				}
-				bool operator!=(const RAIterator& other) const{
-					return _it != other._it;
-				}
-				bool operator<(const RAIterator& other) const{
-					return _it < other._it;
-				}
-				bool operator>(const RAIterator& other) const{
-					return _it > other._it;
-				}
-				bool operator<=(const RAIterator& other) const{
-					return _it <= other._it;
-				}
-				bool operator>=(const RAIterator& other) const{
-					return _it >= other._it;
-				}
+				// bool operator==(const RAIterator& other) const{
+				// 	return _it == other._it;
+				// }
+				// bool operator!=(const RAIterator& other) const{
+				// 	return _it != other._it;
+				// }
+				// bool operator<(const RAIterator& other) const{
+				// 	return _it < other._it;
+				// }
+				// bool operator>(const RAIterator& other) const{
+				// 	return _it > other._it;
+				// }
+				// bool operator<=(const RAIterator& other) const{
+				// 	return _it <= other._it;
+				// }
+				// bool operator>=(const RAIterator& other) const{
+				// 	return _it >= other._it;
+				// }
 				// Dereferencing
 				reference operator[](difference_type diff) const{
 					return *(_it + diff);
@@ -165,12 +165,36 @@ namespace ft{
 					return _it;
 				}
 
-				RAIterator base()const{
-					return RAIterator(_it);
+				pointer base()const{
+					return _it;
 				}
 
 		};
 
+template <typename T, typename U>
+inline bool operator==( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
+					return lhs.base() == rhs.base();
+				}
+template <typename T, typename U>
+inline bool operator!=( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
+	return lhs.base() != rhs.base();
+}
+template <typename T>
+inline bool operator<( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+	return lhs.base() < rhs.base();
+}
+template <typename T>
+inline bool operator>( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+	return lhs.base() > rhs.base();
+}
+template <typename T>
+inline bool operator<=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+	return lhs.base() <= rhs.base();
+}
+template <typename T>
+inline bool operator>=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+	return lhs.base() >= rhs.base();
+}
 		
 
 		template <class Iter>
@@ -276,7 +300,7 @@ inline bool operator>(const reverse_iterator<_It>& lhs, const reverse_iterator<_
 }
 template <typename _It>
 inline bool operator<=(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
-	return !(lhs < rhs);
+	return !(rhs < lhs);
 }
 template <typename _It>
 inline bool operator>=(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
