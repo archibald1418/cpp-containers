@@ -21,24 +21,35 @@ using test::unique_ptr;
 template <typename V>
 void test_iterators(V &v)
 {
-  typename V::const_iterator begin = v.begin();
-  // typename V::iterator end = v.end();
-  // typename V::reverse_iterator rbegin = v.rbegin();
-  // typename V::reverse_iterator rend = v.rend();
-  // typename V::const_iterator cbegin = v.cbegin();
-  // typename V::const_iterator cend = v.cend();
-  // typename V::const_reverse_iterator crbegin = v.crbegin();
-  // typename V::const_reverse_iterator crend = v.crend();
+  typename V::iterator begin = v.begin();
+  typename V::iterator end = v.end();
+  typename V::reverse_iterator rbegin = v.rbegin();
+  typename V::reverse_iterator rend = v.rend();
+  typename V::const_iterator cbegin = v.cbegin();
+  typename V::const_iterator cend = v.cend();
+  typename V::const_reverse_iterator crbegin = v.crbegin();
+  typename V::const_reverse_iterator crend = v.crend();
 
+  // vector<std::string> vstring(5, "Hello!111");
+
+  // Comparison
   // assert (crbegin != crend);
-  // assert (end > (end - 1));
   // assert (end == cend);
   // assert (end > begin);
   // assert (begin == cbegin);
   // assert (cbegin == begin);
-  // assert (crbegin >= crend);
+  // assert (crbegin >= rend);
   // assert (begin < end);
   // assert (begin != end);
+  assert (rbegin == crbegin);
+
+  // Wrong type comparison
+  // std::cout << (begin > vstring.begin()) << std::endl; CE
+
+  // Arithmetic
+  // assert (end > (end - 1));
+  // assert (rend > (rend - 1));
+  // assert ()
   // // assert (rbegin > end); compile error
   
 
@@ -395,6 +406,6 @@ int main()
   // test_vector_erase<int>();
   // test_vector_assign_count();
 
-  const vector<int> v(12, 10);
+  vector<int> v(12, 10);
   test_iterators(v);
 };

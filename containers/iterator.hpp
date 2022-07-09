@@ -16,8 +16,6 @@ namespace ft{
 	struct random_access_iterator_tag : public bidirectional_iterator_tag{};
 
 
-// NOTE: iterator can be output iterator if it's allowed to write to it!!!
-
 	// Explicitly Parametric iterator
 	template<
 			class Category,
@@ -81,7 +79,7 @@ namespace ft{
 				RAIterator(): _it(0){};
 				RAIterator(pointer it) : _it(it){};
 				// RAIterator(const pointer it) : _it(it){};
-				RAIterator(const RAIterator &src) : _it(src._it){};
+				RAIterator(const RAIterator &src) : _it(src._it){}; 
 			// Dtor
 				virtual ~RAIterator(){};
 			// Operators
@@ -172,30 +170,47 @@ namespace ft{
 		};
 
 template <typename T, typename U>
-inline bool operator==( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
-					return lhs.base() == rhs.base();
+inline bool 
+operator==( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
+	return lhs.base() == rhs.base();
 				}
 template <typename T, typename U>
-inline bool operator!=( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
+inline bool 
+operator!=( const RAIterator<T>& lhs, const RAIterator<U>& rhs) {
 	return lhs.base() != rhs.base();
 }
 template <typename T>
-inline bool operator<( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+inline bool 
+operator<( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
 	return lhs.base() < rhs.base();
 }
 template <typename T>
-inline bool operator>( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+inline bool 
+operator>( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
 	return lhs.base() > rhs.base();
 }
 template <typename T>
-inline bool operator<=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+inline bool 
+operator<=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
 	return lhs.base() <= rhs.base();
 }
 template <typename T>
-inline bool operator>=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
+inline bool 
+operator>=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
 	return lhs.base() >= rhs.base();
 }
-		
+
+template <typename T, typename U>
+inline typename RAIterator<T>::difference_type 
+operator-(const RAIterator<T>& lhs, const RAIterator<U>& rhs){
+	return (lhs.base() - rhs.base());
+}
+
+template <typename T>
+inline RAIterator<T>
+operator+(typename RAIterator<T>::difference_type diff, const RAIterator<T>& lhs){
+	return RAIterator<T>(lhs.base() + diff);
+}
 
 		template <class Iter>
 			struct reverse_iterator : public iterator<typename Iter::iterator_category, typename Iter::value_type>
@@ -215,8 +230,10 @@ inline bool operator>=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
 
 			public:
 				reverse_iterator(): iterator_type(){};
-				reverse_iterator(iterator_type it): _it(it){};
+				explicit reverse_iterator(iterator_type it): _it(it){};
 				reverse_iterator(const reverse_iterator &src) : _it(src._it){};
+				template <class Iterator>
+					reverse_iterator(const reverse_iterator<Iterator>& rev_it) : _it(rev_it._i){};
 			// Dtor
 				virtual ~reverse_iterator(){};
 
@@ -282,41 +299,51 @@ inline bool operator>=( const RAIterator<T>& lhs, const RAIterator<T>& rhs) {
 
 
 // Reverse iterator non-members
-template <typename _It>
-inline bool operator==(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs){
+// TODO: compile-time checks of
+template <typename _It1, typename _It2>
+inline bool 
+operator==(const reverse_iterator<_It1>& lhs, const reverse_iterator<_It2>& rhs){
 	return lhs.base() == rhs.base();
 }
-template <typename _It>
-inline bool operator!=(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
-	return !(lhs == rhs);
+template <typename _It1, typename _It2>
+inline bool 
+operator!=(const reverse_iterator<_It1>& lhs, const reverse_iterator<_It2>& rhs) {
+	return lhs.base() != rhs.base();
 }
-template <typename _It>
-inline bool operator<(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
+template <typename _It1, typename _It2>
+inline bool 
+operator<(const reverse_iterator<_It1>& lhs, const reverse_iterator<_It2>& rhs) {
 	return lhs.base() < rhs.base();
 }
-template <typename _It>
-inline bool operator>(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
-	return rhs < lhs;
+template <typename _It1, typename _It2>
+inline bool 
+operator>(const reverse_iterator<_It1>& lhs, const reverse_iterator<_It2>& rhs) {
+	return rhs.base() > lhs.base();
 }
-template <typename _It>
-inline bool operator<=(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
-	return !(rhs < lhs);
+template <typename _It1, typename _It2>
+inline bool 
+operator<=(const reverse_iterator<_It1>& lhs, const reverse_iterator<_It2>& rhs) {
+	return rhs.base() < lhs.base();
 }
-template <typename _It>
-inline bool operator>=(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs) {
-	return !(lhs < rhs);
+template <typename _It1, typename _It2>
+inline bool 
+operator>=(const reverse_iterator<_It1>& lhs, const reverse_iterator<_It2>& rhs) {
+	return lhs.base() >= rhs.base();
+}
+
+template <typename _It1, typename _It2>
+inline typename _It1::difference_type
+operator-(const reverse_iterator<_It1>& lhs, const reverse_iterator<_It2>& rhs){
+	return (rhs.base() - lhs.base());
 }
 
 template <typename _It>
-inline bool operator-(const reverse_iterator<_It>& lhs, const reverse_iterator<_It>& rhs){
-	return reverse_iterator<_It>(rhs.base() - lhs.base());
+inline reverse_iterator<_It>
+operator+(typename reverse_iterator<_It>::difference_type diff, const reverse_iterator<_It>& lhs){
+	return reverse_iterator<_It>(lhs.base() - diff);
 }
 
-template <typename _It>
-inline typename reverse_iterator<_It>::difference_type 
-operator-(typename reverse_iterator<_It>::difference_type n, const reverse_iterator<_It>& rev_it){
-	return reverse_iterator<_It>(rev_it.base() - n);
-}
+
 
 // TODO: advance, distance, front_inserter, back_inserter, inserter
 // TODO: iterators: back_insert_iterator, front_insert_iterator, insert_iterator
