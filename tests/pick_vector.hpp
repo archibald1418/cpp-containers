@@ -1,4 +1,3 @@
-
 #ifndef PICK_VECTOR_H
 # define PICK_VECTOR_H
 

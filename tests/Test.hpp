@@ -10,15 +10,6 @@
 # define RED "\033[0;31m"
 # define RESET "\033[0m"
 
-template <bool B>
-struct signal_const {
-  static void prnt(){}
-};
-template <>
-struct signal_const<true>{
-  static void prnt(){std::cout << "CONST!" << std::endl;}
-};
-
 namespace test {
 
   typedef struct test {

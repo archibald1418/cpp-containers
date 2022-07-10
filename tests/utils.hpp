@@ -14,11 +14,17 @@ void create_vector_of_ints(Container &vector, int elems)
   };
 }
 
-void prnt(std::string s){
-  std::cout << RED << s << "\n\n" << RESET;
-}
 
 namespace test{
+  
+    template <bool B>
+    struct signal_const {
+      static void prnt(){}
+    };
+    template <>
+    struct signal_const<true>{
+      static void prnt(){std::cout << "CONST!" << std::endl;}
+    };
 
   template <typename T>
   struct unique_ptr{
@@ -37,6 +43,9 @@ namespace test{
     }
   };
 };
+
+// Useful non-templated functions
+void prnt(std::string s);
 
 #endif
 
