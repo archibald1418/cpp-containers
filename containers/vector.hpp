@@ -234,33 +234,37 @@ namespace ft {
                             const value_type& value = value_type(),
                             const allocator_type& alloc = allocator_type())
                             : _alloc(alloc), _cap(size), _size(size) {
-            _first = _alloc.allocate(size);
+            _first = _alloc.allocate(_cap);
             for (size_type i = 0; i < size; i++){
                 _alloc.construct(_first + i, value);
             }
         }
-        // Alloc constructor
-        explicit vector(const allocator_type& alloc) : _alloc(alloc), _cap(0), _size(0), _first(NULL){};
 
-        // Range constructor. Can't be explicit without SFINAE
+        // Range constructor. Leveraging SFINAE to distinguish from previous version
         template <typename InputIt>
-        vector(InputIt first, InputIt last,
-                const allocator_type& alloc = allocator_type()) : _alloc(alloc)
+        vector(InputIt first, 
+                typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type last,
+                const allocator_type& alloc = allocator_type())
+                :
+                _alloc(alloc)
                 {
-                    this->_size = static_cast<size_type>(last - first);
-                    this->_cap = this->_size;
-                    this->_first = _alloc.allocate(this->_size);
-                    for (size_type i = 0; i < this->_size; ++i){
-                        _alloc.construct(this->_first + i, T(first[i]));
+                    _size = static_cast<size_type>(last - first);
+                    _cap = _size;
+                    _first = _alloc.allocate(_cap);
+                    for (size_type i = 0; i < _size; ++i){
+                        _alloc.construct(_first + i, T(first[i]));
                     }
                 }
 
-        
-        vector(const vector& src){
-            *this = src;
+        vector(const vector& other)
+        :
+        _alloc(other._alloc), _cap(other._cap), _size(other._size), _first(NULL)
+        {
+            _first = _alloc.allocate(_cap);
+            for (size_type i = 0; i < _size; i++){
+                _alloc.construct(_first + i, T(other._first[i]));
+            };
         }
-
-        vector()
 
         // Destructor
         ~vector(){
@@ -349,8 +353,8 @@ namespace ft {
             } catch (...){
                 throw;
             }
-            for (; _size < count; _size++)
-                _alloc.construct(_first + _size, T(value));
+            for (size_type i = 0; i < count; i++)
+                _alloc.construct(_first + i, T(value));
         }
 
         // SFINAE overload to account for vector<:integral_type:> cases

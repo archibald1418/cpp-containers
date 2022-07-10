@@ -232,8 +232,8 @@ operator+(typename RAIterator<T>::difference_type diff, const RAIterator<T>& lhs
 				reverse_iterator(): iterator_type(){};
 				explicit reverse_iterator(iterator_type it): _it(it){};
 				reverse_iterator(const reverse_iterator &src) : _it(src._it){};
-				template <class Iterator>
-					reverse_iterator(const reverse_iterator<Iterator>& rev_it) : _it(rev_it._i){};
+				// template <class Iterator>
+				// 	reverse_iterator(const reverse_iterator<Iterator>& rev_it) : _it(rev_it._it){};
 			// Dtor
 				virtual ~reverse_iterator(){};
 
