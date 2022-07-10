@@ -15,7 +15,7 @@
 #include "test_iteration.hpp"
 #include "test_constructing.hpp"
 #include "test_assigning.hpp"
-#include "test_modifiying.hpp"
+#include "test_modifying.hpp"
 #include "test_resizing.hpp"
 
 using test::VectorFactory;
@@ -32,16 +32,16 @@ int main()
   // test_vector_reserve<int>();
   // test_vector_resize_with_default_value<std::string>("spam");
   
-  test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
+  // test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
 
   
-  vector<int> v1;
-  vector<int> dummy;
-  (void)dummy;
-  create_vector_of_ints(v1, 10);
-  v1[0] = -1;
+  // vector<int> v1;
+  // vector<int> dummy;
+  // (void)dummy;
+  // create_vector_of_ints(v1, 10);
+  // v1[0] = -1;
 
-  test_vector_iterate(v1);
+  // test_vector_iterate(v1);
   // vector<int>::const_iterator last = v.cend() - 1;
   // // vector<int>::iterator it = v.erase(dummy.end() - 1);
   // // (void)it;
@@ -49,15 +49,20 @@ int main()
   // // (void)range_it;
 
 
-  test_vector_iterate(v1);
 
   // std::cout << *range_it << std::endl;
   // std::cout << v.empty() << std::endl;
   
-  test_vector_iterate(*unique_ptr< const vector<int> >(VectorFactory<int>::factory::create()));
-  test_vector_erase<int>();
+  // test_vector_iterate(*unique_ptr< const vector<int> >(VectorFactory<int>::factory::create()));
+  // test_vector_erase<int>();
   // test_vector_assign_count();
 
   vector<int> v(12, 10);
-  test_iterators(v);
+
+  v.erase(v.begin(), v.end());
+  // test_iterators(v);
+  test_vector_iterate(v);
+
+  // test_vector_assign_range();
+  // test_assignment_operator();
 };

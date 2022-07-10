@@ -79,7 +79,8 @@ namespace ft{
 				RAIterator(): _it(0){};
 				RAIterator(pointer it) : _it(it){};
 				// RAIterator(const pointer it) : _it(it){};
-				RAIterator(const RAIterator &src) : _it(src._it){}; 
+				RAIterator(const RAIterator &src) : _it(src._it){};
+				// RAIterator<const T*>(const RAIterator& src) : _it(src._it){};
 			// Dtor
 				virtual ~RAIterator(){};
 			// Operators
@@ -90,6 +91,7 @@ namespace ft{
 					_it = other._it;
 					return *this;
 				}
+				// RAIterator<const pointer>& operator=(const RAIterator& other)
 				RAIterator operator+(difference_type diff)const{
 					return RAIterator(_it + diff);
 				}
@@ -229,7 +231,7 @@ operator+(typename RAIterator<T>::difference_type diff, const RAIterator<T>& lhs
 				iterator_type _it;
 
 			public:
-				reverse_iterator(): iterator_type(){};
+				reverse_iterator() : _it(iterator_type()){};
 				explicit reverse_iterator(iterator_type it): _it(it){};
 				reverse_iterator(const reverse_iterator &src) : _it(src._it){};
 				// template <class Iterator>

@@ -145,7 +145,7 @@ void test_vector_iterate(V &v)
   std::cout << "Iterating through vector" << std::endl;
   for (; begin != end; ++begin)
   {
-    std::cout << *begin << "*";
+    std::cout << *begin << " ";
   }
   // std::cout << "\n";
   // std::cout << "Iterating through vector using const iterator" << std::endl;
@@ -162,7 +162,7 @@ void test_vector_iterate(V &v)
   std::cout << "Iterating through vector backwards" << "\n";
   for (; rbegin != rend; ++rbegin)
   {
-    std::cout << *rbegin << "*";
+    std::cout << *rbegin << " ";
   }
   std::cout << "\n";
 

@@ -137,13 +137,15 @@ namespace ft {
             }
 
             void push_back(const_reference value){
-                if (_cap == 0 && _size == 0){
-                    reserve(1);
-                } // TODO: check exception guarantees
-                // else if
-                else if (_cap == _size){
-                    reserve(2 * _size);
-                }
+                try {
+                    if (_cap == 0 && _size == 0){
+                        reserve(1);
+                    } // TODO: check exception guarantees
+                    // else if
+                    else if (_cap == _size){
+                        reserve(2 * _size);
+                    }
+                } catch (...) { throw; };
                 // new (_first + _size) T(value);
                 _alloc.construct(_first + _size, T(value));
                 ++_size;
@@ -226,6 +228,10 @@ namespace ft {
                 return _first[0];
             }
             return _first[_size - 1];
+        }
+
+        pointer data(){
+            return _first;
         }
             
             // explicit means 'No, compiler! No arguments means this ctor is called, don't second-guess'
@@ -346,7 +352,8 @@ namespace ft {
                         "ft::vector<T, Alloc>::assign(size_type count, const T& value) 'count' exceeds maximum supported size"
                     );
             }
-            clear();
+            if (_size > 0)
+                clear();
             try {
                 if (_cap < count)
                     reserve(count);
@@ -368,7 +375,9 @@ namespace ft {
                         "ft::vector<T, Alloc>::assign(InputIt first, InputIt last) iterator difference exceeds maximum supported size"
                     );
             }
-            clear();
+            if (_size > 0)
+                clear();
+
             size_type new_size = len;
             try {
                 if (_cap < new_size)
@@ -378,7 +387,7 @@ namespace ft {
             }
             while (_size < new_size)
             {
-                _alloc.construct(_first + _size, *first);
+                _alloc.construct(_first + _size, T(*first));
                 _size++;
                 ++first;
             }
