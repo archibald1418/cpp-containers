@@ -217,7 +217,7 @@ namespace ft {
 
         reference back(){
             if (empty()){
-                return _first[0];
+                return _first[0]; // UB
             }
             return _first[_size - 1];
         }
@@ -239,9 +239,28 @@ namespace ft {
                 _alloc.construct(_first + i, value);
             }
         }
+        // Alloc constructor
+        explicit vector(const allocator_type& alloc) : _alloc(alloc), _cap(0), _size(0), _first(NULL){};
+
+        // Range constructor. Can't be explicit without SFINAE
+        template <typename InputIt>
+        vector(InputIt first, InputIt last,
+                const allocator_type& alloc = allocator_type()) : _alloc(alloc)
+                {
+                    this->_size = static_cast<size_type>(last - first);
+                    this->_cap = this->_size;
+                    this->_first = _alloc.allocate(this->_size);
+                    for (size_type i = 0; i < this->_size; ++i){
+                        _alloc.construct(this->_first + i, T(first[i]));
+                    }
+                }
+
+        
         vector(const vector& src){
             *this = src;
         }
+
+        vector()
 
         // Destructor
         ~vector(){

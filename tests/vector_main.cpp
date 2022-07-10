@@ -40,7 +40,7 @@ void test_iterators(V &v)
   assert (end > begin);
   assert (begin == cbegin);
   assert (cbegin == begin);
-  assert (crbegin >= rend);
+  assert (crbegin <= rend);
   assert (begin < end);
   assert (begin != end);
   assert (rbegin == crbegin);
@@ -349,8 +349,7 @@ void test_vector_equality(){
 
 
   // test_vector_iterate(a);
-
-// TODO: vector.erase should work with both iterators (const_iter and iter)  
+ 
   // vint::iterator cit = a.begin(); //NOTE: iterators should be convertible from and to const
 
   // a.erase(a.cbegin());
