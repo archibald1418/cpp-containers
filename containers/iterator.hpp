@@ -55,14 +55,14 @@ namespace ft{
 	template <class T>
 		struct iterator_traits<const T*>{
 			typedef random_access_iterator_tag			iterator_category;
-			typedef T									value_type;
+			typedef typename ft::remove_const<T>::type	value_type;
 			typedef std::ptrdiff_t						difference_type;
 			typedef const T*							pointer;
 			typedef const T& 							reference;
 		};
 
 	template <class T>
-		struct RAIterator : iterator<random_access_iterator_tag, T>
+		struct RAIterator : public iterator<random_access_iterator_tag, T>
 		{
 			typedef typename iterator_traits<T>::iterator_category		iterator_category;
 			typedef typename iterator_traits<T>::value_type				value_type;
@@ -78,11 +78,21 @@ namespace ft{
 			// Ctors
 				RAIterator(): _it(0){};
 				RAIterator(pointer it) : _it(it){};
+				// RAIterator(const T it) : _it(it){};
 				// RAIterator(const pointer it) : _it(it){};
-				RAIterator(const RAIterator &src) : _it(src._it){};
+				// RAIterator(const RAIterator &src) : _it(src._it){};
+				template <typename Iter>
+				RAIterator(const RAIterator<Iter>& src, 
+				typename ft::enable_if<!ft::is_integral<Iter>::value>::type* = 0) : _it(src.base()){};
+				// RAIterator(const RAIterator<T>& src) : _it(src.base());
+				// RAIterator(const RAIterator& src) : 
+				// template <>
+				// RAIterator<const pointer>(const RAIterator& src) : _it(src._it){};
 				// RAIterator<const T*>(const RAIterator& src) : _it(src._it){};
 			// Dtor
 				virtual ~RAIterator(){};
+
+				
 			// Operators
 				// Arithmetic
 				RAIterator& operator=(const RAIterator& other){
@@ -164,7 +174,7 @@ namespace ft{
 				pointer operator->() const{
 					return _it;
 				}
-
+	
 				pointer base()const{
 					return _it;
 				}
