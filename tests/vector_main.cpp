@@ -57,12 +57,14 @@ int main()
   // test_vector_erase<int>();
   // test_vector_assign_count();
 
-  vector<int> v(12, 10);
-
-  v.erase(v.begin(), v.end());
-  // test_iterators(v);
-  test_vector_iterate(v);
+  // v.erase(v.begin(), v.end());
+  // // test_iterators(v);
+  // test_vector_iterate(v);
 
   // test_vector_assign_range();
   // test_assignment_operator();
+  
+  // test_default_constructor();
+  // test_size_value_constructor();
+  test_range_constructor();
 };
