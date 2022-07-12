@@ -67,11 +67,11 @@ int main()
   // test_default_constructor();
   // test_size_value_constructor();
   // test_range_constructor();
-  // test_vector_erase_range<int>();
+  test_vector_erase_range<int>();
   // test_vector_erase<int>();
   
-  vector<int> v(5, 5);
-  vector<int>::reverse_iterator it(v.rbegin());
+  // vector<int> v(5, 5);
+  // vector<int>::reverse_iterator it(v.rbegin());
 
-  *it = 5;
+  // *it = 5;
 };

@@ -28,13 +28,13 @@ void test_size_value_constructor(){
 
     test_vector_iterate(v2);
     
-    v2.assign(300, 300);
+    v2.assign(42, 42);
     v1 = v2; assert (v1 == v2);
 
     test_vector_iterate(v2);    
 
     // try {
-    //     vector<int> evil(4570298750498759487, 0);
+    //     vector<int> evil(4570298750498759487, 0); RE - bad alloc
     // } catch (const std::exception& e){
     //     std::cout << "Error:" << e.what() << std::endl;
     // }
@@ -48,11 +48,11 @@ void test_range_constructor(){
     v1[0] = -1;
     *v1.rbegin() = -10;
 
-    vector<int>v2(v1.begin() - 6, v1.end() - 8);
+    // vector<int>v2(v1.begin() - 6, v1.end() - 8); heap-buffer overflow
     vector<int>vr(v1.rbegin(), v1.rend());
 
     test_vector_iterate(v1);    
-    test_vector_iterate(v2);
+    // test_vector_iterate(v2);
     test_vector_iterate(vr);
 }
 

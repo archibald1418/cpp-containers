@@ -84,7 +84,7 @@ namespace ft{
 				template <typename Iter>
 				RAIterator(const RAIterator<Iter>& src, 
 				typename ft::enable_if<!ft::is_integral<Iter>::value>::type* = 0) : _it(src.base()){};
-				// RAIterator(const RAIterator<T>& src) : _it(src.base());
+				// RAIterator(const RAxrIterator<T>& src) : _it(src.base());
 				// RAIterator(const RAIterator& src) : 
 				// template <>
 				// RAIterator<const pointer>(const RAIterator& src) : _it(src._it){};

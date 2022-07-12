@@ -336,16 +336,24 @@ namespace ft
                 return (last); // empty range
 
             size_type len = static_cast<size_type>(last - first); // guaranteed to be > 0
-            for (iterator it = first; it < last; ++it)
+            // Just delete them, no moving
+            if (last == end())
             {
-                _alloc.destroy(&(*it));
-                _size--;
+                for (size_type i = 0; i < len; i++)
+                    _alloc.destroy(&first[i]);
+                _size -= len;
+                return (end());
             }
-            // REVIEW: can do in one pass
-            for (size_type i = 0; i < len; ++i)
+            // Delete and move
+            iterator right = end() - 1;
+            iterator left = first;
+            while ((left < last) && (left < right))
             {
-                _alloc.construct(&first[i], T(last[i]));
-                _alloc.destroy(&last[i]);
+                _alloc.destroy(&(*left));
+                _alloc.construct(&(*left), T(*right));
+                _size--;
+                ++left;
+                --right;
             }
             return last;
         }
