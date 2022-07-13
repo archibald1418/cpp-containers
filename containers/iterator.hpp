@@ -325,7 +325,7 @@ operator!=(const reverse_iterator<_It1>& lhs, const reverse_iterator<_It2>& rhs)
 template <typename _It1, typename _It2>
 inline bool 
 operator<(const reverse_iterator<_It1>& lhs, const reverse_iterator<_It2>& rhs) {
-	return lhs.base() < rhs.base();
+	return lhs.base() <	 rhs.base();
 }
 template <typename _It1, typename _It2>
 inline bool 
@@ -355,7 +355,36 @@ operator+(typename reverse_iterator<_It>::difference_type diff, const reverse_it
 	return reverse_iterator<_It>(lhs.base() - diff);
 }
 
+template< class InputIt, class Distance >
+inline void
+advance( InputIt& it, Distance n, random_access_iterator_tag){
+	// Avoids unnecessary copying
+	if (n == 1)
+		++it; 
+	else if (n == -1)
+		--it;
+	else
+		it += n;
+}
+template< class InputIt, class Distance >
+inline void
+advance( InputIt& it, Distance n, bidirectional_iterator_tag){
+	if (n > 0){
+		while (n--)
+			++it;
+	}
+	else if (n < 0){
+		while (n++)
+			--it;
+	}
+}
 
+template< class InputIt, class Distance >
+inline void
+advance( InputIt& it, Distance n){
+	typename ft::iterator_traits<InputIt>::difference_type d = n;
+	ft::advance(it, d, typename InputIt::iterator_category());
+}
 
 // TODO: advance, distance, front_inserter, back_inserter, inserter
 // TODO: iterators: back_insert_iterator, front_insert_iterator, insert_iterator
