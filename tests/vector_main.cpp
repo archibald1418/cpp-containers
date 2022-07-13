@@ -68,6 +68,7 @@ int main()
   // test_size_value_constructor();
   // test_range_constructor();
   test_vector_erase_range<int>();
+  test_vector_erase<int>();
   // test_vector_erase<int>();
   
   // vector<int> v(5, 5);
