@@ -17,6 +17,7 @@
 #include "test_assigning.hpp"
 #include "test_modifying.hpp"
 #include "test_resizing.hpp"
+#include "test_iterator_non_members.hpp"
 
 using test::VectorFactory;
 using test::factory_type;
@@ -67,12 +68,13 @@ int main()
   // test_default_constructor();
   // test_size_value_constructor();
   // test_range_constructor();
-  test_vector_erase_range<int>();
-  test_vector_erase<int>();
+  // test_vector_erase_range<int>();
+  // test_vector_erase<int>();
   // test_vector_erase<int>();
   
   // vector<int> v(5, 5);
   // vector<int>::reverse_iterator it(v.rbegin());
+  test_advance();
 
   // *it = 5;
 };

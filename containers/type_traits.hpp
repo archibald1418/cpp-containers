@@ -78,8 +78,19 @@ template <> struct is_integral<unsigned int>		: public ft::integral_constant<boo
 template <> struct is_integral<unsigned long> 		: public ft::integral_constant<bool, true> {};
 template <> struct is_integral<unsigned long long>	: public ft::integral_constant<bool, true> {};
 
+template <typename T>
+struct remove_pointer{typedef T type;};
+template <typename T>
+struct remove_pointer<T*>{typedef T type;};
 
-
+template <typename T, typename D = void>
+struct is_pointer : public false_type{};
+template <typename T>
+struct is_pointer<
+    T, 
+    typename enable_if<!is_same<typename remove_pointer<T>::type, T>::value>::type>
+    :
+    public true_type{};
 };
 
 #endif

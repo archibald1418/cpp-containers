@@ -45,10 +45,32 @@ namespace test{
       return _ptr;
     }
   };
+
+  template <typename T>
+  class IsDereferenceable{
+    private:
+        typedef char YesType[1];
+        typedef char NoType[2];
+        
+
+        template <typename U> static YesType& test(void* = &U::operator*);
+        template <typename U> static NoType& test(...);
+    public:
+        static const bool value = (
+            ft::is_pointer<T>::value || (sizeof(test<T>(0)) == sizeof(YesType))
+        );
+}; 
 };
 
-// Useful non-templated functions
+// Useful functions
 void prnt(std::string s);
+template <typename T>
+void prnt(
+    T ptr, 
+    typename ft::enable_if<test::IsDereferenceable<T>::value, T>::type* = 0)
+{
+  std::cout << GREEN << *ptr << "\n\n" << RESET;
+}
 
 #endif
 

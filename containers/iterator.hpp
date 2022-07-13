@@ -364,7 +364,7 @@ advance( InputIt& it, Distance n, random_access_iterator_tag){
 	else if (n == -1)
 		--it;
 	else
-		it += n;
+		it += n; // Complexity is constant
 }
 template< class InputIt, class Distance >
 inline void
@@ -377,6 +377,7 @@ advance( InputIt& it, Distance n, bidirectional_iterator_tag){
 		while (n++)
 			--it;
 	}
+	// Complexity is linear
 }
 
 template< class InputIt, class Distance >
