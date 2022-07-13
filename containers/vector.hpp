@@ -13,19 +13,19 @@ namespace ft
     public:
         // Member types
         typedef T value_type;
-        typedef Alloc                                                   allocator_type;
-        typedef std::size_t                                             size_type;
-        typedef std::ptrdiff_t                                          difference_type;
-        typedef typename Alloc::reference                               reference;
-        typedef typename Alloc::const_reference                         const_reference;
-        typedef typename Alloc::pointer                                 pointer;
-        typedef typename Alloc::const_pointer                           const_pointer;
+        typedef Alloc allocator_type;
+        typedef std::size_t size_type;
+        typedef std::ptrdiff_t difference_type;
+        typedef typename Alloc::reference reference;
+        typedef typename Alloc::const_reference const_reference;
+        typedef typename Alloc::pointer pointer;
+        typedef typename Alloc::const_pointer const_pointer;
 
         // Iterator types
-        typedef RAIterator<pointer>                                     iterator;
-        typedef RAIterator<const_pointer>                               const_iterator;
-        typedef ft::reverse_iterator<iterator>                          reverse_iterator;
-        typedef ft::reverse_iterator<const_iterator>                    const_reverse_iterator;
+        typedef RAIterator<pointer> iterator;
+        typedef RAIterator<const_pointer> const_iterator;
+        typedef ft::reverse_iterator<iterator> reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
     private:
         allocator_type _alloc;
@@ -81,7 +81,7 @@ namespace ft
             /*
                 Doing reinterpret_cast is a risky procedure with limited contexts.
                 Abusing r_cast can lead to inconsistent memory handling, such as comparing pointers of different types,
-                which reeks of UB. 
+                which reeks of UB.
             */
             pointer newarr = _alloc.allocate(new_cap); /* Raises std::bad_alloc if allocation fails */
             size_type i = 0;
@@ -130,19 +130,23 @@ namespace ft
 
         void resize(size_type n, const_reference value = T())
         { // T  either DefaultConstructible or CopyInsertible ('placement new'-constructible)
-            try {
+            try
+            {
                 if (n > this->_cap)
                     reserve(n);
             }
-            catch (...) {
+            catch (...)
+            {
                 return; // Strong guarantee (=no effect)
             }
             if (n > _size)
             {
                 for (size_type i = _size; i < n; ++i)
                     _alloc.construct(_first + i, T(value));
-                    // new (_first + i) T(value); // ctor might throw an error! + redundant heap call
-            } else if (n < _size) {
+                // new (_first + i) T(value); // ctor might throw an error! + redundant heap call
+            }
+            else if (n < _size)
+            {
                 for (size_type i = n; i < _size; ++i)
                     _alloc.destroy(_first + i);
             }
@@ -153,9 +157,12 @@ namespace ft
         {
             try
             {
-                if (_cap == 0 && _size == 0) {
+                if (_cap == 0 && _size == 0)
+                {
                     reserve(1);
-                } else if (_cap == _size) {
+                }
+                else if (_cap == _size)
+                {
                     reserve(2 * _size);
                 }
             }
@@ -168,9 +175,10 @@ namespace ft
             ++_size;
         }
 
-        void pop_back() {
+        void pop_back()
+        {
             if (empty())
-                return ;
+                return;
             _alloc.destroy(_first + _size - 1);
             --_size;
         }
@@ -194,58 +202,70 @@ namespace ft
                     before they reach the caller,
                     so the caller doesn't register any errors at all)
         */
-        reference operator[](size_type i){
+        reference operator[](size_type i)
+        {
             return *(_first + i);
         }
 
-        const_reference operator[](size_type i) const{
+        const_reference operator[](size_type i) const
+        {
             return *(_first + i);
         }
 
-        const_reference at(size_type i) const{
+        const_reference at(size_type i) const
+        {
             if (i >= _size)
                 throw std::out_of_range("Index out of range");
             // every []-defined container has .at, which throws an error
             return _first[i];
         }
 
-        reference at(size_type i){
+        reference at(size_type i)
+        {
             if (i >= _size)
                 throw std::out_of_range("Index out of range");
             return _first[i];
         }
 
-        size_type size(){
+        size_type size()
+        {
             return this->_size;
         }
-        size_type capacity(){
+        size_type capacity()
+        {
             return this->_cap;
         }
 
         // Front and Back
-        reference front(){
+        reference front()
+        {
             return _first[0];
         }
-        const_reference front() const{
+        const_reference front() const
+        {
             return _first[0];
         }
 
-        bool empty() const{
+        bool empty() const
+        {
             return (_size == 0);
         }
 
-        reference back(){
+        reference back()
+        {
             if (empty())
                 return _first[0]; // UB
             return _first[_size - 1];
         }
-        const_reference back() const{
+        const_reference back() const
+        {
             if (empty())
                 return _first[0];
             return _first[_size - 1];
         }
 
-        pointer data(){
+        pointer data()
+        {
             return _first;
         }
 
@@ -274,7 +294,7 @@ namespace ft
             for (size_type i = 0; i < _size; ++i)
                 _alloc.construct(_first + i, T(first[i]));
         }
-        
+
         // Copy constructor
         vector(const vector &other)
             : _alloc(other._alloc), _cap(other._cap), _size(other._size), _first(NULL)
@@ -285,14 +305,16 @@ namespace ft
         }
 
         // Destructor
-        ~vector(){
+        ~vector()
+        {
             for (size_type i = 0; i < _size; ++i)
                 _alloc.destroy(_first + i);
             if (_cap)
                 _alloc.deallocate(_first, _cap);
         }
 
-        allocator_type get_allocator() const{
+        allocator_type get_allocator() const
+        {
             return (_alloc);
         }
 
@@ -300,7 +322,7 @@ namespace ft
         {
             // REVIEW: rewrite int fail-fast style
             // if (not (pos <= ))
-            if (not (begin() <= pos && pos <= end()))
+            if (not(begin() <= pos && pos <= end()))
                 return (0); // not found in vector
             // no behaviour defined for pos == end()
             iterator it = begin();
@@ -327,46 +349,46 @@ namespace ft
 
         iterator erase(iterator first, iterator last)
         {
-            if (not(
-                    begin() <= first &&
+            if ( 
+                not(begin() <= first &&
                     first <= last &&
                     last <= end()))
                 return (0);
             if (first == last)
                 return (last); // empty range
 
-            size_type len = static_cast<size_type>(last - first); // guaranteed to be > 0
-            // Just delete them, no moving
-            if (last == end())
-            {
-                for (size_type i = 0; i < len; i++)
-                    _alloc.destroy(&first[i]);
-                _size -= len;
-                return (end());
-            }
-            // Delete and move
-            iterator right = end() - 1;
-            iterator left = first;
-            while ((left < last) && (left < right))
-            {
-                _alloc.destroy(&(*left));
-                _alloc.construct(&(*left), T(*right));
-                _size--;
-                ++left;
-                --right;
-            }
-            return last;
+            bool isEnd = (last == end());
+
+            size_type len = last - first; // guaranteed to be > 0
+            _size -= len;
+
+            // Delete elems
+            for (size_type i = 0; i < len; i++)
+                _alloc.destroy(&first[i]);
+            if (isEnd)
+                return (last); // No moving required
+
+            // Move elems
+            size_type j = first - begin();
+            for (size_type i = 0; i < _size; ++i)
+                first[i] = T(_first[j + i + len]);
+            return last - len;
         }
 
-        void clear(){
+        void clear()
+        {
             for (iterator it = begin(); it < end(); ++it)
+            {
                 _alloc.destroy(&(*it));
+                // it->~value_type();
+            }
             _size = 0;
         }
 
         void assign(size_type count, const T &value)
         {
-            if (count > max_size()) {
+            if (count > max_size())
+            {
                 throw std::length_error(
                     "ft::vector<T, Alloc>::assign(size_type count, const T& value) 'count' exceeds maximum supported size");
             }
@@ -386,7 +408,8 @@ namespace ft
             (void)isIterator;
 
             size_type len = static_cast<size_type>(last - first);
-            if (len > max_size()){
+            if (len > max_size())
+            {
                 throw std::length_error(
                     "ft::vector<T, Alloc>::assign(InputIt first, InputIt last) iterator difference exceeds maximum supported size");
             }
