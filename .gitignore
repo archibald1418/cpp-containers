@@ -6,6 +6,7 @@ a.out
 .vscode/
 *.gch
 */*.dSYM/
-tests/test*
+tests/testmy
+tests/testsys
 marina_containers/
 *.log
