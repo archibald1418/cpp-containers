@@ -8,10 +8,10 @@ template <int a, int b>
 struct divides{static const bool value = (a % b == 0);};
 		
 // Type traits
-template <typename T, int N>
+template <typename T, int N = 0>
 struct fizzbuzz_traits{
 	typedef T type;
-	static const int value = N;
+	static const  int value = N;
 };
 
 template <>
@@ -24,20 +24,20 @@ template <bool A, bool B>
 struct fizzbuzz{};
 
 
-template <> struct fizzbuzz<true, false> : public fizzbuzz_traits<char*, 0> {
+template <> struct fizzbuzz<true, false> : public fizzbuzz_traits<char*> {
 	static const char* value;
 };
 typedef fizzbuzz<true, false> fizz_type;
 const char* fizz_type::value = "fizz";
 
 
-template <> struct fizzbuzz<true, true> : public fizzbuzz_traits<char*, 0> {
+template <> struct fizzbuzz<true, true> : public fizzbuzz_traits<char*> {
 	static const char* value;
 };
 typedef fizzbuzz<true, true> fizzbuzz_type;
 const char *fizzbuzz_type::value = "fizzbuzz";
 
-template <> struct fizzbuzz<false, true> : public fizzbuzz_traits<char*, 0> {
+template <> struct fizzbuzz<false, true> : public fizzbuzz_traits<char*> {
 	static const char* value;
 };
 
