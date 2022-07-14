@@ -18,6 +18,7 @@ typedef int type;
 # ifdef MY
 #  if MY == 1
     using ft::advance;
+    using ft::distance;
 #  else
     using std::advance;
     using std::distance;
@@ -52,9 +53,32 @@ void test_advance(){
     advance(it1, -3);
     assert (it1_copy == it1);
     ::prnt(it1);
-    // ::prnt(std::string("PSYCH"));
+    // ::prnt(std::string("PSYCH"));    
+}
 
+void test_distance(){
+    typedef vector<type> vector;
+    typedef vector::value_type type;
     
+    typedef vector::iterator iterator;
+    typedef iterator::difference_type difference_type;
+
+    vector v = *unique_ptr<vector>(VectorFactory<type>::factory::create());
+
+    iterator begin = v.begin();
+    iterator end = v.end();
+
+    assert (
+        -static_cast<difference_type>(v.size()) == distance(end, begin)
+    ); // distance -> -10
+    assert (
+        static_cast<difference_type>(v.size()) == distance(begin, end)
+    ); // distance -> 10
+    // assert (
+    //     static_cast<difference_type>(v.size()) == distance(cbegin, end)
+    // ); CE - works only with same-class iterators
+
+    // assert (v.size() == distance(end, begin));
 }
 
 #endif

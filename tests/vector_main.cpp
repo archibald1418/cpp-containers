@@ -74,7 +74,8 @@ int main()
   
   // vector<int> v(5, 5);
   // vector<int>::reverse_iterator it(v.rbegin());
-  test_advance();
+  // test_advance();
+  test_distance();
 
   // *it = 5;
 };

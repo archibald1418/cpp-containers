@@ -384,10 +384,36 @@ template< class InputIt, class Distance >
 inline void
 advance( InputIt& it, Distance n){
 	typename ft::iterator_traits<InputIt>::difference_type d = n;
-	ft::advance(it, d, typename InputIt::iterator_category());
+	ft::advance(it, d, 
+				typename InputIt::iterator_category());
 }
 
-// TODO: advance, distance, front_inserter, back_inserter, inserter
+template <class InputIt>
+inline typename InputIt::difference_type
+distance (InputIt& first, InputIt& last, input_iterator_tag){
+	typename iterator_traits<InputIt>::difference_type n = 0;
+	while (first != last)
+	{
+		++first;
+		++n;
+	}		
+	return n;
+}
+
+template <class RAIter>
+inline typename RAIter::difference_type
+distance (RAIter& first, RAIter& last, random_access_iterator_tag){
+	return (last - first);
+}
+
+template <class InputIt>
+inline typename iterator_traits<InputIt>::difference_type
+distance (InputIt& first, InputIt& last){
+	return distance(first, last, 
+					typename InputIt::iterator_category());
+}
+
+// TODO: distance, front_inserter, back_inserter, inserter
 // TODO: iterators: back_insert_iterator, front_insert_iterator, insert_iterator
 // 	template< class InputIt >
 // typename ft::iterator_traits<InputIt>::difference_type
