@@ -44,7 +44,7 @@ template <> struct fizzbuzz<false, true> : public fizzbuzz_traits<char*> {
 typedef fizzbuzz<false, true> buzz_type;
 const char *buzz_type::value = "buzz";
 
-template <> struct fizzbuzz<false, false> : fizzbuzz_traits<bool, false>{};
+template <> struct fizzbuzz<false, false> : fizzbuzz_traits<void>{};
 
 // Pick type based on bool value
 template <bool B, typename T, typename U>
@@ -81,7 +81,7 @@ class FizzBuzz{
 	
 	typedef fizzbuzz_traits<int, N> non_divisible_type; 
 	// stores number
-	typedef typename conditional< !is_same<bool, typename solution_type::type>::value,\
+	typedef typename conditional< !is_same<void, typename solution_type::type>::value,\
 		solution_type, \
 		non_divisible_type>::type print_type;
 };
