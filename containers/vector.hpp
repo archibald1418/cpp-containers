@@ -494,14 +494,14 @@ namespace ft
             bool isEnd = (pos == end());
             size_type offset = pos - begin();
             size_type roffset = end() - pos;
-            push_back(value);
+            const T& value_copy = T(value);
+            push_back(value_copy);
             if (isEnd)
                 return begin() + offset;
             pointer position = _first + offset;
             pointer old_end = position + roffset;
-            T copy = end()[-1];
             __move_range(position, old_end, position + 1);
-            begin()[offset] = copy;
+            begin()[offset] = value_copy;
             return begin() + offset;
         }  
     };
