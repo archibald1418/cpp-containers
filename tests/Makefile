@@ -1,7 +1,7 @@
 SHELL:=/bin/zsh
 
 CC=clang++
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra #-Werror
 CONTAINERS=../containers
 TESTFILE=test
 DO_TESTFILE=-o ${TESTFILE}

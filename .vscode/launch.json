@@ -2,7 +2,7 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "lldb",
+			"type": "cppdbg",
 			"request": "launch",
 			"name": "my vector debug",
 			"program": "${workspaceFolder}/tests/testmy",
@@ -12,14 +12,18 @@
 			"postDebugTask": "clean_debug"
 		},
 		{
-			"type": "lldb",
+			"type": "cppdbg",
 			"request": "launch",
 			"name": "sys vector debug",
 			"program": "${workspaceFolder}/tests/testsys",
 			"args": [],
 			"cwd": "${workspaceFolder}/tests",
 			"preLaunchTask": "build_sys_vector",
-			"postDebugTask": "clean_debug"
+			"postDebugTask": "clean_debug",
+			"symbolLoadInfo": {
+				"loadAll": true,
+				"exceptionList": ""
+			}
 		}
 	]
 }

@@ -64,7 +64,7 @@ namespace test{
 
         static Container* create(int){
           Container* c = new Container;
-          ::create_vector_of_ints(*c, 10);
+          ::create_vector_of_ints(*c, 10); 
           return c;
         };
       

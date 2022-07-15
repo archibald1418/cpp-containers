@@ -133,4 +133,13 @@ void test_vector_erase_range(){
   
 }
 
+void test_vector_insert(){
+  vector<int> v = *unique_ptr<vector<int> >(VectorFactory<int>::factory::create());
+
+  // vector<int> v1; v1.push_back(42);
+
+  v.insert(v.begin() + 2, 666);
+  test_vector_iterate(v);
+}
+
 #endif

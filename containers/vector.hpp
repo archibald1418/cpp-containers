@@ -32,6 +32,10 @@ namespace ft
         size_type _cap;
         size_type _size;
         pointer _first;
+        /* 
+            REVIEW:
+            pointer _end;    will accelerate many low-level functions instead of hopping to end() 
+        */
 
         iterator __make_iter(pointer __p)
         {
@@ -41,6 +45,23 @@ namespace ft
         {
             return const_iterator(__p);
         }
+
+        void    __move_range(pointer from_s, pointer from_e, pointer to){
+            pointer old_last = _first + _size;
+            difference_type n = old_last - to;
+            pointer i = from_s + n;
+            pointer pos = i;
+            if (n >= 0)
+                for (; pos > from_s && pos < from_e; pos--){
+                    _alloc.construct(pos, T(pos[-1]));
+                }
+            else 
+                for (; pos < from_s && pos > from_e; pos++){
+                    _alloc.construct(pos, T(pos[1]));
+                }
+        }
+
+        
 
     public:
         size_type max_size() const
@@ -70,7 +91,7 @@ namespace ft
             ** Reserve enough memory for n elements of size T
             ** if there is more memory needed
             */
-            if (new_cap <= this->_cap)
+            if (new_cap <= this->_cap)  
                 return;
             if (new_cap > max_size())
                 throw std::length_error("allocator<T>::allocate(size_type n) 'n' exceeds maximum supported size"); // as per vector<...>::reserve docs
@@ -166,10 +187,7 @@ namespace ft
                     reserve(2 * _size);
                 }
             }
-            catch (...)
-            {
-                return;
-            };
+            catch (...){throw;};
             // new (_first + _size) T(value);
             _alloc.construct(_first + _size, T(value));
             ++_size;
@@ -466,6 +484,25 @@ namespace ft
             *this = other;
             other = tmp;
         }
+
+        iterator insert(iterator pos, const T& value){
+            pointer old_end = _first + _size;
+            if (pos == end() && _size < _cap)
+            {
+                ++_size;
+                *pos = T(value);
+                return pos;
+            }
+            if (_size  + 1 > _cap)
+                reserve(_cap + 1);
+            T tmp = *pos;              
+            // for (iterator it = old_end; it != pos; --it)
+            //     _alloc.construct(&it[1], *it);
+            pointer position = _first + (pos - begin());
+            __move_range(position, old_end, &(*pos) + 1);
+            *pos = T(value);
+            return pos;
+        }  
     };
 
     // Non-member comparison operators

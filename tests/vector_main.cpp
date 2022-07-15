@@ -23,8 +23,7 @@ using test::VectorFactory;
 using test::factory_type;
 using test::unique_ptr;
 
-int main()
-{
+int main(){
   std::cout << RED << "\nTESTING " << vector_types[MY] << "\n\n" << RESET;
 
   // test_vector_erase<int>();
@@ -75,7 +74,9 @@ int main()
   // vector<int> v(5, 5);
   // vector<int>::reverse_iterator it(v.rbegin());
   // test_advance();
-  test_distance();
+  // test_distance();
+  test_vector_insert();
 
   // *it = 5;
-};
+
+}

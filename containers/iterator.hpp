@@ -413,11 +413,8 @@ distance (InputIt& first, InputIt& last){
 					typename InputIt::iterator_category());
 }
 
-// TODO: distance, front_inserter, back_inserter, inserter
+// TODO: front_inserter, back_inserter, inserter
 // TODO: iterators: back_insert_iterator, front_insert_iterator, insert_iterator
-// 	template< class InputIt >
-// typename ft::iterator_traits<InputIt>::difference_type
-//     distance(InputIt first, InputIt last){
 
 // 	}
 
