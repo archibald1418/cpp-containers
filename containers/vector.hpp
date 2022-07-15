@@ -50,14 +50,17 @@ namespace ft
             pointer old_last = _first + _size;
             difference_type n = old_last - to;
             pointer i = from_s + n;
-            pointer pos = i;
-            if (n >= 0)
-                for (; pos > from_s && pos < from_e; pos--){
-                    _alloc.construct(pos, T(pos[-1]));
+            pointer pos;
+            if ((to - from_s) >= 0)
+                for (pos = i; pos >= from_s; pos--)
+                {
+                    _alloc.construct(&pos[1], T(*pos));
                 }
             else 
-                for (; pos < from_s && pos > from_e; pos++){
-                    _alloc.construct(pos, T(pos[1]));
+                // REVIEW: not tested for deletion case
+                for (pos = from_s; pos <= from_e; pos++)
+                {
+                    _alloc.construct(&pos[-1], T(*pos));
                 }
         }
 
@@ -315,8 +318,9 @@ namespace ft
 
         // Copy constructor
         vector(const vector &other)
-            : _alloc(other._alloc), _cap(other._cap), _size(other._size), _first(NULL)
+            : _alloc(other._alloc), _cap(other._size), _size(other._size), _first(NULL)
         {
+            // cap := size when copying (STL vector allocates _size number of objects)
             _first = _alloc.allocate(_cap);
             for (size_type i = 0; i < _size; i++)
                 _alloc.construct(_first + i, T(other._first[i]));
@@ -485,23 +489,20 @@ namespace ft
             other = tmp;
         }
 
+        // TODO: rewrite this with call to another insert (with size_type n)
         iterator insert(iterator pos, const T& value){
-            pointer old_end = _first + _size;
-            if (pos == end() && _size < _cap)
-            {
-                ++_size;
-                *pos = T(value);
-                return pos;
-            }
-            if (_size  + 1 > _cap)
-                reserve(_cap + 1);
-            T tmp = *pos;              
-            // for (iterator it = old_end; it != pos; --it)
-            //     _alloc.construct(&it[1], *it);
-            pointer position = _first + (pos - begin());
-            __move_range(position, old_end, &(*pos) + 1);
-            *pos = T(value);
-            return pos;
+            bool isEnd = (pos == end());
+            size_type offset = pos - begin();
+            size_type roffset = end() - pos;
+            push_back(value);
+            if (isEnd)
+                return begin() + offset;
+            pointer position = _first + offset;
+            pointer old_end = position + roffset;
+            T copy = end()[-1];
+            __move_range(position, old_end, position + 1);
+            begin()[offset] = copy;
+            return begin() + offset;
         }  
     };
 
