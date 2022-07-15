@@ -2,7 +2,7 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "cppdbg",
+			"type": "lldb",
 			"request": "launch",
 			"name": "my vector debug",
 			"program": "${workspaceFolder}/tests/testmy",
