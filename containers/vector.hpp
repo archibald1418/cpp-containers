@@ -179,6 +179,7 @@ namespace ft
 
         void push_back(const_reference value)
         {
+            const T& copy = T(value);
             try
             {
                 if (_cap == 0 && _size == 0)
@@ -192,7 +193,7 @@ namespace ft
             }
             catch (...){throw;};
             // new (_first + _size) T(value);
-            _alloc.construct(_first + _size, T(value));
+            _alloc.construct(_first + _size, copy);
             ++_size;
         }
 
@@ -342,13 +343,12 @@ namespace ft
 
         iterator erase(iterator pos)
         {
-            // REVIEW: rewrite int fail-fast style
-            // if (not (pos <= ))
             if (not(begin() <= pos && pos <= end()))
                 return (0); // not found in vector
             // no behaviour defined for pos == end()
             iterator it = begin();
             size_type del_index = 0;
+            // REVIEW: try rewriting with __move_range
             while (it != pos)
             {
                 ++it;
@@ -380,6 +380,8 @@ namespace ft
                 return (last); // empty range
 
             bool isEnd = (last == end());
+
+            // REVIEW: try rewriting with __move_range
 
             size_type len = last - first; // guaranteed to be > 0
             _size -= len;
@@ -494,12 +496,12 @@ namespace ft
             bool isEnd = (pos == end());
             size_type offset = pos - begin();
             size_type roffset = end() - pos;
-            const T& value_copy = T(value);
-            push_back(value_copy);
+            push_back(value);
             if (isEnd)
                 return begin() + offset;
             pointer position = _first + offset;
             pointer old_end = position + roffset;
+            const T& value_copy = T(end()[-1]);
             __move_range(position, old_end, position + 1);
             begin()[offset] = value_copy;
             return begin() + offset;
