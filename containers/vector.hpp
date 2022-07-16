@@ -64,6 +64,16 @@ namespace ft
                 }
         }
 
+        size_type __recommend(size_type new_size)const{
+            const size_type ms = max_size();
+            if (new_cap > max_size())
+                throw std::length_error("allocator<T>::allocate(size_type n) 'n' exceeds maximum supported size"); // as per vector<...>::reserve docs
+            const size_type cap = capacity();
+            if (cap > ms / 2)
+                return ms;
+            return ft::max<size_type>(2 * cap, new_size);
+        }
+
         
 
     public:
@@ -503,6 +513,23 @@ namespace ft
             pointer old_end = position + roffset;
             const T& value_copy = T(end()[-1]);
             __move_range(position, old_end, position + 1);
+            begin()[offset] = value_copy;
+            return begin() + offset;
+        }
+
+        iterator insert(iterator pos, size_type n, const T& value){
+            bool isEnd = (pos == end());
+            size_type offset = pos - begin();
+            size_type roffset = end() - pos;
+            size_type i = n;
+            while (i--)
+                push_back(value); // 
+            if (isEnd)
+                return begin() + offset;
+            pointer position = _first + offset;
+            pointer old_end = position + roffset;
+            const vector& range_copy = vector(value, n);
+            __move_range(position, old_end, position + n);
             begin()[offset] = value_copy;
             return begin() + offset;
         }  
