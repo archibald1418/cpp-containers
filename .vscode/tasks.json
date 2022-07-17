@@ -30,7 +30,18 @@
             "options":{
                 "cwd": "${workspaceFolder}/tests"
             },
+            "group":{
+                "kind": "build"
+            },
             "detail": "Task for testing ft_containers vector",
+            "problemMatcher": [
+            {
+                // "fileLocation": ["autoDetect", "${workspaceFolder}"]
+                "base":"$gcc",
+                "fileLocation":["relative", "${workspaceFolder}/tests"]
+            }
+        ],
+
         },
         {
             "type": "cppbuild",
