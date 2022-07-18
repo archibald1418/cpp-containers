@@ -9,7 +9,9 @@
 			"args": [],
 			"cwd": "${workspaceFolder}/tests",
 			"preLaunchTask": "build_my_vector",
-			"postDebugTask": "clean_debug"
+			"postDebugTask": "clean_debug",
+			"filterStdout":true
+			// "externalConsole": true
 		},
 		{
 			"type": "cppdbg",
