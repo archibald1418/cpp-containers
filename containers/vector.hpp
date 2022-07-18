@@ -65,10 +65,12 @@ namespace ft
         }
 
         size_type __recommend(size_type new_size)const{
+            const size_type cap = capacity();
+            if (new_size <= cap)
+                return new_size;
             const size_type ms = max_size();
             if (new_size > max_size())
                 throw std::length_error("allocator<T>::allocate(size_type n) 'n' exceeds maximum supported size"); // as per vector<...>::reserve docs
-            const size_type cap = capacity();
             if (cap > ms / 2)
                 return ms;
             return ft::max<size_type>((2 * cap), new_size);
@@ -190,18 +192,14 @@ namespace ft
         void push_back(const_reference value)
         {
             const T& copy = T(value);
-            try
+            if (_cap == 0 && _size == 0)
             {
-                if (_cap == 0 && _size == 0)
-                {
-                    reserve(1);
-                }
-                else if (_cap == _size)
-                {
-                    reserve(2 * _size);
-                }
+                reserve(1);
             }
-            catch (...){throw;};
+            else if (_cap == _size)
+            {
+                reserve(2 * _size);
+            }
             // new (_first + _size) T(value);
             _alloc.construct(_first + _size, copy);
             ++_size;
@@ -316,7 +314,7 @@ namespace ft
         // Range constructor. Leveraging SFINAE to distinguish from previous version
         template <typename InputIt>
         vector(InputIt first,
-               typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type last,
+               typename enable_if<!is_integral<InputIt>::value, InputIt>::type last,
                const allocator_type &alloc = allocator_type())
             : _alloc(alloc)
         {
@@ -523,7 +521,17 @@ namespace ft
             _size = new_size;
             ft::copy(range.begin(), range.end(), begin() + offset);
             return begin() + offset;
-        }  
+        }
+
+        template<class InputIt>
+        typename enable_if<!is_integral<InputIt>::value, iterator>::type
+        insert(iterator pos, InputIt first, InputIt last){
+            return pos;
+            // The behavior is undefined if first and last are iterators into *this (c)
+        }
+        
+
+          
     };
 
     // Non-member comparison operators
