@@ -501,20 +501,8 @@ namespace ft
             other = tmp;
         }
 
-        // TODO: rewrite this with call to another insert (with size_type n)
         iterator insert(iterator pos, const T& value){
-            bool isEnd = (pos == end());
-            size_type offset = pos - begin();
-            size_type roffset = end() - pos;
-            push_back(value);
-            if (isEnd)
-                return begin() + offset;
-            pointer position = _first + offset;
-            pointer old_end = position + roffset;
-            const T& value_copy = T(end()[-1]);
-            __move_range(position, old_end, position + 1);
-            begin()[offset] = value_copy;
-            return begin() + offset;
+            return insert(pos, 1, value);
         }
 
         iterator insert(iterator pos, size_type n, const T& value){

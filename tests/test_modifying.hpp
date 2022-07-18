@@ -140,26 +140,27 @@ void test_vector_insert(){
   // vector<int> v1; v1.push_back(42);
 
 // One element insert
-  // v.insert(v.end() - 1, v[0]); // Tricky case! 
-  // v.insert(v.begin() + 1, 666);
+  v.insert(v.end() - 1, v[0]); // Tricky case! 
+  v.insert(v.begin() + 1, 666);
 
-  // // v.insert(v.end() + 1, 666); UB - causes heap-buffer overflow 
-  // v.insert(v.end(), 666);
-  // v.insert(v.end() - 1, -42);
+  test_vector_iterate(v);
+  // v.insert(v.end() + 1, 666); UB - causes heap-buffer overflow 
+  v.insert(v.end(), 666);
+  v.insert(v.end() - 1, -42);
 
 // Size insert
   // v.insert(v.end(), 7, 42);
   // test_vector_iterate(v);
-  v2.insert(v2.begin(), -42);
-  v.insert(v.begin(), 1, -42);
+  // v2.insert(v2.begin(), -42);
+  // v.insert(v.begin(), 1, -42);
 
-  assert (v == v2);
+  // assert (v == v2);
 
-  v2.insert(v2.begin() + 1, -42);
-  v2.insert(v2.begin() + 1, -42);
-  v.insert(v.begin() + 1, 2, -42);
+  // v2.insert(v2.begin() + 1, -42);
+  // v2.insert(v2.begin() + 1, -42);
+  // v.insert(v.begin() + 1, 2, -42);
 
-  assert (v == v2);
+  // assert (v == v2);
 
 // Range insert
   // test_vector_iterate(v);
