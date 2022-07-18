@@ -47,26 +47,26 @@ namespace ft
         }
 
         void    __move_range(pointer from_s, pointer from_e, pointer to){
-            pointer old_last = _first + _size;
-            difference_type n = old_last - to;
-            pointer i = from_s + n;
+            // pointer old_last = _first + _size;
+            // difference_type n = old_last - to;
+            difference_type step = to - from_s;
             pointer pos;
-            if ((to - from_s) >= 0)
-                for (pos = i; pos >= from_s; pos--)
+           if ((step) >= 0)
+                for (pos = from_e - 1; pos >= from_s; pos--)
                 {
-                    _alloc.construct(&pos[1], T(*pos));
+                    _alloc.construct(&pos[step], T(*pos));
                 }
             else 
                 // REVIEW: not tested for deletion case
                 for (pos = from_s; pos <= from_e; pos++)
                 {
-                    _alloc.construct(&pos[-1], T(*pos));
+                    _alloc.construct(&pos[step], T(*pos));
                 }
         }
 
         size_type __recommend(size_type new_size)const{
             const size_type ms = max_size();
-            if (new_cap > max_size())
+            if (new_size > max_size())
                 throw std::length_error("allocator<T>::allocate(size_type n) 'n' exceeds maximum supported size"); // as per vector<...>::reserve docs
             const size_type cap = capacity();
             if (cap > ms / 2)
@@ -521,16 +521,19 @@ namespace ft
             bool isEnd = (pos == end());
             size_type offset = pos - begin();
             size_type roffset = end() - pos;
-            size_type i = n;
-            while (i--)
-                push_back(value); // 
-            if (isEnd)
+            const vector& range = vector(n, value);
+            size_type new_size = size() + n;
+            reserve(__recommend(new_size));
+            if (isEnd){
+                _size = new_size;
+                ft::copy(range.begin(), range.end(), begin() + offset);
                 return begin() + offset;
+            }
             pointer position = _first + offset;
             pointer old_end = position + roffset;
-            const vector& range_copy = vector(value, n);
             __move_range(position, old_end, position + n);
-            begin()[offset] = value_copy;
+            _size = new_size;
+            ft::copy(range.begin(), range.end(), begin() + offset);
             return begin() + offset;
         }  
     };
