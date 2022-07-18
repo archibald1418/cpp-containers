@@ -9,7 +9,7 @@ namespace ft{
     }
 
     template <typename T>
-    inline T max(T& a, T& b){
+    inline T max(const T& a, const T& b){
         if (a <= b)
             return a;
         return b;
