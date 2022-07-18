@@ -135,6 +135,7 @@ void test_vector_erase_range(){
 
 void test_vector_insert(){
   vector<int> v = *unique_ptr<vector<int> >(VectorFactory<int>::factory::create());
+  vector<int> v2(v);
 
   // vector<int> v1; v1.push_back(42);
 
@@ -147,18 +148,21 @@ void test_vector_insert(){
   // v.insert(v.end() - 1, -42);
 
 // Size insert
-  std::cout << v.size() << " " << v.capacity() << std::endl;
+  // v.insert(v.end(), 7, 42);
+  // test_vector_iterate(v);
+  v2.insert(v2.begin(), -42);
+  v.insert(v.begin(), 1, -42);
 
-  v.insert(v.end(), 7, 42);
-  test_vector_iterate(v);
-  std::cout << v.size() << " " << v.capacity() << std::endl;
-  v.insert(v.begin(), 7, -42);
+  assert (v == v2);
+
+  v2.insert(v2.begin() + 1, -42);
+  v2.insert(v2.begin() + 1, -42);
+  v.insert(v.begin() + 1, 2, -42);
+
+  assert (v == v2);
 
 // Range insert
-
-
-  test_vector_iterate(v);
-  std::cout << v.size() << " " << v.capacity() << std::endl;
+  // test_vector_iterate(v);
 }
 
 #endif
