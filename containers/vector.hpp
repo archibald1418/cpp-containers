@@ -71,7 +71,7 @@ namespace ft
             const size_type cap = capacity();
             if (cap > ms / 2)
                 return ms;
-            return ft::max<size_type>(2 * cap, new_size);
+            return ft::max<size_type>((2 * cap), new_size);
         }
 
         

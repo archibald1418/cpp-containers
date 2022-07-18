@@ -155,16 +155,16 @@ void test_vector_iterate(V &v)
   //   // *cbegin = 5
   //   // compile error
   // }
-  std::cout << "\n";
+  std::cout << std::endl;
 
-  std::cout << std::string(20, '>') << "\n";
+  std::cout << std::string(20, '>') << std::endl;
 
-  std::cout << "Iterating through vector backwards" << "\n";
+  std::cout << "Iterating through vector backwards" << std::endl;
   for (; rbegin != rend; ++rbegin)
   {
     std::cout << *rbegin << " ";
   }
-  std::cout << "\n";
+  std::cout << std::endl;
 
   // std::cout << "Iterating through vector backwards using const reverse iterator" << std::endl;
   // for (; crbegin != crend; ++crbegin)
