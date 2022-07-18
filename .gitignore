@@ -10,3 +10,4 @@ tests/testmy
 tests/testsys
 marina_containers/
 *.log
+sandbox/

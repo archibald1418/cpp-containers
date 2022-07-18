@@ -138,14 +138,27 @@ void test_vector_insert(){
 
   // vector<int> v1; v1.push_back(42);
 
+// One element insert
   // v.insert(v.end() - 1, v[0]); // Tricky case! 
   // v.insert(v.begin() + 1, 666);
+
   // // v.insert(v.end() + 1, 666); UB - causes heap-buffer overflow 
   // v.insert(v.end(), 666);
   // v.insert(v.end() - 1, -42);
-  // v.insert(v.begin(), 3, 42);
+
+// Size insert
+  std::cout << v.size() << " " << v.capacity() << std::endl;
+
+  v.insert(v.end(), 7, 42);
+  test_vector_iterate(v);
+  std::cout << v.size() << " " << v.capacity() << std::endl;
+  v.insert(v.begin(), 7, -42);
+
+// Range insert
+
 
   test_vector_iterate(v);
+  std::cout << v.size() << " " << v.capacity() << std::endl;
 }
 
 #endif
