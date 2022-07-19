@@ -510,15 +510,14 @@ namespace ft
             const vector& range = vector(n, value);
             size_type new_size = size() + n;
             reserve(__recommend(new_size));
+            _size = new_size;
             if (isEnd){
-                _size = new_size;
                 ft::copy(range.begin(), range.end(), begin() + offset);
                 return begin() + offset;
             }
             pointer position = _first + offset;
             pointer old_end = position + roffset;
             __move_range(position, old_end, position + n);
-            _size = new_size;
             ft::copy(range.begin(), range.end(), begin() + offset);
             return begin() + offset;
         }
@@ -526,8 +525,26 @@ namespace ft
         template<class InputIt>
         typename enable_if<!is_integral<InputIt>::value, iterator>::type
         insert(iterator pos, InputIt first, InputIt last){
-            return pos;
             // The behavior is undefined if first and last are iterators into *this (c)
+            if (first == last)
+                return (insert(pos, *first));
+            size_type n = static_cast<size_type>(last - first);
+            bool isEnd = (pos == end());
+            size_type offset = pos - begin();
+            size_type roffset = end() - pos;
+            const vector& range = vector(first, last);
+            size_type new_size = size() + n; // DEBUG: check first > last case
+            reserve(__recommend(new_size));
+            _size = new_size;
+            if (isEnd){
+                ft::copy(range.begin(), range.end(), begin() + offset);
+                return begin() + offset;
+            }
+            pointer position = _first + offset;
+            pointer old_end = position + roffset;
+            __move_range(position, old_end, position + n);
+            ft::copy(range.begin(), range.end(), begin() + offset);
+            return begin() + offset;
         }
         
 

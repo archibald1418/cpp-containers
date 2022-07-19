@@ -148,26 +148,31 @@ void test_vector_insert(){
   // v.insert(v.end(), 666);
   // v.insert(v.end() - 1, -42);
 
-  std::cout << v.size() << " " << v.capacity() << std::endl;
 // Size insert
   // v.insert(v.end(), 7, 42);
   // test_vector_iterate(v);
-  std::cout << v.size() << " " << v.capacity() << std::endl;
-  v2.insert(v2.begin(), -42);
-  v.insert(v.begin(), 1, -42);
+  // std::cout << v.size() << " " << v.capacity() << std::endl;
+  // v2.insert(v2.begin(), -42);
+  // v.insert(v.begin(), 1, -42);
 
-  assert (v == v2);
+  // assert (v == v2);
 
-  v2.insert(v2.begin() + 1, -42);
-  v2.insert(v2.begin() + 1, -42);
-  v.insert(v.begin() + 1, 2, -42);
+  // v2.insert(v2.begin() + 1, -42);
+  // v2.insert(v2.begin() + 1, -42);
+  // v.insert(v.begin() + 1, 2, -42);
 
-  assert (v == v2);
+  // assert (v == v2);
 
-  std::cout << v.size() << " " << v.capacity() << std::endl;
+  // std::cout << v.size() << " " << v.capacity() << std::endl;
+  // std::cout << v.size() << " " << v.capacity() << std::endl;
 
 // Range insert
-  // test_vector_iterate(v);
+  
+  vector<int> to_insert(8, -8);
+  // v.insert(v.end(), to_insert.begin(), to_insert.end() - 2);
+  v.insert(v.end(), to_insert.end() - 2, to_insert.begin()); // first > last is UB
+  
+  test_vector_iterate(v);
 }
 
 #endif
