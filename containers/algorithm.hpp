@@ -1,3 +1,5 @@
+#include "type_traits.hpp"
+
 namespace ft{
 
 template <class InputIterator1, class InputIterator2>
@@ -17,7 +19,10 @@ template <class InputIterator1, class InputIterator2>
     };
 
     template <class T, class U>
-    U* copy(T* __first, T* __last, U* __result){
+    typename enable_if
+    <
+        is_same<typename remove_const<T>::type, U>::value, U*
+    >::type copy(T* __first, T* __last, U* __result){
         size_t n = static_cast<size_t>(__last - __first);
         if (n > 0){
             std::memmove(__result, __first, n * sizeof(U));
