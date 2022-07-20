@@ -300,6 +300,7 @@ namespace ft
         }
 
         // explicit means 'No, compiler! No arguments means this ctor is called, don't second-guess'
+        // Also explicit constructors are considered first in direct initialization T a(b);  
         explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _cap(0), _size(0), _first(NULL) {}
         explicit vector(size_type size,
                         const value_type &value = value_type(),
@@ -523,17 +524,22 @@ namespace ft
         }
 
         template<class InputIt>
-        typename enable_if<!is_integral<InputIt>::value, iterator>::type
-        insert(iterator pos, InputIt first, InputIt last){
+        typename enable_if
+        <
+            !is_integral<InputIt>::value, iterator
+        >::type insert(iterator pos, InputIt first, InputIt last){
             // The behavior is undefined if first and last are iterators into *this (c)
             if (first == last)
                 return (insert(pos, *first));
-            size_type n = static_cast<size_type>(last - first);
+            difference_type diff = (last - first);
+            if (diff < 0)
+                return (pos);
+            size_type n = static_cast<size_type>(diff);
             bool isEnd = (pos == end());
             size_type offset = pos - begin();
             size_type roffset = end() - pos;
             const vector& range = vector(first, last);
-            size_type new_size = size() + n; // DEBUG: check first > last case
+            size_type new_size = size() + n;
             reserve(__recommend(new_size));
             _size = new_size;
             if (isEnd){
