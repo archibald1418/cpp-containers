@@ -18,6 +18,7 @@
 #include "test_modifying.hpp"
 #include "test_resizing.hpp"
 #include "test_iterator_non_members.hpp"
+#include "test_inserters.hpp"
 
 using test::VectorFactory;
 using test::factory_type;
@@ -26,13 +27,13 @@ using test::unique_ptr;
 int main(){
   std::cout << RED << "\nTESTING " << vector_types[MY] << "\n\n" << RESET;
 
-  // test_vector_erase<int>();
-  // test_vector_erase<std::string>();
-  // test_vector_erase<char>();
-  // test_vector_reserve<int>();
-  // test_vector_resize_with_default_value<std::string>("spam");
+  test_vector_erase<int>();
+  test_vector_erase<std::string>();
+  test_vector_erase<char>();
+  test_vector_reserve<int>();
+  test_vector_resize_with_default_value<std::string>("spam");
   
-  // test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
+  test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
 
   
   // vector<int> v1;
@@ -75,7 +76,9 @@ int main(){
   // vector<int>::reverse_iterator it(v.rbegin());
   // test_advance();
   // test_distance();
-  test_vector_insert();
+  // test_vector_insert();
+  // test_front_inserter();
+  // test_copy();
 
   // *it = 5;
 
