@@ -35,12 +35,12 @@
             },
             "detail": "Task for testing ft_containers vector",
             "problemMatcher": [
-            {
-                // "fileLocation": ["autoDetect", "${workspaceFolder}"]
-                "base":"$gcc",
-                "fileLocation":["relative", "${workspaceFolder}/tests"]
-            }
-        ],
+                {
+                    // "fileLocation": ["autoDetect", "${workspaceFolder}"]
+                    "base":"$gcc",
+                    "fileLocation":["relative", "${workspaceFolder}/tests"]
+                }
+            ],
 
         },
         {
@@ -52,6 +52,13 @@
                 "cwd": "${workspaceFolder}/tests"
             },
             "detail": "Task for testing ft_containers vector",
+            "problemMatcher": [
+                {
+                    // "fileLocation": ["autoDetect", "${workspaceFolder}"]
+                    "base":"$gcc",
+                    "fileLocation":["relative", "${workspaceFolder}/tests"]
+                }
+            ],
         },
         {
             "type": "shell",
