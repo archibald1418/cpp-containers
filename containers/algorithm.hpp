@@ -30,9 +30,13 @@ template <class InputIterator1, class InputIterator2>
         }
         return __result;
     }
-    
+
     template <class InputIt, class OutputIt>
     OutputIt copy(InputIt first, InputIt last, OutputIt result){
-        return OutputIt(copy(first.base(), last.base(), result.base()));
+        for (; first != last; ++first, (void) ++result)
+            *result = *first;
+        return result;
     }
+    
+
 };
