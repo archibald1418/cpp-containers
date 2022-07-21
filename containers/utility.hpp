@@ -1,3 +1,5 @@
+#ifndef UTILITY_H
+# define UTILITY_H
 
 namespace ft{
 
@@ -16,3 +18,5 @@ namespace ft{
     }
 
 };
+
+#endif
