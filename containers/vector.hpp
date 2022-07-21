@@ -73,7 +73,7 @@ namespace ft
                 throw std::length_error("allocator<T>::allocate(size_type n) 'n' exceeds maximum supported size"); // as per vector<...>::reserve docs
             if (cap > ms / 2)
                 return ms;
-            return ft::max<size_type>((2 * cap), new_size);
+            return max<size_type>((2 * cap), new_size);
         }
 
         
