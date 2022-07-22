@@ -67,4 +67,23 @@ void test_range_constructor(){
   delineate();
 }
 
+
+void test_copy_constructor(){
+  print_test_info<int>("Testing copy constructor\n");
+
+  vector<int> v1;
+  create_vector_of_ints(v1, 15); 
+
+  std::cout << "vector1" << std::endl;
+  test_vector_iterate(v1);
+
+  vector<int> v2(v1);
+
+  std::cout << "vector2" << std::endl;
+  test_vector_iterate(v2);
+
+  assert (v2 == v1);
+  assert (v2.size() == v1.size());
+}
+
 #endif
