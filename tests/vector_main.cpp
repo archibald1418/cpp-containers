@@ -46,38 +46,35 @@ int main(){
   create_vector_of_ints(v1, 10);
   v1[0] = -1;
 
+// Iterators 
   test_iterators(v1);
 
+// Factory
+  test_vector_iterate(
+    *unique_ptr< const vector<int> >(VectorFactory<int>::factory::create())
+  );
 
+// Erasure
+  test_vector_erase<int>();
+  test_vector_erase_range<int>();
+  test_vector_erase_range<char>();
 
-  // std::cout << *range_it << std::endl;
-  // std::cout << v.empty() << std::endl;
+// Assignment
+  test_vector_assign_count();
+  test_vector_assign_range();
+  test_assignment_operator();
   
-  // test_vector_iterate(*unique_ptr< const vector<int> >(VectorFactory<int>::factory::create()));
-  // test_vector_erase<int>();
-  // test_vector_assign_count();
+// Constructors
+  test_default_constructor();
+  test_size_value_constructor();
+  test_range_constructor();
+  test_copy_constructor();
 
-  // v.erase(v.begin(), v.end());
-  // // test_iterators(v);
-  // test_vector_iterate(v);
-
-  // test_vector_assign_range();
-  // test_assignment_operator();
+  test_vector_equality();
   
-  // test_default_constructor();
-  // test_size_value_constructor();
-  // test_range_constructor();
-  // test_vector_erase_range<int>();
-  // test_vector_erase<int>();
-  // test_vector_erase<int>();
-  
-  // vector<int> v(5, 5);
-  // vector<int>::reverse_iterator it(v.rbegin());
-  // test_advance();
-  // test_distance();
-  // test_vector_insert();
-  // test_front_inserter();
-  // test_copy();
+// Iterator non-members
+  test_advance();
+  test_distance();
 
   // *it = 5;
 
