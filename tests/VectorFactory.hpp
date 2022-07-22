@@ -1,10 +1,9 @@
 #ifndef VECTORFACTORY_H
 # define VECTORFACTORY_H
 
-#include "pick_vector.hpp"
-#include "utils.hpp"
-#include "Test.hpp"
-#include <random>
+# include "pick_vector.hpp"
+# include "utils.hpp"
+# include "Test.hpp"
 
 namespace test{
 
@@ -71,10 +70,19 @@ namespace test{
         static Container* create(std::string){
           Container* cc = new Container;
           Container& c = *cc;
-          c.push_back("Hello");
-          c.push_back("This");
-          c.push_back("Is");
-          c.push_back("Dog");
+          // c.push_back("Hello");
+          // c.push_back("This");
+          // c.push_back("Is");
+          // c.push_back("Dog");
+          c.push_back("Spam");
+          c.push_back("sausage");
+          c.push_back("Spam");
+          c.push_back("Spam");
+          c.push_back("Spam");
+          c.push_back("bacon");
+          c.push_back("Spam");
+          c.push_back("tomato");
+          c.push_back("Spam");
           return cc;
         };
 
