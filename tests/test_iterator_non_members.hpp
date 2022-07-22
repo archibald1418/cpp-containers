@@ -41,9 +41,6 @@ void test_advance(){
     typedef vector::value_type type;
     
     typedef vector::iterator iterator;
-    // typedef typename vector::const_iterator const_iterator;
-    // typedef typename vector::reverse_iterator reverse_iterator;
-    // typedef typename vector::const_reverse_iterator const_reverse_iterator;
 
     vector v = *unique_ptr<vector>(VectorFactory<type>::factory::create());
 
@@ -83,7 +80,12 @@ void test_distance(){
     //     static_cast<difference_type>(v.size()) == distance(cbegin, end)
     // ); CE - works only with same-class iterators
 
-    // assert (v.size() == distance(end, begin));
+    assert (
+        static_cast<difference_type>(v.size()) == distance(v.rbegin(), v.rend())
+        );
+    assert (
+        -static_cast<difference_type>(v.size()) == distance(v.rend(), v.rbegin())
+        );
 }
 
 #endif

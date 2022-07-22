@@ -459,7 +459,7 @@ advance( InputIt& it, Distance n){
 
 template <class InputIt>
 inline typename InputIt::difference_type
-distance (InputIt& first, InputIt& last, input_iterator_tag){
+distance (InputIt first, InputIt last, input_iterator_tag){
 	typename iterator_traits<InputIt>::difference_type n = 0;
 	while (first != last)
 	{
@@ -471,13 +471,13 @@ distance (InputIt& first, InputIt& last, input_iterator_tag){
 
 template <class RAIter>
 inline typename RAIter::difference_type
-distance (RAIter& first, RAIter& last, random_access_iterator_tag){
+distance (RAIter first, RAIter last, random_access_iterator_tag){
 	return (last - first);
 }
 
 template <class InputIt>
 inline typename iterator_traits<InputIt>::difference_type
-distance (InputIt& first, InputIt& last){
+distance (InputIt first, InputIt last){
 	return distance(first, last, 
 					typename InputIt::iterator_category());
 }
