@@ -44,8 +44,8 @@ void  test_vector_erase(){
 
   delineate();
 
-  std::cout << GREEN << "Delete from vector slice [0:3]" << RESET << std::endl;
-  vector<T> slice(ptr->begin(), ptr->begin() + 2);
+  std::cout << GREEN << "Delete from vector slice [0:3)" << RESET << std::endl;
+  vector<T> slice(ptr->begin(), ptr->begin() + 3);
   test_vector_iterate(slice);
   slice.erase(slice.begin());
   test_vector_iterate(slice);
@@ -55,13 +55,13 @@ void  test_vector_erase(){
   delineate();
 }
 
-template <typename T>
+
 void test_vector_equality(){
 
-  print_test_info<T>("EQUALITY TESTS");
+  print_test_info<int>("EQUALITY TESTS");
 
-  typedef vector<T> vint;
-  typedef typename VectorFactory<T>::factory factory;
+  typedef vector<int> vint;
+  typedef typename VectorFactory<int>::factory factory;
 
   vint a = *unique_ptr<vint>(factory::create());
   vint b(a);
@@ -71,20 +71,30 @@ void test_vector_equality(){
   assert (a == b);
 
   a.push_back(value);
-  assert (a != b); assert (a > b); assert (b <= a);
+
+  assert (a != b); 
+  assert (a > b); 
+  assert (b <= a);
 
 
   // test_vector_iterate(a);
  
   // typename vint::const_iterator cit = a.begin();
 
-  a.erase(a.begin());
-  // a.erase(a.rbegin());
+  a.erase(a.end() - 1);
+
+  assert (a == b);
   
   // test_vector_iterate(a);
 
-  // assert (a != b); assert (a < b);
-  // assert (b != a); assert (b >= a);
+  b.push_back(value);
+
+  assert (a != b); assert (a < b);
+  assert (b != a); assert (b >= a);
+
+  std::cout << "Assertions passed" << std::endl;
+
+  delineate();
 }
 
 template <typename T>
@@ -147,6 +157,28 @@ void test_vector_erase_range(){
   test_vector_iterate(empty);
   
 }
+
+template <>
+void test_vector_erase_range<char>(){
+  
+  typedef vector<char> vector_of;
+
+  vector_of vchar;
+
+  ::print_test_info<char>("ERASING RANGE FROM VECTOR", BLUE);
+
+  create_vector_of_chars(vchar);
+
+  std::cout << YELLOW;
+  test_vector_iterate(vchar);
+
+  cut_vector_of_chars(vchar);
+  std::cout << RESET << RED;
+  
+  test_vector_iterate(vchar);
+  std::cout << RESET;
+}
+
 
 void test_vector_insert(){
 

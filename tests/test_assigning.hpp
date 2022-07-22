@@ -17,13 +17,16 @@ void  test_vector_assign_count()
     vector<int> v1(5, 0);
     vector<int> v2(10, 42);
 
+    
     test_vector_iterate(v1);
+    std::cout << "size = " << v1.size() << " cap = " << v1.capacity() << std::endl;
 try {
     v1.assign(2, -1);
 } catch (const std::exception& e){
   std::cout << "Error: e" << e.what() << std::endl;
 }
     test_vector_iterate(v1);
+    std::cout << "size = " << v1.size() << " cap = " << v1.capacity() << std::endl;
 
     delineate();
 }
@@ -75,7 +78,7 @@ void test_assignment_operator(){
     
     assert (vcopy == v);
 
-    test_vector_equality<int>();    
+    test_vector_equality();    
 
   delineate();
 }
