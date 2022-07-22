@@ -15,6 +15,29 @@ void create_vector_of_ints(Container &vector, int elems)
   };
 }
 
+template <typename Container>
+void create_vector_of_chars(Container& vector){
+  vector.push_back('S'); 
+  vector.push_back('h');
+  vector.push_back('e');
+  vector.push_back(' ');
+  vector.push_back('b');
+  vector.push_back('e');
+  vector.push_back('l');
+  vector.push_back('i');
+  vector.push_back('e');
+  vector.push_back('v');
+  vector.push_back('e');
+  vector.push_back('d');
+}
+
+template <typename Container>
+void cut_vector_of_chars(Container& vector){
+  vector.erase(vector.begin()); // he believed
+  vector.erase(vector.begin() + 3, vector.begin() + 5); // he lieved
+  vector.erase(vector.end() - 3, vector.end() - 1); // he lied
+}
+
 
 namespace test{
   
