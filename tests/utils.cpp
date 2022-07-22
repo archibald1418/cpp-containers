@@ -1,7 +1,16 @@
-#include "utils.hpp"
-#include "type_traits.hpp"
+#include "colors.hpp"
+
+#include <iostream>
 
 
-void prnt(std::string s){
-  std::cout << RED << s << "\n\n" << RESET;
+void print(std::string s, Color color){
+  std::cout << color << s << "\n\n" << RESET;
+}
+
+void print(const char* s, Color color){
+  std::cout << color << std::string(s) << "\n\n" << RESET;
+}
+
+void delineate(int n){
+  std::cout << "\n" << std::string(n, '-') << "\n\n";
 }
