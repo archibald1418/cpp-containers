@@ -1,14 +1,9 @@
-#ifndef TESTS_H
-# define TESTS_H
+#ifndef TEST_H
+# define TEST_H
 
 # include <iostream>
-# include <string>
 
-# define GREEN "\x1b[32m"
-# define BLUE "\x1b[34m"
-# define WHITE "\e[0m"
-# define RED "\033[0;31m"
-# define RESET "\033[0m"
+# include "colors.hpp"
 
 namespace test {
 
@@ -49,7 +44,6 @@ namespace test {
     }
 
   } my_class;
-
 };
 
 #endif

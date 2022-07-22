@@ -1,14 +1,19 @@
 #ifndef TEST_ASSIGNING_H
 # define TEST_ASSIGNING_H
 
+# include <cassert>
+
 # include "pick_vector.hpp"
 # include "test_iteration.hpp"
 # include "test_modifying.hpp"
-# include <cassert>
+# include "utils.hpp"
+
 
 void  test_vector_assign_count()
-{
-    std::cout << "TESTING ASSIGN COUNT" << std::endl;
+{   
+    print_test_info<int>("TESTING ASSIGN COUNT");
+    
+
     vector<int> v1(5, 0);
     vector<int> v2(10, 42);
 
@@ -18,13 +23,15 @@ try {
 } catch (const std::exception& e){
   std::cout << "Error: e" << e.what() << std::endl;
 }
-    // entirely replaces the vector contents, regardless of size, + deletes redundant if any
-    // v1.assign(v1.begin(), v2.begin());
-    // std::cout << diff << std::endl;
     test_vector_iterate(v1);
+
+    delineate();
 }
 
 void test_vector_assign_range(){
+
+    print_test_info<int>("TESTING ASSIGN RANGE");
+
     vector<int> v(5, 0);
 
     vector<int> v2(10, 42);
@@ -48,9 +55,13 @@ void test_vector_assign_range(){
     for (vector<int>::iterator it = v.begin(); it < v.end(); ++it){
         std::cout << *it << ' ';
     }
+
+  delineate();
 }
 
 void test_assignment_operator(){
+
+    print_test_info<int>("TESTING ASSIGNMENT OPERATOR");
 
     vector<int> v;
 
@@ -65,6 +76,8 @@ void test_assignment_operator(){
     assert (vcopy == v);
 
     test_vector_equality<int>();    
+
+  delineate();
 }
 
 #endif

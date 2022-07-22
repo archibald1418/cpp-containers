@@ -1,10 +1,11 @@
 #ifndef TEST_MODIFIYING_H
 # define TEST_MODIFIYING_H
 
+# include <iostream>
+
 # include "pick_vector.hpp"
 # include "Test.hpp"
 # include "utils.hpp"
-# include <iostream>
 # include "test_iteration.hpp"
 # include "test_assigning.hpp"
 # include "VectorFactory.hpp"
@@ -16,37 +17,48 @@ using test::VectorFactory;
 template <typename T>
 void  test_vector_erase(){
 
-  std::cout << "ERASING VECTOR TEST" << std::endl;
+  ::print_test_info<T>("ERASING VECTOR TEST", RED);
+
   unique_ptr<vector<T> > ptr = unique_ptr<vector<T> >(VectorFactory<T>::factory::create());
   vector<T> Vector = *ptr;
 
   test_vector_iterate(Vector);
 
-  std::cout << "Delete start" << std::endl;
+  delineate();
+
+  std::cout << GREEN << "Delete start" << RESET << std::endl;
   Vector.erase(Vector.begin());
   test_vector_iterate(Vector);
 
-  std::cout << "Delete end" << std::endl;
+  delineate();
+
+  std::cout << GREEN << "Delete end" << RESET << std::endl;
   Vector.erase(Vector.end() - 1);
   test_vector_iterate(Vector);  
 
-  std::cout << "Delete middle element" << std::endl;
+  delineate();
+
+  std::cout << GREEN << "Delete middle element" << RESET << std::endl;
   Vector.erase(Vector.begin() + (Vector.size() / 2));
   test_vector_iterate(Vector);
 
-  std::cout << "Delete from vector slice [0:3] :" << std::endl;
+  delineate();
+
+  std::cout << GREEN << "Delete from vector slice [0:3]" << RESET << std::endl;
   vector<T> slice(ptr->begin(), ptr->begin() + 2);
   test_vector_iterate(slice);
   slice.erase(slice.begin());
   test_vector_iterate(slice);
   slice.erase(slice.begin());
   test_vector_iterate(slice);
+
+  delineate();
 }
 
 template <typename T>
 void test_vector_equality(){
 
-  std::cout << "Equality tests" << std::endl;
+  print_test_info<T>("EQUALITY TESTS");
 
   typedef vector<T> vint;
   typedef typename VectorFactory<T>::factory factory;
@@ -77,6 +89,9 @@ void test_vector_equality(){
 
 template <typename T>
 void test_vector_erase_range(){
+
+  print_test_info<T>("ERASING RANGE FROM VECTOR", YELLOW);
+
   typedef vector<T> vector_of;
   typedef typename vector_of::iterator iterator;
   // typedef typename vector_of::difference_type size_type;
@@ -134,6 +149,9 @@ void test_vector_erase_range(){
 }
 
 void test_vector_insert(){
+
+  print_test_info<int>("TEST VECTOR INSERTION", CYAN);
+
   vector<int> v = *unique_ptr<vector<int> >(VectorFactory<int>::factory::create());
   vector<int> v2(v);
 

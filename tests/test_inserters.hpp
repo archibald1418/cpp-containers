@@ -9,6 +9,7 @@
 #include "VectorFactory.hpp"
 #include "utility.hpp"
 #include "pick_vector.hpp"
+#include "utils.hpp"
 
 // #include <deque>
 // #include <memory>
@@ -22,18 +23,22 @@ using test::VectorFactory;
 
 void test_front_inserter()
 {
+
+    print_test_info<int>("TESTING FRONT INSERTER", MAGENTA);
+
     vector<int> v(*unique_ptr<vector<int> >(VectorFactory<int>::factory::create()));
 
     std::deque<int> d;
     vector<int> v2;
     v2.reserve(20);
     ft::copy(v.begin(), v.end(), ft::inserter(d, d.begin()));
-    // ft::copy(&v.begin()[0], &v.end()[-1], &v2.begin()[0]);
 
     // typedef std::deque<int>::iterator iterator;
 
-    for (auto it = v2.begin(); it != v2.end(); ++it)
+    for (vector<int>::iterator it = v2.begin(); it != v2.end(); ++it)
         std::cout << *it << ' ';
+
+  delineate();
 }
 
 void test_copy(){
@@ -59,6 +64,8 @@ void test_copy(){
 
     for (int i = 0; i < 30; i++)
         std::cout << a[i] << " ";
+
+  delineate();
 }
 
 #endif

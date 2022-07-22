@@ -1,11 +1,12 @@
 #ifndef TEST_RESIZING_H
 # define TEST_RESIZING_H
 
+# include <iostream>
+
 # include "pick_vector.hpp"
 # include "type_traits.hpp"
 # include "Test.hpp"
 # include "utils.hpp"
-# include <iostream>
 
 using test::unique_ptr;
 using test::VectorFactory;
@@ -13,27 +14,37 @@ using test::VectorFactory;
 template <typename V>
 void test_vector_sizes(V &v)
 {
+  print_test_info<int>("TESTING VECTOR SIZES", BOLDMAGENTA);
 
   // std::cout << v.size() << ' ' << v.capacity() << ' ' << v[i] << std::endl;
+  std::cout << BOLDBLUE;
   std::cout << "size"
             << "\t"
             << "_cap"
             << "\t"
             << "elem" << std::endl;
   int elem = -10;
+  std::cout << RESET << BLUE;
   for (; elem <= 0; ++elem)
   {
     v.push_back(elem);
     std::cout << v.size() << '\t' << v.capacity() << '\t' << *v.rbegin() << std::endl;
   }
+
+  std::cout << RESET << std::endl;
+
   test_vector_iterate(v);
-  v.size();
-  v.capacity(); // _cap *= 2, if newer elem.size overflows capacity
+  // std::cout << v.size();
+  // std::cout << v.capacity(); // _cap *= 2, if newer elem.size overflows capacity
+
+  delineate();
 }
 
 template <typename T>
 void test_vector_reserve()
 {
+
+  print_test_info<T>("TESTING VECTOR RESERVE", BOLDRED);
 
   std::cout << WHITE
             << "Testing vector reserve: allocating extra memory"
@@ -48,9 +59,9 @@ void test_vector_reserve()
 
   foo.reserve(33);
 
-  std::cout << "FOO SIZES" << std::endl;
-  std::cout << BLUE << " size " << foo.size() << "\n";
-  std::cout << BLUE << " cap " << foo.capacity() << "\n";   
+  std::cout << BLUE << "FOO SIZES {" << std::endl;
+  std::cout << BLUE << " size: " << foo.size() << "\n";
+  std::cout << BLUE << " cap: " << foo.capacity() << "\n}\n";   
 
   size_type cap = foo.capacity();
 
@@ -61,16 +72,23 @@ void test_vector_reserve()
   foo.push_back(T());
   foo.push_back(T());
 
-  std::cout << "FOO SIZES" << std::endl;
-  std::cout << BLUE << " size " << foo.size() << "\n";
-  std::cout << BLUE << " cap " << foo.capacity() << "\n";   
+  std::cout << BLUE << "FOO SIZES {" << std::endl;
+  std::cout << BLUE << " size: " << foo.size() << "\n";
+  std::cout << BLUE << " cap: " << foo.capacity() << "\n}\n";   
 
-  std::cout << std::endl
-            << "RESERVE >MAX SIZE TEST" << std::endl;
+  delineate();
+
+  std::cout << YELLOW << std::endl
+            << "RESERVE >MAX SIZE TEST" << RESET << std::endl;
+
+  print_test_info<test::test>("TESTING VECTOR RESERVE", BOLDRED);
+  
 
   vector<test::my_class> evil(10);
   evil.reserve(40);
   test_vector_iterate(evil);
+
+  print_test_info<test::test>("RESERVING > max_size BYTES", BOLDRED);
   std::cout << "max size = " << evil.max_size() << std::endl;
   size_type max_size = evil.max_size();
    try
@@ -79,8 +97,10 @@ void test_vector_reserve()
   }
   catch (const std::exception &e)
   {
-      std::cout << "Size error is expected: " << e.what() << std::endl;
+      std::cout << BOLDMAGENTA << "Size error is expected: " << e.what() << std::endl << RESET;
   }
+
+  delineate();
 }
 
 
@@ -88,8 +108,9 @@ void test_vector_reserve()
 template <typename T>
 void test_vector_resize_with_default_value(const T &value = T())
 {
-  ::prnt("Resizing vector with default value");
-  std::cout << "value = " << value << std::endl;
+  print_test_info<T>("RESIZING VECTOR WITH DEFAULT VALUE", YELLOW);
+  
+  std::cout << "value = " << '"' << value << '"' << std::endl;
 
   typedef vector<T> vector_of;
 
@@ -104,7 +125,7 @@ void test_vector_resize_with_default_value(const T &value = T())
 
 // Truncate to size 5
   Vector.resize(5);
-  std::cout << WHITE << "Elements in vectors after resize(5):" << std::endl;
+  std::cout << WHITE << "Elements in vector after resize(5):" << std::endl;
 
   for (vector<int>::size_type i = 0; i < Vector.size(); ++i){
     std::cout << BLUE << ' ' << Vector[i];
@@ -114,8 +135,8 @@ void test_vector_resize_with_default_value(const T &value = T())
 // Extend to size 10 again and fill with value
   Vector.resize(10, value);
   std::cout << WHITE <<\
-     "Elements in vectors back to resize(10) and value " <<\
-      value << std::endl;
+     "Elements in vector back to resize(10) and value \'" <<\
+      value << "'" << std::endl;
   
   for (vector<int>::size_type i = 0; i < Vector.size(); ++i){
     std::cout << BLUE << ' ' << Vector[i];
@@ -125,13 +146,15 @@ void test_vector_resize_with_default_value(const T &value = T())
 // Resize to 10, should be idempotent
   Vector.resize(10, value);
   std::cout << WHITE <<\
-     "Elements in vectors after resize(10) again and value " << value << std::endl;
+     "Elements in vectors after resize(10) again and value " << "'" << value << "'" << std::endl;
 
 
   for (vector<int>::size_type i = 0; i < Vector.size(); ++i){
     std::cout << BLUE << ' ' << Vector[i];
   };
-  std::cout << std::endl;
+  std::cout << RESET << std::endl;
+
+  delineate();
 }
 
 

@@ -2,16 +2,29 @@
 # define TEST_ITERATION_H
 
 # include <iostream>
+# include <iomanip>
+
 # include "pick_vector.hpp"
 # include "Test.hpp"
 # include "type_traits.hpp"
 # include "utils.hpp"
+# include "colors.hpp"
+# include "test_iteration.hpp"
 
 using test::signal_const;
 
 template <typename V>
+void test_vector_iterate(V &v);
+
+
+template <typename V>
 void test_iterators(V &v)
 {
+  
+  print_test_info<int>("TEST ITERATOR COMPARISON", GREEN);
+  print("Look test_iterators function for assertions. \n \
+  Assertion throws an error if the expression is not correct", MAGENTA);
+
   typename V::iterator begin = v.begin();
   typename V::iterator end = v.end();
   typename V::reverse_iterator rbegin = v.rbegin();
@@ -43,43 +56,48 @@ void test_iterators(V &v)
 
   assert ((begin + 1) == (cbegin + 1));
   assert ((end - 1) == (cend - 1));
-  // ((rbegin + 1) == (end - 1));  CE
-  // end[0]; rend[0]; CE + heap-buffer-overflow ('ends' are invalid iterators)
+  // assert ((rbegin + 1) == (end - 1));  // CE - iterators are different
+  // assert (rbegin > end); CE - can't compare iterator with adaptor
+  // end[0]; rend[0];   //UB + possible heap-buffer-overflow ('ends' are invalid iterators)
   assert (begin[v.size() - 1] == end[-1]);
   assert (begin[v.size() - 1] == rbegin[0]);
   assert (rbegin[0] == end[-1]);
   assert (&rbegin[-1] == end.base()); 
 
-
-  // vchar.begin() == vhar.en;
-
   // Wrong type comparison
   // std::cout << (begin > vstring.begin()) << std::endl; CE
 
   // Arithmetic
-  // assert (end > (end - 1));
-  // assert (rend > (rend - 1));
-  // assert ()
-  // assert (rbegin > end); CE - can't compare iterator with adapter
+  assert (end > (end - 1));
+  assert (rend > (rend - 1));
+  // vchar.insert;
   
 
-  // // Mutable elems
-  // std::cout << GREEN << "Iterators to mutable elements\n" << RESET;
+  test_vector_iterate(v);
+
+  // Mutable elems
+  std::cout << GREEN << "Iterators to mutable elements\n" << RESET;
   
-  // std::cout << "First elem of vector V:\t"              << *begin << "\n";
-  // std::cout << "Last elem of vector V:\t"               << *(end - 1) << std::endl;
-  // std::cout << "First elem of vector V[::-1]:\t"        << *rbegin << std::endl;    // will take the last item of array
-  // std::cout << "Last elem of vector V[::-1]:\t"         << *(rend - 1) << std::endl; // will move reverse iterator to first position in array
+  std::cout << std::left << std::setw(35) << "First elem of vector V:"             << "\t" << *begin << "\n";
+  std::cout << std::left << std::setw(35) << "Last elem of vector V:"              << "\t" << *(end - 1) << std::endl;
+  std::cout << std::left << std::setw(35) << "First elem of vector V[::-1]:"       << "\t" << *rbegin << std::endl;    // will take the last item of array
+  std::cout << std::left << std::setw(35) << "Last elem of vector V[::-1]:"        << "\t" << *(rend - 1) << std::endl; // will move reverse iterator to first position in array
 
-  // std::cout << std::endl;
-  // // Constant elems
-  // // Assigning to these leads to CE
-  // std::cout << RED << "Iterators to constant elements\n" << RESET;
 
-  // std::cout << "First const elem of vector V:\t"        << *cbegin << "\n";
-  // std::cout << "Last const elem of vector V:\t"         << *(cend - 1) << std::endl;
-  // std::cout << "First const elem of vector V[::-1]:\t"  << *crbegin << std::endl;    // will take the last item of array
-  // std::cout << "Last const elem of vector V[::-1]:\t"   << *(crend - 1) << std::endl; // will move reverse iterator to first position in array
+  std::cout << std::endl;
+  
+  // Constant elems
+    // Assigning to these leads to CE
+  std::cout << RED << "Iterators to constant elements\n" << RESET;
+
+  std::cout << std::left << std::setw(35) << "First const elem of vector V:"       << "\t" << *cbegin << "\n";
+  std::cout << std::left << std::setw(35) << "Last const elem of vector V:"        << "\t" << *(cend - 1) << std::endl;
+  std::cout << std::left << std::setw(35) << "First const elem of vector V[::-1]:" << "\t" << *crbegin << std::endl;    // will take the last item of array
+  std::cout << std::left << std::setw(35) << "Last const elem of vector V[::-1]:"  << "\t" << *(crend - 1) << std::endl; // will move reverse iterator to first position in array
+
+  // *cbegin = 5; // CE 
+
+  delineate();
 }
 
 
@@ -87,7 +105,7 @@ void test_iterators(V &v)
 template <typename V>
 void test_vector_iterate(V &v)
 {
-  signal_const<ft::is_const<V>::value>::prnt();
+  signal_const<ft::is_const<V>::value>::print();
   
   typedef typename ft::conditional<
     ft::is_const<V>::value,
@@ -174,6 +192,7 @@ void test_vector_iterate(V &v)
   //   // *crbegin = 5
   //   // compile error
   std::cout << "\n\n";
+
 }
 
 #endif

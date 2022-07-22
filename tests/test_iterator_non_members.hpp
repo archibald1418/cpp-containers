@@ -6,8 +6,6 @@
 #include "utils.hpp"
 #include "test_iteration.hpp"
 #include "VectorFactory.hpp"
-#include <iostream>
-#include <iterator>
 
 using test::unique_ptr;
 using test::VectorFactory;
@@ -20,6 +18,8 @@ typedef int type;
     using ft::advance;
     using ft::distance;
 #  else
+    # include <iostream>
+    # include <iterator>
     using std::advance;
     using std::distance;
 #  endif
@@ -27,6 +27,8 @@ typedef int type;
 
 #ifndef MY
 # define MY 0
+    # include <iostream>
+    # include <iterator>
     using std::advance;
     using std::distance;
 # endif
@@ -49,14 +51,17 @@ void test_advance(){
     iterator it1_copy = it1;
     test_vector_iterate(v);
     advance(it1, 3);
-    ::prnt(it1);
+    ::print(it1);
     advance(it1, -3);
     assert (it1_copy == it1);
-    ::prnt(it1);
-    // ::prnt(std::string("PSYCH"));    
+    ::print(it1);
+    // ::print(std::string("PSYCH"));    
 }
 
 void test_distance(){
+
+    print_test_info<type>("TESTING ITERATOR DISTANCE", BOLDCYAN);
+
     typedef vector<type> vector;
     typedef vector::value_type type;
     

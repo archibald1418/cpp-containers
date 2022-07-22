@@ -1,15 +1,18 @@
 #ifndef TEST_CONSTRUCTING_H
 # define TEST_CONSTRUCTING_H
-# include "utils.hpp"
-# include "pick_vector.hpp"
-# include "test_iteration.hpp"
-# include "test_resizing.hpp"
+
 # include <cassert>
 # include <memory>
 # include <string>
 
+# include "utils.hpp"
+# include "pick_vector.hpp"
+# include "test_iteration.hpp"
+# include "test_resizing.hpp"
+
 void test_default_constructor(){
-    ::prnt("Testing default constructor\n");
+
+    print_test_info<int>("TESTING DEFAULT CONSTRUCTOR\n");
 
     vector<int> v1;
     vector<int> v2 = vector<int>();
@@ -18,10 +21,13 @@ void test_default_constructor(){
     assert((v1 == v2) && (v1.size() == v2.size()));
     assert (v1.empty() && v2.empty() && v3.empty());
     assert (v1.end() == v2.begin()); // If the vector is empty, the returned iterator will be equal to end().
+
+  delineate();
 }
 
 void test_size_value_constructor(){
-    ::prnt("Testing (size, value) constructor\n");
+
+    print_test_info<int>("Testing (size, value) constructor\n");
     
     vector<int> v1(0); assert (v1.empty());
     vector<int> v2(0, 0); assert(v2.empty());
@@ -38,10 +44,13 @@ void test_size_value_constructor(){
     // } catch (const std::exception& e){
     //     std::cout << "Error:" << e.what() << std::endl;
     // }
+
+  delineate();
 }
 
 void test_range_constructor(){
-    ::prnt("Testing (iterator, iterator) constructor\n");
+
+    print_test_info<int>("Testing (iterator, iterator) constructor\n");
 
     vector<int> v1;
     create_vector_of_ints(v1, 11);
@@ -54,6 +63,8 @@ void test_range_constructor(){
     test_vector_iterate(v1);    
     // test_vector_iterate(v2);
     test_vector_iterate(vr);
+
+  delineate();
 }
 
 #endif
