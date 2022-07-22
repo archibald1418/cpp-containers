@@ -8,6 +8,8 @@ DO_TESTFILE=-o ${TESTFILE}
 DO_DSYM=-g
 TESTSRC=vector_main.cpp utils.cpp
 
+DIFF=diff
+
 
 all:
 	${CC} ${CFLAGS} *.cpp
@@ -35,7 +37,7 @@ vector_sys:
 	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=address;
 	@# -fsanitize=leak; export ASAN_OPTIONS=detect_leak=1
 vector_compare: vector_my vector_sys
-	-diff <(./testmy | tee my.log) <(./testsys | tee sys.log)
+	-${DIFF} <(./testmy | tee my.log) <(./testsys | tee sys.log)
 	@#ignore diff writing to stderr
 
 clean:
