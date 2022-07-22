@@ -1,7 +1,7 @@
-#ifndef MY_STACK_HPP
-#define MY_STACK_HPP
+#ifndef STACK_H
+# define STACK_H
 
-#include "ft_containers.hpp"
+# include "ft_containers.hpp"
 
 namespace ft {
     template <typename T, class Container = vector<T> >

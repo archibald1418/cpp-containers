@@ -1,5 +1,5 @@
-#ifndef ITERATORS_HPP
-# define ITERATORS_HPP
+#ifndef ITERATOR_H
+# define ITERATOR_H
 
 # include <iterator>
 # include <cstddef>

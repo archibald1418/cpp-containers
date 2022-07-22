@@ -1,5 +1,6 @@
-#ifndef TEMPLATES_H
-# define TEMPLATES_H
+#ifndef TYPE_TRAITS_H
+# define TYPE_TRAITS_H
+
 # include <cwctype>
 
 namespace ft {
@@ -12,10 +13,10 @@ namespace ft {
     };
 
 template <typename T>
-struct is_const : public ft::false_type{};
+struct is_const : public false_type{};
 
 template<typename T>
-struct is_const<const T> : public ft::true_type{};
+struct is_const<const T> : public true_type{};
 
 template <typename T, typename U>
 struct is_same: public false_type{};
@@ -50,7 +51,7 @@ struct conditional<true, _If, _Then>{
 
 template <typename T, typename U, typename V>
 struct is_one_of{
-    typedef typename ft::conditional<ft::is_same<T, U>::value, U, V>::type type;
+    typedef typename conditional<is_same<T, U>::value, U, V>::type type;
 };
 
 

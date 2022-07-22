@@ -1,10 +1,13 @@
-#include "iterator.hpp"
-#include "utility.hpp"
-#include <cstdint>
+#ifndef VECTOR_H
+# define VECTOR_H
+
+# include "iterator.hpp"
+# include "utility.hpp"
+# include <cstdint>
+
 
 namespace ft
 {
-
     typedef int8_t byte;
 
     template <typename T, class Alloc = std::allocator<T> >
@@ -608,3 +611,6 @@ namespace ft
         lhs.swap(rhs);
     }
 };
+
+
+#endif
