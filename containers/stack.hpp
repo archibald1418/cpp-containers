@@ -7,8 +7,9 @@ namespace ft {
     template <typename T, class Container = vector<T> >
     class stack
     {
-        public:
+        protected:  
             Container           _c;
+        public:
             typedef T           value_type;
             typedef Container   container_type;
             typedef size_t      size_type;
