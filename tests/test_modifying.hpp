@@ -227,4 +227,61 @@ void test_vector_insert(){
   test_vector_iterate(v);
 }
 
+template <typename T>
+void test_swap(){
+  
+  typedef vector<T> vector_of;
+  vector_of v1(
+    *unique_ptr<vector_of>(VectorFactory<T>::factory::create())
+  );
+  vector_of v1_copy(v1);
+
+  vector_of v2(7, 1);
+  vector_of v2_copy(v2);
+
+  typename vector_of::pointer v2_ptr = v2.data();
+  typename vector_of::pointer v1_ptr = v1.data();
+
+// Ground truth
+  assert (v2_ptr == v2.data());
+  assert (v1_ptr == v1.data());
+
+// Swap
+  v1.swap(v2);
+
+// Shallow copy check
+  assert (v1 == v2_copy && 
+    v1.get_allocator() == v2_copy.get_allocator() && 
+      v1.size() == v2_copy.size() && 
+        v1.capacity() == v2_copy.capacity());
+        
+  assert (v2 == v1_copy && 
+    v2.get_allocator() == v1_copy.get_allocator() && 
+      v2.size() == v1_copy.size() && 
+        v2.capacity() == v1_copy.capacity());
+
+// Deep copy check
+  assert (v2_ptr == v1.data());
+  assert (v1_ptr == v2.data());
+
+// Swap back
+  v1.swap(v2);
+
+// Shallow copy check
+  assert (v1 == v1_copy && 
+    v1.get_allocator() == v1_copy.get_allocator() && 
+      v1.size() == v1_copy.size() && 
+        v1.capacity() == v1_copy.capacity());
+
+  assert (v2 == v2_copy && 
+    v2.get_allocator() == v2_copy.get_allocator() && 
+      v2.size() == v2_copy.size() && 
+        v2.capacity() == v2_copy.capacity());
+
+// Deep copy check
+  assert (v1_ptr == v1.data());
+  assert (v2_ptr == v2.data());
+  
+}
+
 #endif

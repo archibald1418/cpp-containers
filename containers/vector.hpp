@@ -498,9 +498,20 @@ namespace ft
 
         void swap(vector &other)
         {
-            vector tmp(*this);
-            *this = other;
-            other = tmp;
+            pointer tmp_first = other._first;
+            size_type tmp_size = other._size;
+            size_type tmp_cap = other._cap;
+            allocator_type tmp_alloc = _alloc;
+
+            other._first = this->_first;
+            other._size = this->_size;
+            other._cap = this->_cap;
+            other._alloc = this->_alloc;
+
+            this->_first = tmp_first;
+            this->_size = tmp_size;
+            this->_cap = tmp_cap;
+            this->_alloc = tmp_alloc;
         }
 
         iterator insert(iterator pos, const T& value){

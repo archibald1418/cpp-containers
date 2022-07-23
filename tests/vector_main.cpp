@@ -31,13 +31,19 @@ using test::unique_ptr;
 int main(){
   std::cout << YELLOW << "\nTESTING " << vector_types[MY] << "\n\n" << RESET;
 
-  // test_vector_erase<int>();
-  // test_vector_erase<std::string>();
-  // test_vector_erase<char>();
-  // test_vector_reserve<int>();
-  // test_vector_resize_with_default_value<std::string>("spam");
-  
-  // test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
+// Erasure
+  test_vector_erase<int>();
+  test_vector_erase<std::string>();
+  test_vector_erase<char>();
+
+// Reserving memory
+  test_vector_reserve<int>();
+
+// Resizin vector
+  test_vector_resize_with_default_value<std::string>("spam");
+
+// Size, capacity
+  test_vector_sizes(*unique_ptr< vector<int> >(VectorFactory<int>::factory::create()));
 
   
   vector<int> v1;
@@ -48,8 +54,6 @@ int main(){
 
 // Iterators 
   test_iterators(v1);
-
-// Factory
   test_vector_iterate(
     *unique_ptr< const vector<int> >(VectorFactory<int>::factory::create())
   );
@@ -70,12 +74,14 @@ int main(){
   test_range_constructor();
   test_copy_constructor();
 
+// Comparison operators
   test_vector_equality();
   
 // Iterator non-members
   test_advance();
   test_distance();
 
-  // *it = 5;
+// Swap
+  test_swap<int>();
 
 }
