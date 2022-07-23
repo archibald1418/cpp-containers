@@ -485,6 +485,6 @@ distance (InputIt first, InputIt last){
 
 
 
-};
+}
 
 #endif 

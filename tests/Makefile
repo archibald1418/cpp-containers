@@ -11,39 +11,45 @@ TESTSRC=vector_main.cpp utils.cpp
 DIFF=diff
 
 
-all:
-	${CC} ${CFLAGS} *.cpp
-
+all: 
+	make -C vector 
+	@# TODO: add map and stack rules
+sandbox: 
+	make -C sandbox
 test:
-	${CC} ${CFLAGS} sandbox/*sandbox.cpp -o test
-
+	make test -C sandbox
 overload:
-	${CC} ${CFLAGS} sandbox/*overload*.cpp -o test
+	make overload -C sandbox
 spec:
-	${CC} ${CFLAGS} sandbox/*spec*.cpp -o test
+	make spec -C sandbox
 non-type:
-	${CC} ${CFLAGS} sandbox/*non_type*.cpp -o test
-
+	make non-type -C sandbox
 compile:
-	${CC} ${CFLAGS} *.cpp -c
+	make compile -C sandbox
 typedefs:
-	${CC} ${CFLAGS} -Itypedefs.hpp *typedefs*.cpp ${DO_TESTFILE}
+	make typedefs -C sandbox
+
 
 # Containers
 
+vector:
+	make -C vector
+
 vector_my:
-	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=1 ${DO_TESTFILE}my -fsanitize=address;
+	make vector_my -C vector; 
+	./vector/testmy
 vector_sys:
-	${CC} ${CFLAGS} $(TESTSRC) -g -I ${CONTAINERS} -I./ -D MY=0 ${DO_TESTFILE}sys -fsanitize=address;
-	@# -fsanitize=leak; export ASAN_OPTIONS=detect_leak=1
+	make vector_sys -C vector; 
+	./vector/testsys
 vector_compare: vector_my vector_sys
-	-${DIFF} <(./testmy | tee my.log) <(./testsys | tee sys.log)
-	@#ignore diff writing to stderr
+	make vector_compare -C vector;
 
 clean:
 	-rm -rf *.o
-	rm -rf test testmy testsys
+	-rm -rf test testmy testsys
 	-rm -rf *.dSYM
 	-rm -rf .*.swp
-	rm -rf a.out
+	-rm -rf a.out
+	-rm -rf *.log
+
 re-test: clean test

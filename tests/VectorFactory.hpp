@@ -104,6 +104,6 @@ namespace test{
   struct factory_type{
     typedef VectorFactory<T> type;
   };
-};
+}
 
 #endif

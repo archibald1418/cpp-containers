@@ -75,6 +75,6 @@ typedef std::map<const char *, std::string> TypeRepr;
 
     TypeRepr CreateMap::TheMap(CreateMap::MapPairs, CreateMap::MapPairs + NTYPES);
     
-};
+}
 
 #endif

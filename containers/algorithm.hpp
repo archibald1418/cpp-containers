@@ -20,7 +20,7 @@ namespace ft{
                 ++first2;
             }
             return (first2 != last2);
-        };
+        }
 
     template <class T, class U>
         typename enable_if
@@ -42,7 +42,7 @@ namespace ft{
             return result;
         }
 
-};
+}
 
 
 #endif

@@ -44,6 +44,6 @@ namespace test {
     }
 
   } my_class;
-};
+}
 
 #endif

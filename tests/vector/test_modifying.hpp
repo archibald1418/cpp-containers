@@ -61,7 +61,7 @@ void test_vector_equality(){
   print_test_info<int>("EQUALITY TESTS");
 
   typedef vector<int> vint;
-  typedef typename VectorFactory<int>::factory factory;
+  typedef VectorFactory<int>::factory factory;
 
   vint a = *unique_ptr<vint>(factory::create());
   vint b(a);

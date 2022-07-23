@@ -17,6 +17,6 @@ namespace ft{
         return a;
     }
 
-};
+}
 
 #endif

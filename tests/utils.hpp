@@ -85,7 +85,7 @@ namespace test{
             ft::is_pointer<T>::value || (sizeof(test<T>(0)) == sizeof(YesType))
         );
   }; 
-};
+}
 
 
 // Printing functions

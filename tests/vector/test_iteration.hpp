@@ -113,30 +113,30 @@ void test_vector_iterate(V &v)
     typename V::iterator>::type
   iterator_type;
 
-  static_assert (
-    ft::is_same<
-      typename ft::conditional<
-        ft::is_const<V>::value,
-        typename V::const_iterator,
-        typename V::iterator
-      >::type, 
-      iterator_type
-    >::value,
-    "Const vector must yield const_iterator"
-    );
+  // static_assert (
+  //   ft::is_same<
+  //     typename ft::conditional<
+  //       ft::is_const<V>::value,
+  //       typename V::const_iterator,
+  //       typename V::iterator
+  //     >::type, 
+  //     iterator_type
+  //   >::value,
+  //   "Const vector must yield const_iterator"
+  //   );
 
 
-  static_assert (
-    ft::is_same<
-      typename ft::conditional<
-        !ft::is_const<V>::value,
-        typename V::iterator,
-        typename V::const_iterator
-      >::type,
-      iterator_type
-    >::value,
-    "Non-const vector must yield iterator"
-    );
+  // static_assert (
+  //   ft::is_same<
+  //     typename ft::conditional<
+  //       !ft::is_const<V>::value,
+  //       typename V::iterator,
+  //       typename V::const_iterator
+  //     >::type,
+  //     iterator_type
+  //   >::value,
+  //   "Non-const vector must yield iterator"
+  //   );
 
   typedef typename ft::conditional<
     ft::is_const<V>::value,

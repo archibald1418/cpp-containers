@@ -72,12 +72,12 @@ template <> struct is_integral<signed char>			: public ft::integral_constant<boo
 template <> struct is_integral<short>				: public ft::integral_constant<bool, true> {};
 template <> struct is_integral<int>					: public ft::integral_constant<bool, true> {};
 template <> struct is_integral<long>				: public ft::integral_constant<bool, true> {};
-template <> struct is_integral<long long>			: public ft::integral_constant<bool, true> {};
+// template <> struct is_integral<long long>			: public ft::integral_constant<bool, true> {};
 template <> struct is_integral<unsigned char>		: public ft::integral_constant<bool, true> {};
 template <> struct is_integral<unsigned short>		: public ft::integral_constant<bool, true> {};
 template <> struct is_integral<unsigned int>		: public ft::integral_constant<bool, true> {};
 template <> struct is_integral<unsigned long> 		: public ft::integral_constant<bool, true> {};
-template <> struct is_integral<unsigned long long>	: public ft::integral_constant<bool, true> {};
+// template <> struct is_integral<unsigned long long>	: public ft::integral_constant<bool, true> {}; // long long is a C++11 extension
 
 template <typename T>
 struct remove_pointer{typedef T type;};
@@ -92,6 +92,6 @@ struct is_pointer<
     typename enable_if<!is_same<typename remove_pointer<T>::type, T>::value>::type>
     :
     public true_type{};
-};
+}
 
 #endif
