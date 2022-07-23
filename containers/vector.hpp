@@ -88,7 +88,7 @@ namespace ft
             This value typically reflects the theoretical limit on the size of the container,
             -- at most std::numeric_limits<difference_type>::max() --
             */
-            return std::min<size_type>(
+            return ft::min<size_type>(
                 _alloc.max_size(),
                 std::numeric_limits<difference_type>::max());
         }
