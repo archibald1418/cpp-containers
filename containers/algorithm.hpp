@@ -3,6 +3,7 @@
 # define ALGORITHM_H
 
 # include "type_traits.hpp"
+# include "utility.hpp"
 
 namespace ft{
 
@@ -42,6 +43,24 @@ namespace ft{
             return result;
         }
 
+    template <typename T>
+    inline T min(const T& a, const T& b){
+        if (b < a)
+            return b;
+        return a;
+    }
+
+    template <typename T>
+    inline T max(const T& a, const T& b){
+        if (a < b)
+            return b;
+        return a;
+    }
+
+    template <class T>
+    void swap(T& a, T& b){
+        a.swap(b);
+    }
 }
 
 
