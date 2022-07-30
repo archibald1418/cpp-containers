@@ -6,8 +6,8 @@ namespace ft{
 
     template <typename T1, typename T2>
     struct pair{
-        typedef first_type T1;
-        typedef second_type T2;
+        typedef T1 first_type;
+        typedef T2 second_type;
 
         T1 first;
         T2 second;
@@ -29,11 +29,6 @@ namespace ft{
         }  
     };
 
-    template <typename T1, typename T2>
-    pair<T1, T2> make_pair(T1 t, T2 u){
-        return pair(t, u);
-    }
-    
 }
 
 #endif
