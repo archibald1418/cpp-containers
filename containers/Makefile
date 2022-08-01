@@ -1,5 +1,5 @@
+all:
+	c++ -std=c++98 -I./ -Wall -Wextra -Werror *.cpp
 
-all: $(NAME)
-
-NAME:
-	c++ -std=c++98 -c -Wall -Wextra -Werror *.cpp
+clean:
+	rm -rf main.o
