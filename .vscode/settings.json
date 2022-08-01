@@ -93,6 +93,16 @@
         "ctgmath": "cpp",
         "test": "cpp",
         "cstdbool": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "any": "cpp",
+        "filesystem": "cpp",
+        "fstream": "cpp",
+        "future": "cpp",
+        "regex": "cpp",
+        "shared_mutex": "cpp",
+        "valarray": "cpp",
+        "forward_list": "cpp",
+        "unordered_set": "cpp",
+        "syncstream": "cpp"
     }
 }

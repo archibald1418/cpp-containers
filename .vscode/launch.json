@@ -2,6 +2,13 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "Launch",
+			"type": "lldb",
+			"request": "launch",
+			"program": "${workspaceFolder}/a.out",
+			"args": [],
+		},
+		{
 			"type": "cppdbg",
 			"request": "launch",
 			"name": "my vector debug",
