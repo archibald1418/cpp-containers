@@ -4,6 +4,7 @@
 
 # include "type_traits.hpp"
 # include "utility.hpp"
+# include <memory>
 
 namespace ft{
 
