@@ -2,12 +2,14 @@
 # define TREE_H
 
 # include "node.hpp"
+# include "type_traits.hpp"
 
 template <class T>
 class Tree{
 
     typedef Node<T> Node;
     typedef Node::pointer node_pointer;
+    typedef T value_type;
 
     // TODO: coplien form, destructors!
 
@@ -74,7 +76,22 @@ class Tree{
             rightheight = (1 + height(root->right));
         
         return ft::max(leftheight, rightheight);
-    }    
+    }
+
+    template <typename T>
+    static bool is_avl_balanced(Node *root, 
+    typename ft::enable_if<ft::is_same<Node, AVLNode>::value, Node>::type* = 0)
+    {
+        // DEBUG: test this
+        int balfac = height(root->right) - height(root->left);
+        return (-1 <= balfac && balfac <= 1);
+    }
 };
+
+template <typename T>
+bool is_avl_balanced(AVLNode<T>* root)
+{
+    return Tree<T>::is_avl_balanced(root);
+}
 
 #endif
