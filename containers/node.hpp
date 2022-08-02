@@ -11,12 +11,14 @@ class Tree;
 
 template <typename Key>
 struct Node {
-    typedef Node<Key> pointer;
+    typedef Node<Key>   node_type;
+    typedef Key         value_type;
+    typedef Node*       pointer;
 
     protected:
-        struct Node *left;
-        struct Node *right;
-        struct Node *parent;
+        pointer left;
+        pointer right;
+        pointer parent;
         Key key;
     
         
@@ -39,25 +41,26 @@ struct Node {
 template <typename Key>
 struct AVLNode : public Node<Key>
 {
+    typedef Node<Key> NodeBase;
     typedef AVLNode<Key>* pointer;
-    typedef Node<Key> Node;
+    typedef AVLNode<Key> Node;
 
     private:
         int balance_factor; 
             // Insertion and deletion are in charge of this field
-        pointer& Left(){
-            return dynamic_cast<pointer>(this->left);
+    public:
+        pointer Left(){
+            return static_cast<pointer>(this->left);
         }
-        pointer& Right(){
-            return dynamic_cast<pointer>(this->right);
+        pointer Right(){
+            return static_cast<pointer>(this->right);
         }
 
-    public:
-        AVLNode() : Node(), balance_factor(0){};
-        AVLNode(const Key& key) : Node(key), balance_factor(0){};
+        AVLNode() : NodeBase(), balance_factor(0){};
+        AVLNode(const Key& key) : NodeBase(key), balance_factor(0){};
         AVLNode(const Key& key, pointer left, pointer right, int balfac = 0)
         :
-        Node(key, left, right), balance_factor(balfac){};
+        NodeBase(key, left, right), balance_factor(balfac){};
 
         int get_balance_factor(){return this->balance_factor;}
 };
