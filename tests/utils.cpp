@@ -1,7 +1,8 @@
 #include "colors.hpp"
-
+#include "tree.hpp"
+#include "node.hpp"
+#include "type_traits.hpp"
 #include <iostream>
-
 
 void print(std::string s, Color color){
   std::cout << color << s << "\n\n" << RESET;

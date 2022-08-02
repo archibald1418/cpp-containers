@@ -4,6 +4,9 @@
 # include "type_traits.hpp"
 # include "Test.hpp"
 # include "types.hpp"
+# include "tree.hpp"
+# include "node.hpp"
+# include "colors.hpp"
 
 template <typename Container>
 void create_vector_of_ints(Container &vector, int elems)
@@ -124,6 +127,35 @@ void print_test_info(const char *title, Color color = GREEN)
   print_type(T());
 }
 
+
+// ------------------------------ Trees -----------------------
+
+# define SEP_COUNT 10
+
+
+# ifndef SEP
+#  define SEP '.'
+# endif
+
+template <typename NodeType>
+void print_tree_reverse_inorder(NodeType* root, int& n){
+  
+  if (root == NULL)
+    return ;
+  
+  n += SEP_COUNT; // Increase by delta on every tree level
+  
+  // Print right child on this level
+  print_tree(root->right, n);
+
+  // Indent, marking the level
+  std::cout << "\n" << std::string(n, SEP) << std::endl;
+  std::cout << root->data << std::endl;
+
+  // Left child on same level
+  print_tree(root->left, n);
+  
+}
 
 
 #endif
