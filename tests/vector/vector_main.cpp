@@ -20,6 +20,7 @@
 #include "test_iterator_non_members.hpp"
 #include "test_inserters.hpp"
 #include "colors.hpp"
+#include "utility.hpp"
 
 
 using test::VectorFactory;
@@ -83,5 +84,4 @@ int main(){
 
 // Swap
   test_swap<int>();
-
 }
