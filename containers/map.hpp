@@ -6,6 +6,7 @@
 # include <memory>
 
 namespace ft{
+    
     template <
         typename Key,
         typename T,
@@ -21,5 +22,7 @@ namespace ft{
             typedef Compare					    keycompare;
             typedef Alloc					    allocator_type;
     };
+}
+
 
 #endif
