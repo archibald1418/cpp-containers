@@ -46,5 +46,6 @@ clean:
 	-rm -rf .*.swp
 	-rm -rf a.out
 	-rm -rf *.log
+	-rm -rf tree
 
 re-test: clean
