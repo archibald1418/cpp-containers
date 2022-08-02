@@ -41,7 +41,7 @@ vector_my:
 vector_sys:
 	make vector_sys -C vector; 
 	./vector/testsys
-vector_compare: vector_my vector_sys
+vector_compare: 
 	make vector_compare -C vector;
 
 clean:
