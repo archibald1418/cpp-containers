@@ -4,13 +4,10 @@
 # include "node.hpp"
 # include "type_traits.hpp"
 # include "algorithm.hpp"
+# include "tree_utils.hpp"
 
 namespace ft {
-
-
-
-
-    template <class T, template<typename> class NodeType>
+        template <class T, template<typename> class NodeType>
     class Tree{
         typedef NodeType<T> Node;
         typedef typename Node::pointer node_pointer;
@@ -69,31 +66,23 @@ namespace ft {
             return node;
         }
 
+
+    // Happy tree friends
+    template <typename U>
+    friend int height(::Node<U>* root);
+
+    template <typename U>
+    friend bool is_avl_balanced(::AVLNode<U>* root);
+
+    // These functions are essential for balancing,
+    // because they need access to protected fields
+
     };
 
     
-    template <typename T>
-    int height(Node<T>* root)
-    {
-        int leftheight = 0;
-        int rightheight = 0;
-        if (!root)
-            return -1;
-        if (root->left)
-            leftheight = (1 + height(root->left));
-        if (root->right)
-            rightheight = (1 + height(root->right));
-        
-        return max(leftheight, rightheight);
-    }
-
-    template <typename T>
-    bool is_avl_balanced(AVLNode<T> *root)
-    {
-        // DEBUG: test this
-        int balfac = height(root->right) - height(root->left);
-        return (-1 <= balfac && balfac <= 1);
-    }
 }
+
+
+
 
 #endif
