@@ -6,9 +6,9 @@ namespace ft {
         class Arg2,
         class Result
     > struct binary_function {
-        typedef first_argument_type Arg1;
-        typedef second_argument_type Arg2;
-        typedef result_type Result;
+        typedef Arg1 first_argument_type;
+        typedef Arg2 second_argument_type;
+        typedef Result result_type;
     };
 
     template <typename T>
