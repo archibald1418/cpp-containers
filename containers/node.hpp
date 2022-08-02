@@ -45,10 +45,10 @@ struct AVLNode : public Node<Key>
     private:
         int balance_factor; 
             // Insertion and deletion are in charge of this field
-        pointer Left(){
+        pointer& Left(){
             return dynamic_cast<pointer>(this->left);
         }
-        pointer Right(){
+        pointer& Right(){
             return dynamic_cast<pointer>(this->right);
         }
 
