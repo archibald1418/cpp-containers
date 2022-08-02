@@ -7,6 +7,9 @@
 # include "tree.hpp"
 # include "node.hpp"
 # include "colors.hpp"
+# include "tree_utils.hpp"
+# include <iostream>
+# include <iomanip>
 
 template <typename Container>
 void create_vector_of_ints(Container &vector, int elems)
@@ -128,34 +131,55 @@ void print_test_info(const char *title, Color color = GREEN)
 }
 
 
+
+
 // ------------------------------ Trees -----------------------
 
-# define SEP_COUNT 10
 
 
-# ifndef SEP
-#  define SEP '.'
-# endif
-
-template <typename NodeType>
-void print_tree_reverse_inorder(NodeType* root, int& n){
-  
-  if (root == NULL)
-    return ;
-  
-  n += SEP_COUNT; // Increase by delta on every tree level
-  
-  // Print right child on this level
-  print_tree(root->right, n);
-
-  // Indent, marking the level
-  std::cout << "\n" << std::string(n, SEP) << std::endl;
-  std::cout << root->data << std::endl;
-
-  // Left child on same level
-  print_tree(root->left, n);
-  
+template <typename Node>
+void print_tree(Node* p, int indent = 4)
+{
+    if(p != NULL) {
+        if(p->Right()) {
+            print_tree(p->Right(), indent+4);
+        }
+        if (indent) {
+            std::cout << std::setw(indent) << ' ';
+        }
+        if (p->Right()) 
+          std::cout<<" /\n" << std::setw(indent - 1) << ' ';
+        std::cout << p->get() << "\n";
+        if(p->Left()) {
+            std::cout << std::setw(indent) << ' ' <<" \\\n";
+            print_tree(p->Left(), indent+4);
+        }
+    }
 }
+
+
+
+// # define SEP_COUNT 5
+// # define SEP '`'
+// # define LINK_LR '\\'
+// # define LINK_RL '/'
+// template <typename Node>
+// void print_tree(Node* root, int lvl = 0)
+// {
+  
+//   if (root == NULL)
+//     return ;
+  
+//   // Print right child on this level
+//   print_tree(root->Right(), lvl + 1);
+
+//   // Indent, marking the level
+//   std::cout  << std::string(lvl * SEP_COUNT, SEP);
+//   std::cout << root->get() << "\n";
+
+//   // Left child on same level
+//   print_tree(root->Left(), lvl + 1); 
+// }
 
 
 #endif
