@@ -63,6 +63,4 @@ struct AVLNode : public Node<Key>
 };
 
 
-
-
 #endif
