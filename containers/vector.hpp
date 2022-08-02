@@ -4,6 +4,7 @@
 # include "iterator.hpp"
 # include "algorithm.hpp"
 # include <cstdint>
+# include <memory>
 
 
 namespace ft
