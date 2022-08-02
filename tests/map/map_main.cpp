@@ -1,5 +1,6 @@
 #include "tree.hpp"
 #include "node.hpp"
+#include "utils.hpp"
 
 #include <iostream>
 
@@ -22,12 +23,14 @@ int main(){
 	Node<int> baseNode;
 	AVLNode<int> avlnode(8);
 
-	std::cout << avlnode.get_balance_factor() << std::endl;
-	std::cout << avlnode.get() << std::endl;
+	// std::cout << avlnode.get_balance_factor() << std::endl;
+	// std::cout << avlnode.get() << std::endl;
 
 	AVLNode<char>* root;
 
 	MakeAVLCharTree(root);
+
+	print_tree(root);
 
 	return (0);
 }
