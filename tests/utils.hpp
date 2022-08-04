@@ -137,8 +137,8 @@ void print_test_info(const char *title, Color color = GREEN)
 
 
 
-template <typename Node>
-void print_tree(Node* p, int indent = 4)
+template <typename node>
+void print_tree(node* p, int indent = 4)
 {
     if(p != NULL) {
         if(p->Right()) {
@@ -149,7 +149,7 @@ void print_tree(Node* p, int indent = 4)
         }
         if (p->Right()) 
           std::cout<<" /\n" << std::setw(indent - 1) << ' ';
-        std::cout << p->get() << "\n";
+        std::cout << p->get() << "\n" // ":" << p->get_balance_factor() << "\n"; FIXME: is cast to wrong pointer, object slicing occurs
         if(p->Left()) {
             std::cout << std::setw(indent) << ' ' <<" \\\n";
             print_tree(p->Left(), indent+4);
