@@ -14,6 +14,12 @@ DIFF	=	diff
 ifeq ($(mode),debug)
 	CFLAGS := -g -Wall -Wextra
 endif
+ifeq ($(mode),leak)
+	CFLAGS := -g -Wall -Wextra -fsanitize=leak
+endif
+ifeq ($(mode),memory)
+	CFLAGS := -g -Wall -Wextra -fsanitize=address
+endif
 
 # Containers
 
@@ -37,7 +43,7 @@ map_compare: map_my map_sys
 	@#ignore diff writing to stderr
 
 tree_test:
-	${CC} -g -I${TESTS} -I${CONTAINERS} map_main.cpp -o tree
+	${CC} ${CFLAGS} -I${TESTS} -I${CONTAINERS} map_main.cpp -o tree
 
 clean:
 	-rm -rf *.o
