@@ -5,60 +5,93 @@
 # include "stack.hpp"
 # include "tree.hpp"
 
-template <typename Key>
-class Tree;
+template <typename T, template<typename> class NodeType>
+struct Tree;
 
+template <typename Key, template<typename> class NodeType>
+struct node_traits{
+    typedef NodeType<Key>       node_t;
+    typedef Key                 value_type;
+    typedef node_t*             pointer;
+};
 
 template <typename Key>
-struct Node {
-    typedef Node<Key>   node_type;
-    typedef Key         value_type;
-    typedef Node*       pointer;
+struct Node{
+
+    typedef node_traits<Key, Node>          traits;
+    typedef typename traits::node_t         node_t;
+    typedef typename traits::value_type     value_type;
+    typedef typename traits::pointer        pointer;
 
     protected:
         pointer left;
         pointer right;
         pointer parent;
         Key key;
-    
         
-    friend class Tree<Key>; // Tree has to have access to protected members
+    friend struct Tree<Key, Node>; 
+    // Tree has to have access to protected members
 
     public:
+
+    /* FIX: 
+        CRTP, with Tree and Node metaclasses, 
+        hold shared functionality of the children,
+        take designated child class as a template template parameter
+        and generating traits based on the parameter
+    
+    */
+
+        pointer Left(){
+            return dynamic_cast<pointer>(this->left);
+        }
+        pointer Right(){
+            return dynamic_cast<pointer>(this->right); // FIXME: Object slicing
+        }
+        pointer Parent(){
+            return static_cast<pointer>(this->parent);
+        }
+
         Node() : left(NULL), right(NULL), parent(NULL), key(Key()){};
-        Node(const Key& key) : left(NULL), right(NULL), parent(NULL), key(key){};
-        Node(const Key& key, pointer left, pointer right)
+        Node(const Key& key, pointer left = NULL, pointer right = NULL, pointer parent = NULL)
         :
-        key(key), left(left), right(right){};
+        left(left), right(right), parent(parent), key(key){};
+        Node(const Node& other)
+        :
+        left(other.left), right(other.right), parent(other.parent), key(other.key){};
+
+        virtual ~Node(){
+            // TODO: 
+        }
 
         Key& get(){ return this->key;};
 
-        virtual ~Node(){
-            // TODO:
+        static pointer create_node(const Key& item, pointer left = NULL, pointer right = NULL){
+            return new Node(item, left, right);
+        }
+        static pointer clone_node(const Node& node){
+            return new Node(node);
         }
 };
 
 template <typename Key>
 struct AVLNode : public Node<Key>
 {
-    typedef Node<Key> NodeBase;
-    typedef AVLNode<Key>* pointer;
-    typedef AVLNode<Key> Node;
+    typedef Node<Key>                       NodeBase;
+    typedef node_traits<Key, AVLNode>       traits;
+    typedef typename traits::node_t         node_t;
+    typedef typename traits::value_type     value_type;
+    typedef typename traits::pointer        pointer;
+    
 
     private:
-        int balance_factor; 
+        int balance_factor;
             // Insertion and deletion are in charge of this field
     public:
-        pointer Left(){
-            return static_cast<pointer>(this->left);
-        }
-        pointer Right(){
-            return static_cast<pointer>(this->right);
-        }
+        
 
         AVLNode() : NodeBase(), balance_factor(0){};
-        AVLNode(const Key& key) : NodeBase(key), balance_factor(0){};
-        AVLNode(const Key& key, pointer left, pointer right, int balfac = 0)
+        AVLNode(const Key& key, pointer left = NULL, pointer right = NULL, int balfac = 0)
         :
         NodeBase(key, left, right), balance_factor(balfac){};
 
