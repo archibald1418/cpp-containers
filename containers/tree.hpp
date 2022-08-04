@@ -6,16 +6,31 @@
 # include "algorithm.hpp"
 # include "tree_utils.hpp"
 
+# define LEFTHEAVY  -1
+# define BALANCED   0
+# define RIGHTHEAVY 1 
+
+
 namespace ft {
+
+        template <class NodeType>
+    struct tree_traits{
+        typedef NodeType                     node_t;
+        typedef typename node_t::pointer     node_pointer;
+        typedef typename node_t::value_type  value_type;
+    };
+
         template <class T, template<typename> class NodeType>
-    class Tree{
-        typedef NodeType<T> Node;
-        typedef typename Node::pointer node_pointer;
-        typedef T value_type;
+    struct Tree{
 
-        // TODO: coplien form, destructors!
+        typedef tree_traits<NodeType<T> >       traits;
+        typedef typename traits::node_t         node_t;
+        typedef typename traits::node_pointer   node_pointer;
+        typedef typename traits::value_type     value_type;
+        
+        // TODO: coplien form, destructors, allocators(?)
 
-        Node* search(Node* node, T key)
+        node_t* search(node_t* node, const T& key)
         {
             while (node != NULL && node->key != key)
             {
@@ -27,17 +42,17 @@ namespace ft {
             return node;
         }
 
-        Node* tree_min(Node* node){
+        node_t* tree_min(node_t* node){
             while (node->left != NULL)
                 node = node->left;
             return node;
         }  
-        Node* tree_max(Node* node){
+        node_t* tree_max(node_t* node){
             while (node->right != NULL)
                 node = node->right;
             return node;
         }
-        Node* tree_next(Node* node){
+        node_t* tree_next(node_t* node){
             // Searching for next item in an ordered sequence
 
             // Next item is the next greatest to the current item
@@ -46,25 +61,28 @@ namespace ft {
                 return tree_min(node->right);
 
             // Otherwise go up and search the first parent which is also a left node
-            Node* node_parent = node->parent;
+            node_t* node_parent = node->parent;
             while (node_parent != NULL and node == node_parent->right){
                 node = node_parent;
                 node_parent = node_parent->parent;
             }
             return node;
         }
-        Node* tree_prev(Node* node){
+        node_t* tree_prev(node_t* node){
             // Same, but searching for rightmost child
             if (node->left)
                 return tree_max(node->left);
 
-            Node* node_parent = node->parent;
+            node_t* node_parent = node->parent;
             while (node_parent != NULL and node == node_parent->left){
                 node = node_parent;
                 node_parent = node_parent->parent;
             }
             return node;
         }
+
+        virtual void Insert(const T& item) = 0;
+        virtual void Delete(const T& iterm) = 0;
 
 
     // Happy tree friends
@@ -80,6 +98,26 @@ namespace ft {
     };
 
     
+    template <typename T>
+    struct AVLTree : public Tree<T, AVLNode>{
+        
+        typedef Tree<T, AVLNode>                BaseTree;
+        typedef tree_traits<AVLNode<T> >        traits;
+        typedef typename traits::node_t         node_t;
+        typedef typename traits::node_pointer   node_pointer;
+        typedef typename traits::value_type     value_type;
+        
+
+        private:
+            node_t* create_avl_node(const T& item, 
+            node_t* lptr, node_t* rptr){
+                return node_t::create_node(item, lptr, rptr);
+            }
+
+            void Insert(const T& item){
+                (void)item;
+            }
+    };
 }
 
 
