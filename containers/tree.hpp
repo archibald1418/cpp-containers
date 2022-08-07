@@ -13,24 +13,24 @@
 
 namespace ft {
 
-        template <class NodeType>
+        template <class Node>
     struct tree_traits{
-        typedef NodeType                     node_t;
-        typedef typename node_t::pointer     node_pointer;
-        typedef typename node_t::value_type  value_type;
+        typedef Node                            node_t;
+        typedef typename node_t::pointer        node_pointer;
+        typedef typename node_t::value_type     value_type;
     };
 
         template <class T, template<typename> class NodeType>
-    struct Tree{
+    struct BaseTree{
 
-        typedef tree_traits<NodeType<T> >       traits;
+        typedef tree_traits< NodeType<T> >      traits;
         typedef typename traits::node_t         node_t;
         typedef typename traits::node_pointer   node_pointer;
         typedef typename traits::value_type     value_type;
         
         // TODO: coplien form, destructors, allocators(?)
 
-        node_t* search(node_t* node, const T& key)
+        node_t* search(node_t* node, const value_type& key)
         {
             while (node != NULL && node->key != key)
             {
@@ -81,16 +81,16 @@ namespace ft {
             return node;
         }
 
-        virtual void Insert(const T& item) = 0;
-        virtual void Delete(const T& iterm) = 0;
+        virtual void Insert(const value_type& item) = 0;
+        virtual void Delete(const value_type& iterm) = 0;
 
 
     // Happy tree friends
     template <typename U>
-    friend int height(::Node<U>* root);
+    friend int height(NodeType<U>* root);
 
     template <typename U>
-    friend bool is_avl_balanced(::AVLNode<U>* root);
+    friend bool is_avl_balanced(AVLNode<U>* root);
 
     // These functions are essential for balancing,
     // because they need access to protected fields
@@ -99,17 +99,17 @@ namespace ft {
 
     
     template <typename T>
-    struct AVLTree : public Tree<T, AVLNode>{
+    struct AVLTree : public BaseTree<T, AVLNode>{
         
         typedef Tree<T, AVLNode>                BaseTree;
-        typedef tree_traits<AVLNode<T> >        traits;
+        typedef tree_traits< AVLNode<T> >       traits;
+        
         typedef typename traits::node_t         node_t;
         typedef typename traits::node_pointer   node_pointer;
         typedef typename traits::value_type     value_type;
         
-
         private:
-            node_t* create_avl_node(const T& item, 
+            node_t* create_avl_node(const value_type& item, 
             node_t* lptr, node_t* rptr){
                 return node_t::create_node(item, lptr, rptr);
             }
