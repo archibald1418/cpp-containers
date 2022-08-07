@@ -15,33 +15,20 @@ struct node_traits{
     typedef node_t*             pointer;
 };
 
-template <typename Key>
-struct Node{
-
-    typedef node_traits<Key, Node>          traits;
+template <typename Key, template<typename> class NodeImpl>
+struct BaseNode{
+    typedef node_traits<Key, NodeImpl>      traits;
     typedef typename traits::node_t         node_t;
     typedef typename traits::value_type     value_type;
     typedef typename traits::pointer        pointer;
 
     protected:
-        pointer left;
-        pointer right;
-        pointer parent;
-        Key key;
-        
-    friend struct Tree<Key, Node>; 
-    // Tree has to have access to protected members
+        pointer     left;
+        pointer     right;
+        pointer     parent;
+        value_type  key;
 
     public:
-
-    /* FIX: 
-        CRTP, with Tree and Node metaclasses, 
-        hold shared functionality of the children,
-        take designated child class as a template template parameter
-        and generating traits based on the parameter
-    
-    */
-
         pointer Left(){
             return dynamic_cast<pointer>(this->left);
         }
@@ -52,33 +39,48 @@ struct Node{
             return static_cast<pointer>(this->parent);
         }
 
-        Node() : left(NULL), right(NULL), parent(NULL), key(Key()){};
-        Node(const Key& key, pointer left = NULL, pointer right = NULL, pointer parent = NULL)
+
+        BaseNode() : left(NULL), right(NULL), parent(NULL), key(Key()){};
+        BaseNode(const Key& key, pointer left = NULL, pointer right = NULL, pointer parent = NULL)
         :
         left(left), right(right), parent(parent), key(key){};
-        Node(const Node& other)
+        BaseNode(const BaseNode& other)
         :
         left(other.left), right(other.right), parent(other.parent), key(other.key){};
 
-        virtual ~Node(){
+
+        virtual value_type& get(){ return this->key;};
+
+        virtual ~BaseNode(){
             // TODO: 
         }
 
-        Key& get(){ return this->key;};
-
-        static pointer create_node(const Key& item, pointer left = NULL, pointer right = NULL){
-            return new Node(item, left, right);
+// Should these be abstract ?
+        static pointer create_node(const value_type& item, 
+        pointer left = NULL, pointer right = NULL, pointer parent = NULL){
+            return new BaseNode(item, left, right, parent);
         }
-        static pointer clone_node(const Node& node){
-            return new Node(node);
+        static pointer clone_node(const node_t& node){
+            return new BaseNode(node);
         }
+    
 };
 
 template <typename Key>
-struct AVLNode : public Node<Key>
+struct Node : public BaseNode<Key, Node>{};
+
+template <typename Key>
+struct AVLNode : public BaseNode<Key, AVLNode>
 {
-    typedef Node<Key>                       NodeBase;
-    typedef node_traits<Key, AVLNode>       traits;
+    /* FIX: 
+        CRTP, with Tree and Node metaclasses, 
+        hold shared functionality of the children,
+        take designated child class as a template template parameter
+        and generating traits based on the parameter
+    */
+    typedef BaseNode<Key, AVLNode>          __base;
+    typedef typename __base::traits         traits;
+    
     typedef typename traits::node_t         node_t;
     typedef typename traits::value_type     value_type;
     typedef typename traits::pointer        pointer;
@@ -90,12 +92,25 @@ struct AVLNode : public Node<Key>
     public:
         
 
-        AVLNode() : NodeBase(), balance_factor(0){};
-        AVLNode(const Key& key, pointer left = NULL, pointer right = NULL, int balfac = 0)
+        AVLNode() : __base(), balance_factor(0){}
+        AVLNode(const value_type& key,
+        pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL)
         :
-        NodeBase(key, left, right), balance_factor(balfac){};
+        __base(key, left, right, parent), balance_factor(balfac){};
+        AVLNode(const node_t& other)
+        :
+        __base(other), balance_factor(other.balance_factor){};
 
         int get_balance_factor(){return this->balance_factor;}
+
+        static pointer clone_node(const node_t& node){
+            return new AVLNode(node);
+        }
+        static pointer create_node(const value_type& key,
+        pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL){
+            new AVLNode(key, left, right, parent, balfac);
+        }
+        
 };
 
 
