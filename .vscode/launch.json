@@ -13,7 +13,7 @@
 			"request": "launch",
 			"name": "my vector debug",
 			"miDebuggerPath": "/usr/local/bin/gdb",
-			"program": "${workspaceFolder}/tests/testmy",
+			"program": "${workspaceFolder}/tests/vector/testmy",
 			"args": [],
 			"cwd": "${workspaceFolder}/tests",
 			"preLaunchTask": "build_my_vector",
@@ -26,7 +26,7 @@
 			"request": "launch",
 			"name": "sys vector debug",
 			"miDebuggerPath": "/usr/local/bin/gdb",
-			"program": "${workspaceFolder}/tests/testsys",
+			"program": "${workspaceFolder}/tests/vector/testsys",
 			"args": [],
 			"cwd": "${workspaceFolder}/tests",
 			"preLaunchTask": "build_sys_vector",
@@ -35,6 +35,33 @@
 				"loadAll": true,
 				"exceptionList": ""
 			}
+		},
+		{
+			"type": "cppdbg",
+			"request": "launch",
+			"name": "my map debug",
+			"miDebuggerPath": "/usr/local/bin/gdb",
+			"program": "${workspaceFolder}/tests/map/testmy",
+			"args": [],
+			"cwd": "${workspaceFolder}/tests",
+			"preLaunchTask": "build_my_map",
+			"postDebugTask": "clean_debug",
+			"filterStdout":true
+			// "externalConsole": true
+		},
+		{
+			"type": "cppdbg",
+			"request": "launch",
+			"name": "tree debug",
+			"miDebuggerPath": "/usr/local/bin/gdb",
+			"program": "${workspaceFolder}/tests/map/tree",
+			"args": [],
+			"cwd": "${workspaceFolder}/tests",
+			"preLaunchTask": "build_tree_test",
+			"postDebugTask": "clean_debug",
+			"filterStdout":true
+			// "externalConsole": true
 		}
+
 	]
 }

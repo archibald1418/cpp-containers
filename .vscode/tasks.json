@@ -61,6 +61,48 @@
             ],
         },
         {
+            "type": "cppbuild",
+            "label": "build_my_map",
+            "command": "make",
+            "args": ["map_my"],
+            "options":{
+                "cwd": "${workspaceFolder}/tests"
+            },
+            "group":{
+                "kind": "build"
+            },
+            "detail": "Task for testing ft_containers map",
+            "problemMatcher": [
+                {
+                    // "fileLocation": ["autoDetect", "${workspaceFolder}"]
+                    "base":"$gcc",
+                    "fileLocation":["relative", "${workspaceFolder}/tests"]
+                }
+            ],
+
+        },
+        {
+            "type": "cppbuild",
+            "label": "build_tree_test",
+            "command": "make",
+            "args": ["tree_test", "mode=debug"],
+            "options":{
+                "cwd": "${workspaceFolder}/tests"
+            },
+            "group":{
+                "kind": "build"
+            },
+            "detail": "Task for testing map trees",
+            "problemMatcher": [
+                {
+                    // "fileLocation": ["autoDetect", "${workspaceFolder}"]
+                    "base":"$gcc",
+                    "fileLocation":["relative", "${workspaceFolder}/tests/map"]
+                }
+            ],
+
+        },
+        {
             "type": "shell",
             "label": "clean_debug",
             "command": "make",
