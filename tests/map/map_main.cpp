@@ -20,19 +20,22 @@ void MakeAVLCharTree(AVLNode<char>* &root) // changing pointers
 int main(){
 	// Test nodes
 
+using test::make_unique;
+using test::unique_ptr;
+
 	Node<int> baseNode;
 	AVLNode<int> avlnode(8);
 
 	// std::cout << avlnode.get_balance_factor() << std::endl;
 	// std::cout << avlnode.get() << std::endl;
 
-	AVLNode<char>* root;
+	AVLNode<char>* root = NULL;
+	make_unique(root);
+	
 
 	MakeAVLCharTree(root);
 
 	print_tree(root);
-
-	delete root;
 
 	return (0);
 }

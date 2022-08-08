@@ -66,8 +66,12 @@ namespace test{
     pointer _ptr;
     
     unique_ptr(T* ptr) : _ptr(ptr){};
+    unique_ptr() : _ptr(NULL){};
     ~unique_ptr(){
       if (_ptr) delete _ptr;
+    }
+    unique_ptr(const unique_ptr& other){
+      *this = other;
     }
     reference operator*()const{
       return *_ptr;
@@ -75,7 +79,18 @@ namespace test{
     pointer operator->()const{
       return _ptr;
     }
+    unique_ptr<T>& operator=(const unique_ptr<T>& other){
+      if (this == &other)
+        return *this;
+      _ptr = other._ptr;
+      return *this;
+    }
   };
+
+  template <typename T>
+  unique_ptr<T> make_unique(T* ptr){
+    return unique_ptr<T>(ptr);
+  }
 
   template <typename T>
   class IsDereferenceable{
@@ -91,6 +106,7 @@ namespace test{
             ft::is_pointer<T>::value || (sizeof(test<T>(0)) == sizeof(YesType))
         );
   }; 
+  
 }
 
 
