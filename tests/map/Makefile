@@ -32,10 +32,10 @@ TESTS_H		=	$(addprefix $(TESTS), $(TESTS_F))
 all: map_compare
 
 map_my: ${TESTS_H}
-	${CC} ${CFLAGS} $(TESTSRC) ${DO_INCLUDE} -D MY=1 ${DO_TESTFILE}my -fsanitize=address;
+	${CC} ${CFLAGS} $(TESTSRC) ${DO_INCLUDE} -D MY=1 ${DO_TESTFILE}my;
 
 map_sys:
-	${CC} ${CFLAGS} $(TESTSRC) ${DO_INCLUDE} -D MY=0 ${DO_TESTFILE}sys -fsanitize=address;
+	${CC} ${CFLAGS} $(TESTSRC) ${DO_INCLUDE} -D MY=0 ${DO_TESTFILE}sys;
 	@# -fsanitize=leak; export ASAN_OPTIONS=detect_leak=1
 
 map_compare: map_my map_sys
