@@ -52,16 +52,17 @@ struct BaseNode{
         virtual value_type& get(){ return this->key;};
 
         virtual ~BaseNode(){
-            // TODO: 
+            delete left;
+            delete right;
         }
 
 // Should these be abstract ?
-        static pointer create_node(const value_type& item, 
+        static pointer create(const value_type& item, 
         pointer left = NULL, pointer right = NULL, pointer parent = NULL){
-            return new BaseNode(item, left, right, parent);
+            return new node_t(item, left, right, parent);
         }
-        static pointer clone_node(const node_t& node){
-            return new BaseNode(node);
+        static pointer clone(const node_t& node){
+            return new node_t(node);
         }
     
 };
@@ -72,12 +73,13 @@ struct Node : public BaseNode<Key, Node>{};
 template <typename Key>
 struct AVLNode : public BaseNode<Key, AVLNode>
 {
-    /* FIX: 
+    /* 
         CRTP, with Tree and Node metaclasses, 
         hold shared functionality of the children,
         take designated child class as a template template parameter
         and generating traits based on the parameter
     */
+
     typedef BaseNode<Key, AVLNode>          __base;
     typedef typename __base::traits         traits;
     
@@ -85,13 +87,10 @@ struct AVLNode : public BaseNode<Key, AVLNode>
     typedef typename traits::value_type     value_type;
     typedef typename traits::pointer        pointer;
     
-
     private:
         int balance_factor;
             // Insertion and deletion are in charge of this field
     public:
-        
-
         AVLNode() : __base(), balance_factor(0){}
         AVLNode(const value_type& key,
         pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL)
@@ -103,10 +102,7 @@ struct AVLNode : public BaseNode<Key, AVLNode>
 
         int get_balance_factor(){return this->balance_factor;}
 
-        static pointer clone_node(const node_t& node){
-            return new AVLNode(node);
-        }
-        static pointer create_node(const value_type& key,
+        static pointer create(const value_type& key,
         pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL){
             new AVLNode(key, left, right, parent, balfac);
         }

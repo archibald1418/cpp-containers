@@ -32,5 +32,7 @@ int main(){
 
 	print_tree(root);
 
+	delete root;
+
 	return (0);
 }

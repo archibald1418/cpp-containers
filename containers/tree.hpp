@@ -24,11 +24,15 @@ namespace ft {
     struct BaseTree{
 
         typedef tree_traits< NodeType<T> >      traits;
+        typedef BaseTree<T, NodeType>           tree_t;
         typedef typename traits::node_t         node_t;
         typedef typename traits::node_pointer   node_pointer;
         typedef typename traits::value_type     value_type;
+
+        node_t* root;
         
         // TODO: coplien form, destructors, allocators(?)
+
 
         node_t* search(node_t* node, const value_type& key)
         {
@@ -109,14 +113,24 @@ namespace ft {
         typedef typename traits::value_type     value_type;
         
         private:
-            node_t* create_avl_node(const value_type& item, 
+            node_t* get_node(const value_type& item, 
             node_t* lptr, node_t* rptr){
-                return node_t::create_node(item, lptr, rptr);
+                return node_t::create(item, lptr, rptr);
             }
 
             void Insert(const T& item){
                 (void)item;
             }
+            void Delete(const T& item){
+                (void)item;
+            }
+
+            void SingleRotateLeft (node_t* &p);
+            void SingleRotateRight (node_t* &p);
+            void DoubleRotateLeft (node_t* &p);
+            void DoubleRotateRight (node_t* &p);
+            void UpdateLeftTree (node_t* &tree,  int &reviseBalanceFactor);
+            void UpdateRightTree (node_t* &tree, int &reviseBalanceFactor);
     };
 }
 
