@@ -32,6 +32,7 @@ typedefs:
 
 # Containers
 
+#	Vector
 vector:
 	make -C vector
 
@@ -43,6 +44,21 @@ vector_sys:
 	./vector/testsys
 vector_compare: 
 	make vector_compare -C vector;
+
+#	Map
+map:
+	make -C map
+map_my:
+	make map_my -C map; 
+	./map/testmy
+map_sys:
+	make map_sys -C map; 
+	./map/testsys
+map_compare: 
+	make map_compare -C map;
+tree_test:
+	make tree_test -C map
+
 
 clean:
 	-rm -rf *.o
