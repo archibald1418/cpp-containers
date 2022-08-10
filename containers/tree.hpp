@@ -5,6 +5,9 @@
 # include "type_traits.hpp"
 # include "algorithm.hpp"
 # include "tree_utils.hpp"
+# include "functional.hpp"
+# include <memory>
+# include <stdexcept>
 
 # define LEFTHEAVY  -1
 # define BALANCED   0
@@ -13,26 +16,57 @@
 
 namespace ft {
 
-        template <class Node>
-    struct tree_traits{
+    template <
+        class Node, 
+        typename Predicate = typename ft::less<typename Node::value_type> > // value_compare for insertion
+    struct tree_traits
+    {
         typedef Node                            node_t;
         typedef typename node_t::pointer        node_pointer;
         typedef typename node_t::value_type     value_type;
+        typedef Predicate                       value_compare; // oblivious to whether pair is a mapping or not
+    };
+
+    template <
+        typename Key,
+        typename Value,
+        class Predicate, // DEBUG: This should be ft::less<Key>, but will it access the pair's first element????
+        class Alloc,
+        template<typename> class NodeType = AVLNode>
+    struct map_traits{
+        typedef K                                                                   key_type;
+        typedef ft::pair<const key_type, Value>                                     value_type;
+        typedef Predicate                                                           key_compare;
+        // NOTE: there will be key_comp() function that applies key_compare to ft::pair<T, U>::first_argument_type 
+        typedef typename Alloc::template std::allocator::rebind<value_type>::other  allocator_type;
+
+        typedef node_traits<value_type, AVLNode>                                    node_traits;
+        typedef typename node_traits::node_t                                        node_t;   
+        typedef tree_traits<node_t, key_compare>                                    tree_traits;
     };
 
         template <class T, template<typename> class NodeType>
-    struct BaseTree{
-
+    struct BaseTree
+    {
         typedef tree_traits< NodeType<T> >      traits;
         typedef BaseTree<T, NodeType>           tree_t;
         typedef typename traits::node_t         node_t;
         typedef typename traits::node_pointer   node_pointer;
         typedef typename traits::value_type     value_type;
+        typedef typename traits::value_compare  value_compare;
+        
+        // TODO: allocator
+            // TODO: iterators
 
         node_t* root;
         
+        node_t* Root(){
+            return root;
+        }
+    
         // TODO: coplien form, destructors, allocators(?)
 
+        BaseTree(const value_compare& comp)
 
         node_t* search(node_t* node, const value_type& key)
         {
@@ -85,8 +119,25 @@ namespace ft {
             return node;
         }
 
-        virtual void Insert(const value_type& item) = 0;
-        virtual void Delete(const value_type& iterm) = 0;
+        node_pointer Inserter(const value_type& item)
+        {
+            node_pointer tree_root = static_cast<node_pointer>(Root());
+            node_pointer new_node = node_t::create(item, NULL, NULL);
+            this->Insert(tree_root, new_node);
+            return new_node;
+        };
+        virtual void Insert(node_pointer*& root, node_pointer*& new_node)
+        {
+            if (!root)
+                return ;
+            
+            
+        }
+
+        node_pointer Deleter(const value_type& iterm){
+            throw std::exception("Not Implemented");
+            return this->Delete(tree_root, new_node);
+        }
 
 
     // Happy tree friends
@@ -103,7 +154,8 @@ namespace ft {
 
     
     template <typename T>
-    struct AVLTree : public BaseTree<T, AVLNode>{
+    struct AVLTree : public BaseTree<T, AVLNode>
+    {
         
         typedef Tree<T, AVLNode>                BaseTree;
         typedef tree_traits< AVLNode<T> >       traits;
@@ -119,12 +171,18 @@ namespace ft {
             }
 
             void Insert(const T& item){
-                (void)item;
+                node_pointer tree_root = static_cast<node_pointer>(Root());
+                node_pointer new_node = node_t::create(item, NULL, NULL);
+
+                int revise_balance_factor = 0; // ????
             }
             void Delete(const T& item){
                 (void)item;
             }
 
+// Rotations
+            // int reviseBalanceFactor = 0; // flag for height-fixing
+            
             void SingleRotateLeft (node_t* &p);
             void SingleRotateRight (node_t* &p);
             void DoubleRotateLeft (node_t* &p);
