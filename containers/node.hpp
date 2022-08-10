@@ -4,20 +4,23 @@
 # include "algorithm.hpp"
 # include "stack.hpp"
 # include "tree.hpp"
+# include "type_traits.hpp"
+# include "pair.hpp"
 
 template <typename T, template<typename> class NodeType>
 struct Tree;
 
-template <typename Key, template<typename> class NodeType>
-struct node_traits{
-    typedef NodeType<Key>       node_t;
-    typedef Key                 value_type;
+template <typename T, template<typename> class NodeType>
+struct node_traits
+{
+    typedef NodeType<T>         node_t;
+    typedef T                   value_type;
     typedef node_t*             pointer;
-};
+}; 
 
-template <typename Key, template<typename> class NodeImpl>
+template <typename T, template<typename> class NodeImpl>
 struct BaseNode{
-    typedef node_traits<Key, NodeImpl>      traits;
+    typedef node_traits<T, NodeImpl>        traits;
     typedef typename traits::node_t         node_t;
     typedef typename traits::value_type     value_type;
     typedef typename traits::pointer        pointer;
@@ -26,37 +29,35 @@ struct BaseNode{
         pointer     left;
         pointer     right;
         pointer     parent;
-        value_type  key;
+        value_type  item;
 
     public:
         pointer Left(){
             return dynamic_cast<pointer>(this->left);
         }
         pointer Right(){
-            return dynamic_cast<pointer>(this->right); // FIXME: Object slicing
+            return dynamic_cast<pointer>(this->right);
         }
         pointer Parent(){
             return static_cast<pointer>(this->parent);
         }
 
 
-        BaseNode() : left(NULL), right(NULL), parent(NULL), key(Key()){};
-        BaseNode(const Key& key, pointer left = NULL, pointer right = NULL, pointer parent = NULL)
+        BaseNode() : left(NULL), right(NULL), parent(NULL), item(T()){};
+        BaseNode(const T& item, pointer left = NULL, pointer right = NULL, pointer parent = NULL)
         :
-        left(left), right(right), parent(parent), key(key){};
+        left(left), right(right), parent(parent), item(item){};
         BaseNode(const BaseNode& other)
         :
-        left(other.left), right(other.right), parent(other.parent), key(other.key){};
+        left(other.left), right(other.right), parent(other.parent), item(other.item){};
 
-
-        virtual value_type& get(){ return this->key;};
+        virtual value_type& get(){ return this->item;};
 
         virtual ~BaseNode(){
             delete left;
             delete right;
         }
 
-// Should these be abstract ?
         static pointer create(const value_type& item, 
         pointer left = NULL, pointer right = NULL, pointer parent = NULL){
             return new node_t(item, left, right, parent);
@@ -67,11 +68,11 @@ struct BaseNode{
     
 };
 
-template <typename Key>
-struct Node : public BaseNode<Key, Node>{};
+template <typename T>
+struct Node : public BaseNode<T, Node>{};
 
-template <typename Key>
-struct AVLNode : public BaseNode<Key, AVLNode>
+template <typename T>
+struct AVLNode : public BaseNode<T, AVLNode>
 {
     /* 
         CRTP, with Tree and Node metaclasses, 
@@ -80,7 +81,7 @@ struct AVLNode : public BaseNode<Key, AVLNode>
         and generating traits based on the parameter
     */
 
-    typedef BaseNode<Key, AVLNode>          __base;
+    typedef BaseNode<T, AVLNode>          __base;
     typedef typename __base::traits         traits;
     
     typedef typename traits::node_t         node_t;
@@ -92,19 +93,19 @@ struct AVLNode : public BaseNode<Key, AVLNode>
             // Insertion and deletion are in charge of this field
     public:
         AVLNode() : __base(), balance_factor(0){}
-        AVLNode(const value_type& key,
+        AVLNode(const value_type& item,
         pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL)
         :
-        __base(key, left, right, parent), balance_factor(balfac){};
+        __base(item, left, right, parent), balance_factor(balfac){};
         AVLNode(const node_t& other)
         :
         __base(other), balance_factor(other.balance_factor){};
 
         int get_balance_factor(){return this->balance_factor;}
 
-        static pointer create(const value_type& key,
+        static pointer create(const value_type& item,
         pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL){
-            new AVLNode(key, left, right, parent, balfac);
+            new AVLNode(item, left, right, parent, balfac);
         }
         
 };
