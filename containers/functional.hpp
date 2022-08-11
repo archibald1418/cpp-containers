@@ -1,3 +1,5 @@
+#ifndef FUNCTIONAL_H
+# define FUNCTIONAL_H
 
 namespace ft {
 
@@ -21,3 +23,5 @@ namespace ft {
     };
 
 }
+
+#endif
