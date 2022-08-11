@@ -14,11 +14,11 @@
 # define RIGHTHEAVY 1 
 
 
-namespace ft {
+namespace ft{
 
     template <
         class Node, 
-        typename Predicate = typename ft::less<typename Node::value_type> > // value_compare for insertion
+        typename Predicate = ft::less<typename Node::value_type> > // value_compare for insertion
     struct tree_traits
     {
         typedef Node                            node_t;
@@ -27,23 +27,6 @@ namespace ft {
         typedef Predicate                       value_compare; // oblivious to whether pair is a mapping or not
     };
 
-    template <
-        typename Key,
-        typename Value,
-        class Predicate, // DEBUG: This should be ft::less<Key>, but will it access the pair's first element????
-        class Alloc,
-        template<typename> class NodeType = AVLNode>
-    struct map_traits{
-        typedef K                                                                   key_type;
-        typedef ft::pair<const key_type, Value>                                     value_type;
-        typedef Predicate                                                           key_compare;
-        // NOTE: there will be key_comp() function that applies key_compare to ft::pair<T, U>::first_argument_type 
-        typedef typename Alloc::template std::allocator::rebind<value_type>::other  allocator_type;
-
-        typedef node_traits<value_type, AVLNode>                                    node_traits;
-        typedef typename node_traits::node_t                                        node_t;   
-        typedef tree_traits<node_t, key_compare>                                    tree_traits;
-    };
 
         template <class T, template<typename> class NodeType>
     struct BaseTree
@@ -66,7 +49,9 @@ namespace ft {
     
         // TODO: coplien form, destructors, allocators(?)
 
-        BaseTree(const value_compare& comp)
+        BaseTree(const value_compare& comp){
+            (void)comp;
+        };
 
         node_t* search(node_t* node, const value_type& key)
         {
@@ -130,13 +115,16 @@ namespace ft {
         {
             if (!root)
                 return ;
-            
+            (void)new_node;
+            // TODO: use comparators for correct insertion
             
         }
 
-        node_pointer Deleter(const value_type& iterm){
-            throw std::exception("Not Implemented");
-            return this->Delete(tree_root, new_node);
+        node_pointer Deleter(const value_type& item){
+            // throw std::exception("Not Implemented");
+            // return this->Delete(tree_root, new_node);
+            (void)item;
+            return NULL;
         }
 
 
@@ -157,7 +145,7 @@ namespace ft {
     struct AVLTree : public BaseTree<T, AVLNode>
     {
         
-        typedef Tree<T, AVLNode>                BaseTree;
+        typedef BaseTree<T, AVLNode>            __base;
         typedef tree_traits< AVLNode<T> >       traits;
         
         typedef typename traits::node_t         node_t;
@@ -171,10 +159,10 @@ namespace ft {
             }
 
             void Insert(const T& item){
-                node_pointer tree_root = static_cast<node_pointer>(Root());
+                node_pointer tree_root = static_cast<node_pointer>(this->Root());
                 node_pointer new_node = node_t::create(item, NULL, NULL);
 
-                int revise_balance_factor = 0; // ????
+                // int revise_balance_factor = 0; // ????
             }
             void Delete(const T& item){
                 (void)item;
@@ -190,6 +178,8 @@ namespace ft {
             void UpdateLeftTree (node_t* &tree,  int &reviseBalanceFactor);
             void UpdateRightTree (node_t* &tree, int &reviseBalanceFactor);
     };
+
+
 }
 
 
