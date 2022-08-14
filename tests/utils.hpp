@@ -87,10 +87,10 @@ namespace test{
     }
   };
 
-  template <typename T>
-  unique_ptr<T> make_unique(T* ptr){
-    return unique_ptr<T>(ptr);
-  }
+  // template <typename T>
+  // unique_ptr<T> make_unique(T* ptr){
+  //   return unique_ptr<T>(ptr);
+  // }
 
   template <typename T>
   class IsDereferenceable{
