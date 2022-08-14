@@ -4,6 +4,9 @@
 
 #include <iostream>
 
+using ft::AVLNode;
+using ft::Node;
+
 void MakeAVLCharTree(AVLNode<char>* &root) // changing pointers
 {
   AVLNode<char> *a, *b, *c, *d, *e;
@@ -20,8 +23,11 @@ void MakeAVLCharTree(AVLNode<char>* &root) // changing pointers
 int main(){
 	// Test nodes
 
-using test::make_unique;
+// using test::make_unique;
 using test::unique_ptr;
+using ft::AVLTree;
+using ft::tree_traits;
+
 
 	Node<int> baseNode;
 	AVLNode<int> avlnode(8);
@@ -30,12 +36,15 @@ using test::unique_ptr;
 	// std::cout << avlnode.get() << std::endl;
 
 	AVLNode<char>* root = NULL;
-	make_unique(root);
-	
+	AVLTree<char> T(root);
 
 	MakeAVLCharTree(root);
 
-	print_tree(root);
+	std::cout << root->Left() << std::endl;
+
+	print_tree(root); // calls all getters
+
+	delete root;
 
 	return (0);
 }
