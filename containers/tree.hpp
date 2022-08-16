@@ -27,6 +27,7 @@ namespace ft{
         typedef T                               value_type;
         typedef T*                              pointer;
         typedef Predicate                       value_compare; // oblivious to whether pair is a mapping or not
+        typedef Alloc                           allocator_type;
         // typedef Predicate                    key_compare; -> 'set traits'
 
         value_compare comp; // comparator should be created before it could be called
@@ -44,39 +45,91 @@ namespace ft{
     {
         typedef tree_traits<T>                  traits;
         typedef NodeType<T>                     node_t;
+        typedef node_t*                         nodeptr;
         typedef BaseTree<T, NodeType>           tree_t;
         typedef typename traits::value_type     value_type;
         typedef typename traits::value_compare  value_compare;
         typedef value_type                      V;
 
+        typedef typename traits::allocator_type                             allocator_type;
+        typedef typename allocator_type::template rebind<node_t>::other     allocator_node;
+        typedef typename allocator_type::template rebind<node_t*>::other    allocator_node_pointer;
+
         protected:
-            node_t* root;
+            nodeptr root;
+        
+        protected:
+            allocator_node          _alloc_node;
+            allocator_node_pointer  _alloc_ptr;
+            allocator_type          _alloc;
+
         public:
-            node_t*& Root(){
-                return root->parent;
-            }
-
-            void Init(){
-                root = node_t::create(V());
-                root->Left() = NULL;
-                root->Right() = NULL;
-                root->Parent() = NULL;
-            }
-
-            // TODO: coplien form, destructors, allocators(?)
-
             BaseTree(const value_compare& comp) : traits(comp)
             {
-                Init();
+                this->Init();
             };
             BaseTree(node_t*& root){
                 if (!root)
-                    Init();
+                    this->Init();
                 else
                     this->root = node_t::clone(*root);
             }
             ~BaseTree(){
                 delete root;
+            }
+
+
+            nodeptr& End(){
+                return root->Parent();
+            }
+            nodeptr& Lmost(){
+                return root->Left();
+            }
+            nodeptr& Rmost(){
+                return root->Right();
+            }
+            nodeptr& Left(nodeptr& node){
+                return node->Left();
+            }
+            nodeptr& Right(nodeptr& node){
+                return node->Right();
+            }
+            nodeptr& Parent(nodeptr& node){
+                return node->Parent();
+            }
+            bool& isnil(nodeptr& node){
+                return node->Isnil();
+            }
+
+
+
+            node_t* buynode(node_t* new_parent)
+            {
+                node_t* ptr = _alloc_node.allocate(1);
+                
+                // Same node for all pointers
+                _alloc_ptr.construct(&Left(ptr),   (node_t*)0);
+                _alloc_ptr.construct(&Right(ptr),  (node_t*)0);
+                _alloc_ptr.construct(&Parent(ptr), new_parent);
+
+                ptr->Isnil() = false;
+                // ...
+                return ptr; 
+            }
+
+            void Init(){
+                // Buy null node for root
+                root = buynode(NULL); // init parent with NULL
+                root->Isnil() = true;
+                End() = root;
+                Lmost() = root;
+                Rmost() = root;
+            }
+            
+            // TODO: coplien form, destructors, allocators(?)
+            
+            value_compare value_comp() const{
+                return this->comp;
             }
 
             node_t* search(node_t* node, const value_type& key)
@@ -130,19 +183,28 @@ namespace ft{
                 return node;
             }
 
-            node_t* Inserter(const value_type& item)
+            node_t* Insert(const value_type& item)
             {
-                node_t* tree_root = static_cast<node_t*>(Root());
+                node_t* tree_root = static_cast<node_t*>(End());
                 node_t* new_node = node_t::create(item, NULL, NULL);
-                this->Insert(tree_root, new_node);
+                this->Inserter(new_node);
                 return new_node;
             };
-            void Insert(node_t**& root, node_t**& new_node)
+            node_t* Inserter(node_t*& new_node)
             {
                 if (!root)
-                    return ;
-                (void)new_node;
-                // TODO: use comparators for correct insertion
+                    return (root = new_node);
+
+                node_t* tmproot = End();
+                node_t* tmphead = root;
+                bool add_left = true;
+                (void)add_left;
+
+                while (!tmproot){
+                    tmphead = tmproot;
+                    add_left = comp(get(new_node), get(tmproot));
+                }
+                
                 
             }
 
@@ -176,7 +238,6 @@ namespace ft{
         typedef typename __base::node_t                 node_t;
         
 
-
         AVLTree(const value_compare& comp) : __base(comp){};
         AVLTree(AVLNode<T>*& root) : __base(root){};
 
@@ -188,11 +249,9 @@ namespace ft{
                 return node_t::create(item, lptr, rptr);
             }
 
-            void Insert(const T& item){
-                node_t* tree_root = static_cast<node_t*>(this->Root());
-                node_t* new_node = node_t::create(item, NULL, NULL);
-
+            void Insert(node_t*& new_node){
                 // int revise_balance_factor = 0; // ????
+                (void)new_node;
             }
             // void Delete(const T& item){
             //     (void)item;
