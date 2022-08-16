@@ -34,6 +34,7 @@ namespace ft {
             pointer     right;
             pointer     parent;
             value_type  item;
+            bool        isnil;
 
         public:
 
@@ -46,16 +47,19 @@ namespace ft {
             pointer& Parent(){
                 return this->parent; // шиза полная
             }
+            bool& Isnil(){
+                return this->isnil;
+            }
 
             
 
-            BaseNode() : left(NULL), right(NULL), parent(NULL), item(T()){};
+            BaseNode() : left(NULL), right(NULL), parent(NULL), item(T()), isnil(true){};
             BaseNode(const T& item, pointer left = NULL, pointer right = NULL, pointer parent = NULL)
             :
-            left(left), right(right), parent(parent), item(item){};
+            left(left), right(right), parent(parent), item(item), isnil(false){};
             BaseNode(const BaseNode& other)
             :
-            left(other.left), right(other.right), parent(other.parent), item(other.item){};
+            left(other.left), right(other.right), parent(other.parent), item(other.item), isnil(other.isnil){};
 
             virtual value_type& get(){ return this->item;};
 
@@ -121,6 +125,12 @@ namespace ft {
                 }
                 
         };
+        
+
+        template <typename NodeInstance>
+        typename NodeInstance::value_type& get(NodeInstance* node){
+            return node->get();
+        }
         
         // TODO: allocator
             // TODO: iterator
