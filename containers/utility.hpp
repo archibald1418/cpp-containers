@@ -47,6 +47,49 @@ namespace ft{
     {
         return !(lhs < rhs);
     }
+
+/* --------------------------- Null-ptr type ----------------------- */
+
+    const 
+    class nullptr_t
+        {
+        public:
+            template<class T>
+                inline operator T*() const
+                {
+                    return static_cast<T*>(0);
+                    // return 0;
+                }
+
+            template<class C, class T>
+                inline operator T C::*() const
+                {
+                    return 0;
+                }
+            
+            friend  bool operator==(nullptr_t&, nullptr_t&) {return true;}
+            friend  bool operator!=(nullptr_t&, nullptr_t&) {return false;}
+
+            private:
+                void operator&() const;
+        }
+    nullptr_my = {};
+
+    const nullptr_t& get_nullptr_t(){
+        return ft::nullptr_my;
+    }
+
+
 }
+
+
+
+// ---------------- nullptr my ---------------------
+
+# define nullptr_my ft::get_nullptr_t()
+
+// ---------------- nullptr my ---------------------
+
+
 
 #endif
