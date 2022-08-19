@@ -7,6 +7,10 @@
 # include "type_traits.hpp"
 # include "pair.hpp"
 
+// /  /   /    /     /      /       /        /
+# include <typeinfo> 
+// /  /   /    /     /      /       /        /
+
 
 # include <iostream>
 
@@ -21,20 +25,20 @@ namespace ft {
     }; 
 
 
-    template <typename T, template<typename> class NodeImpl>
+    template <typename T, template<typename> class NodeType>
     struct BaseNode
     {
-        typedef ft::node_traits<T, NodeImpl>        traits;
-        typedef typename traits::node_t             node_t;
-        typedef typename traits::value_type         value_type;
-        typedef typename traits::pointer            pointer;
+        typedef NodeType<T>                         node_t;
+        typedef T                                   value_type;
+        typedef node_t*                             pointer;
+        typedef BaseNode<T, NodeType>               __base;
 
         protected:
             pointer     left;
             pointer     right;
             pointer     parent;
             value_type  item;
-            bool        isnil;
+            bool        isleaf;
 
         public:
 
@@ -47,21 +51,28 @@ namespace ft {
             pointer& Parent(){
                 return this->parent; // шиза полная
             }
-            bool& Isnil(){
-                return this->isnil;
+            bool& Isleaf(){
+                return this->isleaf;
             }
 
-            
+            // ????????????????????????? 
+            virtual value_type& get(){
+                return this->item;
+            }
+            virtual void        setYourMomma(const value_type& val) {
+                this->item = value_type(val);
+            };
+            // ^ DEBUG: accessors cause segfaults if virtual
 
-            BaseNode() : left(NULL), right(NULL), parent(NULL), item(T()), isnil(true){};
+
+            BaseNode() : left(NULL), right(NULL), parent(NULL), item(T()), isleaf(true){};
             BaseNode(const T& item, pointer left = NULL, pointer right = NULL, pointer parent = NULL)
             :
-            left(left), right(right), parent(parent), item(item), isnil(false){};
+            left(left), right(right), parent(parent), item(item), isleaf(parent || false){};
             BaseNode(const BaseNode& other)
             :
-            left(other.left), right(other.right), parent(other.parent), item(other.item), isnil(other.isnil){};
+            left(other.left), right(other.right), parent(other.parent), item(other.item), isleaf(other.isleaf){};
 
-            virtual value_type& get(){ return this->item;};
 
             virtual ~BaseNode(){
                 std::cout << "Calling base node dtor" << std::endl;
@@ -84,20 +95,11 @@ namespace ft {
 
         template <typename T>
         struct AVLNode : public BaseNode<T, AVLNode>
-        {
-            /* 
-                CRTP, with Tree and Node metaclasses, 
-                hold shared functionality of the children,
-                take designated child class as a template template parameter
-                and generating traits based on the parameter
-            */
-
+        {            
             typedef BaseNode<T, AVLNode>          __base;
-            typedef typename __base::traits         traits;
-            
-            typedef typename traits::node_t         node_t;
-            typedef typename traits::value_type     value_type;
-            typedef typename traits::pointer        pointer;
+            typedef typename __base::node_t         node_t;
+            typedef typename __base::value_type     value_type;
+            typedef typename __base::pointer        pointer;
             
             private:
                 int balance_factor;
@@ -123,13 +125,39 @@ namespace ft {
                 pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL){
                     return (new AVLNode(item, left, right, balfac, parent));
                 }
-                
-        };
-        
 
+            // void        setYourMommaChild(const value_type& val)
+            // {
+            //     __base::setYourMomma(val);
+            // };
+
+            // void        setYourMomma(const value_type& val){
+            //     this->item = val;
+            // } 
+                
+            // void * getSetYourMomma(){
+            //     return &setYourMomma;
+            // }
+        };
+
+
+/* 
+                CRTP, with Tree and Node metaclasses, 
+                hold shared functionality of the children,
+                take designated child class as a template template parameter
+                and generating traits based on the parameter
+            */
+
+        
         template <typename NodeInstance>
-        typename NodeInstance::value_type& get(NodeInstance* node){
-            return node->get();
+        typename NodeInstance::value_type& 
+        get(NodeInstance* node){
+            return node->get(); // FIXME: this does not work right, segfaults
+        }
+        template <typename NodeInstance>
+        void
+        set(NodeInstance* node, const typename NodeInstance::value_type& item){
+            node->set(item);
         }
         
         // TODO: allocator

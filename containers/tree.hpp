@@ -6,6 +6,7 @@
 # include "algorithm.hpp"
 # include "tree_utils.hpp"
 # include "functional.hpp"
+# include "utility.hpp"
 # include <memory>
 # include <stdexcept>
 
@@ -45,6 +46,7 @@ namespace ft{
     {
         typedef tree_traits<T>                  traits;
         typedef NodeType<T>                     node_t;
+        typedef BaseNode<T, NodeType>           __base_node;
         typedef node_t*                         nodeptr;
         typedef BaseTree<T, NodeType>           tree_t;
         typedef typename traits::value_type     value_type;
@@ -55,6 +57,7 @@ namespace ft{
         typedef typename allocator_type::template rebind<node_t>::other     allocator_node;
         typedef typename allocator_type::template rebind<node_t*>::other    allocator_node_pointer;
 
+
         protected:
             nodeptr root;
         
@@ -64,18 +67,31 @@ namespace ft{
             allocator_type          _alloc;
 
         public:
-            BaseTree(const value_compare& comp) : traits(comp)
+
+            size_t _size;
+
+            BaseTree(const value_compare& comp) : traits(comp),
+            _alloc_node(allocator_node()),
+            _alloc_ptr(allocator_node_pointer()),
+            _alloc(allocator_type())
             {
-                this->Init();
+                Init();
             };
-            BaseTree(node_t*& root){
-                if (!root)
-                    this->Init();
-                else
-                    this->root = node_t::clone(*root);
+            BaseTree(nodeptr& other_root){
+                if (!other_root) {
+                    Init();
+                    other_root = root; // incoming pointer now points to root
+                }
+                else if (other_root->Isleaf())
+                    root = other_root; // concatenate two trees
+                else {
+                    Init();
+                    // root->set(other_root->get());
+                    // just copy a value, can't grow from middle of tree
+                }
             }
             ~BaseTree(){
-                delete root;
+                freenode(root);
             }
 
 
@@ -97,33 +113,46 @@ namespace ft{
             nodeptr& Parent(nodeptr& node){
                 return node->Parent();
             }
-            bool& isnil(nodeptr& node){
-                return node->Isnil();
+            bool& Isleaf(nodeptr& node){
+                return node->Isleaf();
             }
 
 
 
-            node_t* buynode(node_t* new_parent)
+            nodeptr buynode(nodeptr new_parent)
             {
-                node_t* ptr = _alloc_node.allocate(1);
+                // nodeptr ptr = _alloc_node.allocate(1); // FIXME: reinded allocator not working properly, trashes vtable
+                nodeptr ptr = new node_t();
                 
                 // Same node for all pointers
-                _alloc_ptr.construct(&Left(ptr),   (node_t*)0);
-                _alloc_ptr.construct(&Right(ptr),  (node_t*)0);
+                _alloc_ptr.construct(&Left(ptr),   nullptr_my); 
+                _alloc_ptr.construct(&Right(ptr),  nullptr_my);
                 _alloc_ptr.construct(&Parent(ptr), new_parent);
 
-                ptr->Isnil() = false;
+                ptr->Isleaf() = false;
                 // ...
-                return ptr; 
+                return ptr;
+            }
+
+            void freenode(nodeptr node){
+                _alloc_ptr.destroy(&Parent(node));
+                _alloc_ptr.destroy(&Right(node));
+                _alloc_ptr.destroy(&Left(node));
+                _alloc_node.deallocate(node, 1);
             }
 
             void Init(){
                 // Buy null node for root
-                root = buynode(NULL); // init parent with NULL
-                root->Isnil() = true;
+                root = buynode(nullptr_my); // init parent with NULL
+                root->Isleaf() = true;
                 End() = root;
                 Lmost() = root;
                 Rmost() = root;
+                _size = 0;
+            }
+            
+            bool empty(){
+                return (_size == 0);
             }
             
             // TODO: coplien form, destructors, allocators(?)
@@ -132,9 +161,9 @@ namespace ft{
                 return this->comp;
             }
 
-            node_t* search(node_t* node, const value_type& key)
+            nodeptr search(nodeptr node, const value_type& key)
             {
-                while (node != NULL && node->key != key)
+                while (node and node->key != key)
                 {
                     if (node->key > key)
                         node = node->left;
@@ -144,17 +173,17 @@ namespace ft{
                 return node;
             }
 
-            node_t* tree_min(node_t* node){
-                while (node->left != NULL)
+            nodeptr tree_min(nodeptr node){
+                while (node->left)
                     node = node->left;
                 return node;
             }  
-            node_t* tree_max(node_t* node){
-                while (node->right != NULL)
+            nodeptr tree_max(nodeptr node){
+                while (node->right)
                     node = node->right;
                 return node;
             }
-            node_t* tree_next(node_t* node){
+            nodeptr tree_next(nodeptr node){
                 // Searching for next item in an ordered sequence
 
                 // Next item is the next greatest to the current item
@@ -163,52 +192,67 @@ namespace ft{
                     return tree_min(node->right);
 
                 // Otherwise go up and search the first parent which is also a left node
-                node_t* node_parent = node->parent;
-                while (node_parent != NULL and node == node_parent->right){
+                nodeptr node_parent = node->parent;
+                while (node_parent and (node == node_parent->right)){
                     node = node_parent;
                     node_parent = node_parent->parent;
                 }
                 return node;
             }
-            node_t* tree_prev(node_t* node){
+            nodeptr tree_prev(nodeptr node){
                 // Same, but searching for rightmost child
                 if (node->left)
                     return tree_max(node->left);
 
-                node_t* node_parent = node->parent;
-                while (node_parent != NULL and node == node_parent->left){
+                nodeptr node_parent = node->parent;
+                while (node_parent and node == node_parent->left){
                     node = node_parent;
                     node_parent = node_parent->parent;
                 }
                 return node;
             }
 
-            node_t* Insert(const value_type& item)
+            nodeptr Insert(const value_type& item)
             {
-                node_t* tree_root = static_cast<node_t*>(End());
-                node_t* new_node = node_t::create(item, NULL, NULL);
-                this->Inserter(new_node);
-                return new_node;
-            };
-            node_t* Inserter(node_t*& new_node)
-            {
-                if (!root)
-                    return (root = new_node);
+                // Find tree position to insert to insert and return it
 
-                node_t* tmproot = End();
-                node_t* tmphead = root;
-                bool add_left = true;
-                (void)add_left;
-
-                while (!tmproot){
-                    tmphead = tmproot;
-                    add_left = comp(get(new_node), get(tmproot));
+                if (empty())
+                {
+                    // root->set(item);
+                    root->Isleaf();
+                    _size++;
+                    return nullptr_my;
                 }
-                
-                
-            }
+                // if (root->Isleaf())
+                //     return this->Inserter(true, root, item); // a tree with one root only node has one leaf
 
-            // node_t* Deleter(const value_type& item){
+                nodeptr tmproot = End();
+                nodeptr tmphead = root;
+                bool add_left = true;
+
+                while (!tmproot->Isleaf()){
+                    tmphead = tmproot;
+                    add_left = this->comp(item, get(tmproot));
+                    tmproot = add_left ? Left(tmproot) : Right(tmproot);
+                }
+                return this->Inserter(add_left, tmphead, item);
+            };
+            virtual nodeptr Inserter(bool& add_left, nodeptr& tree_position, const value_type& item)
+            {
+                nodeptr new_node = buynode(tree_position);
+                new_node->setYourMomma(item);
+                if (add_left)
+                    tree_position->Left() = new_node;
+                else
+                    tree_position->Right() = new_node;
+                /* 
+                ** Balancing logic goes here
+                */
+               return new_node;
+            }
+            
+
+            // nodeptr Deleter(const value_type& item){
             //     // throw std::exception("Not Implemented");
             //     // return this->Delete(tree_root, new_node);
             //     (void)item;
@@ -217,16 +261,15 @@ namespace ft{
 
             // Happy tree friends
             template <typename U>
-            friend int height(node_t* root);
+            friend int height(nodeptr root);
 
             template <typename U>
-            friend bool is_avl_balanced(node_t* root);
+            friend bool is_avl_balanced(nodeptr root);
 
             // These functions are essential for balancing,
             // because they need access to protected fields
 
-        };
-
+    };
     
     template <typename T>
     struct AVLTree : public BaseTree<T, AVLNode>
@@ -235,11 +278,12 @@ namespace ft{
         typedef BaseTree<T, AVLNode>                    __base;
         typedef typename traits::value_compare          value_compare;
         typedef typename traits::value_type             value_type;
-        typedef typename __base::node_t                 node_t;
+        typedef AVLNode<T>                              node_t;
         
 
         AVLTree(const value_compare& comp) : __base(comp){};
-        AVLTree(AVLNode<T>*& root) : __base(root){};
+        AVLTree() : __base(){};
+        AVLTree(AVLNode<T>*& root) : BaseTree<T, AVLNode>(root){};
 
         private:
 
@@ -249,15 +293,15 @@ namespace ft{
                 return node_t::create(item, lptr, rptr);
             }
 
-            void Insert(node_t*& new_node){
-                // int revise_balance_factor = 0; // ????
-                (void)new_node;
-            }
+            // void Insert(node_t*& new_node){
+            //     // int revise_balance_factor = 0; // ????
+            //     (void)new_node;
+            // }
             // void Delete(const T& item){
             //     (void)item;
             // }
 
-// Rotations
+        // Rotations
             // int reviseBalanceFactor = 0; // flag for height-fixing
             
             void SingleRotateLeft (node_t* &p);
