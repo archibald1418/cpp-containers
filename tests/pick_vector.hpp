@@ -1,9 +1,7 @@
 #ifndef PICK_VECTOR_H
 # define PICK_VECTOR_H
 
-# include <vector>
 # include <iterator>
-# include "ft_containers.hpp"
 
 extern const std::string vector_types[2] = {
     std::string("SYS_VECTOR"),
@@ -12,15 +10,19 @@ extern const std::string vector_types[2] = {
 
 # ifdef MY
 #  if MY == 1
+#   include "vector.hpp"
     using ft::vector;
 #  else
+#   include <vector>
     using std::vector;
 #  endif
 # endif
 
+
 #ifndef MY
 # define MY 0
-    using std::vector;
+#  include <vector>
+   using std::vector;
 # endif
 
 #endif
