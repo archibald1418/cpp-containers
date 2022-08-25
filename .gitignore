@@ -6,8 +6,8 @@ a.out
 .vscode/
 *.gch
 */*.dSYM/
-tests/testmy
-tests/testsys
+**/testmy
+**/testsys
 marina_containers/
 *.log
 sandbox/
