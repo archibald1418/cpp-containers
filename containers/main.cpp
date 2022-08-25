@@ -1,3 +1,10 @@
-// This main is for testing the headers syntax. The tests are in tests/ folder
+/*
+*
+ *
+*
+**  This main is for testing the headers syntax. The tests are in tests/ folder
+*
+ *
+*/ 
 
 int main(){}
