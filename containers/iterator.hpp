@@ -333,14 +333,14 @@ operator+(typename RAIterator<T>::difference_type diff, const RAIterator<T>& lhs
 				return (*--copy);
 				/*
 					NOTE: 
-					reverse_iterator is an ADAPTER - it extends a source class (ADAPTEE) to behave differently
+					reverse_iterator is an ADAPTOR - it extends a source class (ADAPTEE) to behave differently
 					(suiting certain needs that source class can't meet)
-					Adapter adapts source class interface (RAIterator<T>) to meet new requirements (iterating backwards)
+					Adaptor adapts source class interface (RAIterator<T>) to meet new requirements (iterating backwards)
 					without changing the source class (=without modifying the class)
-					and without changing the contexts that source class is usually used in
+					and without changing the contexts in which the source class is usually used
 
-					I guess,  operator* := *(copy - 1) is to use the original behaviour of the begin() and end() methods 
-					(without writing '- 1' add-on, which is error-prone) 
+					I guess, 'operator* := *(copy - 1)' is to use the original behaviour of the begin() and end() methods 
+					(without writing '- 1' add-on, which is error-prone)
 				*/ 
 			}
 			pointer operator->()const{
@@ -376,6 +376,7 @@ operator+(typename RAIterator<T>::difference_type diff, const RAIterator<T>& lhs
 				return (this->_it);
 			}
 		};
+
 
 
 
@@ -482,8 +483,12 @@ distance (InputIt first, InputIt last){
 					typename InputIt::iterator_category());
 }
 
-
-
+/*
+NOTE: 
+	These functions made inline since they are non-members. 
+	If a short (i.e. has few lines) function is a class member, compiler optimizes it to be inline. 
+	Non-member function, if they're worth it, have to be inline explicitly
+*/
 
 }
 
