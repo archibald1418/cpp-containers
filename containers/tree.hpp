@@ -1,14 +1,16 @@
 #ifndef TREE_H
 # define TREE_H
 
+# include <memory>
+# include <stdexcept>
+
 # include "node.hpp"
 # include "type_traits.hpp"
 # include "algorithm.hpp"
 # include "tree_utils.hpp"
 # include "functional.hpp"
 # include "utility.hpp"
-# include <memory>
-# include <stdexcept>
+
 
 # define LEFTHEAVY  -1
 # define BALANCED   0

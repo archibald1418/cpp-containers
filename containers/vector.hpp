@@ -1,10 +1,13 @@
 #ifndef VECTOR_H
 # define VECTOR_H
 
-# include "iterator.hpp"
-# include "algorithm.hpp"
 # include <cstdint>
 # include <memory>
+# include <iostream>
+# include <stdexcept>
+
+# include "iterator.hpp"
+# include "algorithm.hpp"
 
 
 namespace ft

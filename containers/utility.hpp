@@ -1,5 +1,6 @@
 #ifndef UTILITY_H
 # define UTILITY_H
+
 # include "pair.hpp"
 
 namespace ft{
@@ -57,7 +58,7 @@ namespace ft{
             template<class T>
                 inline operator T*() const
                 {
-                    return static_cast<T*>(0);
+                    return reinterpret_cast<T*>(0);
                     // return 0;
                 }
 
@@ -75,20 +76,27 @@ namespace ft{
         }
     nullptr_my = {};
 
-    const nullptr_t& get_nullptr_t(){
-        return ft::nullptr_my;
-    }
+
+    struct nullptr_t_getter{
+        inline static const ft::nullptr_t& get_nullptr_t(void){
+            return ft::nullptr_my;
+        }
+        private:
+            nullptr_t_getter(){};
+    };
+    // Checklist requires that functions not be implemented in a header
 
 
 }
 
+// ---------------- nullptr my ---------------------
 
+
+# define nullptr_my ft::nullptr_t_getter::get_nullptr_t()
 
 // ---------------- nullptr my ---------------------
 
-# define nullptr_my ft::get_nullptr_t()
 
-// ---------------- nullptr my ---------------------
 
 
 

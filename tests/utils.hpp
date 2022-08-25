@@ -1,6 +1,9 @@
 #ifndef UTILS_H
 # define UTILS_H
 
+# include <iostream>
+# include <iomanip>
+
 # include "type_traits.hpp"
 # include "Test.hpp"
 # include "types.hpp"
@@ -8,8 +11,6 @@
 # include "node.hpp"
 # include "colors.hpp"
 # include "tree_utils.hpp"
-# include <iostream>
-# include <iomanip>
 
 template <typename Container>
 void create_vector_of_ints(Container &vector, int elems)
