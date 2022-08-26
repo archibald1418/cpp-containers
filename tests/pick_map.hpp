@@ -29,4 +29,5 @@ extern const std::string map_types[2] = {
      using std::map;
 # endif
 
-#endif
+#endif //PICK_MAP_H
+

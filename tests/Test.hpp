@@ -46,4 +46,5 @@ namespace test {
   } my_class;
 }
 
-#endif
+#endif // TEST_H
+

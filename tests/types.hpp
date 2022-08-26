@@ -77,4 +77,5 @@ typedef std::map<const char *, std::string> TypeRepr;
     
 }
 
-#endif
+#endif // TYPES_H
+

@@ -1,6 +1,7 @@
 SHELL:=/bin/zsh
 
 CC=clang++
+C=gcc  # Check if it works with gcc compiler
 CFLAGS=-Wall -Wextra #-Werror
 CONTAINERS=../containers
 TESTFILE=test

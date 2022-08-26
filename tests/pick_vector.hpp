@@ -25,4 +25,5 @@ extern const std::string vector_types[2] = {
    using std::vector;
 # endif
 
-#endif
+#endif // PICK_VECTOR_H
+

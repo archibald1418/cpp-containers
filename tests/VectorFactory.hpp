@@ -106,4 +106,5 @@ namespace test{
   };
 }
 
-#endif
+#endif // VECTORFACTORY_H
+

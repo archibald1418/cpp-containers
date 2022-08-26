@@ -94,4 +94,5 @@ struct is_pointer<
     public true_type{};
 }
 
-#endif
+#endif // TYPE_TRAITS_H
+

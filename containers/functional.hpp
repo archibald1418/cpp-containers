@@ -24,4 +24,5 @@ namespace ft {
 
 }
 
-#endif
+#endif // FUNCTIONAL_H
+

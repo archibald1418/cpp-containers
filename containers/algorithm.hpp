@@ -65,4 +65,5 @@ namespace ft{
 }
 
 
-#endif
+#endif // ALGORITHM_H
+
