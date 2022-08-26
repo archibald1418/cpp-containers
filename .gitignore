@@ -8,6 +8,9 @@ a.out
 */*.dSYM/
 **/testmy
 **/testsys
+**/*.gch
+**/.*.swp
+**/*dump
 marina_containers/
 *.log
 sandbox/
