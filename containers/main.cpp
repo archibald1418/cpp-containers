@@ -7,4 +7,11 @@
  *
 */ 
 
-int main(){}
+#include "stack.hpp"
+
+int main(){
+	
+	ft::stack<int> s;
+	ft::stack<int>s2(s);
+	s = s2;
+}

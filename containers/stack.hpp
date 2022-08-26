@@ -14,8 +14,18 @@ namespace ft {
             typedef Container   container_type;
             typedef size_t      size_type;
 
-            explicit stack(const container_type &ctnr = container_type()) : _c(ctnr) {}
-// TODO: member operators, dtor, check the reference..
+            explicit stack(const container_type &ctnr = container_type()) : _c(ctnr) {};
+            stack(const stack& other) : _c(other._c){};
+            ~stack(){};
+
+            stack& operator=(const stack& other)
+            {
+                if (this == &other)
+                    return *this;
+                _c = other._c;
+                return *this;
+            }
+            // First tests ok
             bool empty() const
             {
                 return _c.empty();
