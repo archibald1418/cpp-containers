@@ -147,32 +147,43 @@ void print_test_info(const char *title, Color color = GREEN)
   print_type(T());
 }
 
+// #include <set>
 
 
 
 // ------------------------------ Trees -----------------------
 
 
+
 template <typename node>
 void print_tree(node* p, int indent = 4)
 {
-    if(p != NULL) {
-        if(p->Right()) {
-            print_tree(p->Right(), indent+4);
-        }
-        if (indent) {
-            std::cout << std::setw(indent) << ' ';
-        }
-        if (p->Right()) 
-          std::cout<<" /\n" << std::setw(indent - 1) << ' ';
-        std::cout << p->get() << ":" << p->get_balance_factor() << "\n"; // Prints balfac ok!
-        if(p->Left()) {
-            std::cout << std::setw(indent) << ' ' <<" \\\n";
-            print_tree(p->Left(), indent+4);
-        }
-    }
+  if (!p)
+    return ;
+  // FIXME: endless recursion, sort out children of root!
+  if(!p->Isleaf()) {
+      if(!p->Right()->Isleaf()) {
+          print_tree(p->Right(), indent+4);
+      }
+      if (indent) {
+          std::cout << std::setw(indent) << ' ';
+      }
+      if (!p->Right()->Isleaf()) 
+        std::cout<<" /\n" << std::setw(indent - 1) << ' ';
+      std::cout << p->Get() << ":" << p->get_balance_factor() << "\n"; // Prints balfac ok!
+      if(!p->Left()->Isleaf()) {
+          std::cout << std::setw(indent) << ' ' <<" \\\n";
+          print_tree(p->Left(), indent+4);
+      }
+  }
 }
 
+template <typename tree>
+void print_tree(tree& t){
+  if (t.empty())
+    return print("Tree is empty", BOLDBLUE);
+  print_tree(t.Begin());
+}
 
 
 // # define SEP_COUNT 5
