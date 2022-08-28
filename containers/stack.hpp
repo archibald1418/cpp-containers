@@ -2,13 +2,14 @@
 # define STACK_H
 
 # include "vector.hpp"
+#include <stack>
 
 namespace ft {
     template <typename T, class Container = vector<T> >
     class stack
     {
         protected:  
-            Container           _c;
+            Container           _c; // must be protected as per specs
         public:
             typedef T           value_type;
             typedef Container   container_type;
@@ -55,6 +56,15 @@ namespace ft {
             {
                 _c.pop_back();
             }
+            
+            template <class _Tp, class _C>
+            friend bool operator== (const stack<_Tp, _C>& lhs, const stack<_Tp,_C>& rhs);
+            template <class _Tp, class _C>
+            friend bool operator< (const stack<_Tp,_C>& lhs, const stack<_Tp,_C>& rhs);
+
+            /*
+                These two define total order so they need access to container
+            */ 
     };
         template <class T, class Container>
             bool operator== (const stack<T,Container>& lhs, const stack<T,Container>& rhs)
