@@ -24,6 +24,8 @@ namespace ft {
         typedef node_t*             pointer;
     }; 
 
+    struct node_tag{};
+
 
     template <typename T, template<typename> class NodeType>
     struct BaseNode
@@ -32,6 +34,7 @@ namespace ft {
         typedef T                                   value_type;
         typedef node_t*                             pointer;
         typedef BaseNode<T, NodeType>               __base;
+        typedef node_tag                            __node_tag;
 
         protected:
             pointer     left;
@@ -56,10 +59,12 @@ namespace ft {
             }
 
             // ????????????????????????? 
-            virtual value_type& get(){
+            // virtual
+            value_type& Get(){
                 return this->item;
             }
-            virtual void        setYourMomma(const value_type& val) {
+            // virtual
+            void        Set(const value_type& val) {
                 this->item = value_type(val);
             };
             // ^ DEBUG: accessors cause segfaults if virtual
@@ -126,17 +131,17 @@ namespace ft {
                     return (new AVLNode(item, left, right, balfac, parent));
                 }
 
-            // void        setYourMommaChild(const value_type& val)
+            // void        SetChild(const value_type& val)
             // {
-            //     __base::setYourMomma(val);
+            //     __base::Set(val);
             // };
 
-            // void        setYourMomma(const value_type& val){
+            // void        Set(const value_type& val){
             //     this->item = val;
             // } 
                 
-            // void * getSetYourMomma(){
-            //     return &setYourMomma;
+            // void * getSet(){
+            //     return &Set;
             // }
         };
 
@@ -151,13 +156,18 @@ namespace ft {
         
         template <typename NodeInstance>
         typename NodeInstance::value_type& 
-        get(NodeInstance* node){
-            return node->get(); // FIXME: this does not work right, segfaults
+        Get(NodeInstance* node){
+            return node->Get(); // FIXME: this does not work right, segfaults
         }
         template <typename NodeInstance>
         void
-        set(NodeInstance* node, const typename NodeInstance::value_type& item){
-            node->set(item);
+        Set(NodeInstance* node, const typename NodeInstance::value_type& item){
+            node->Set(item);
+        }
+        template <typename NodeInstance>
+        bool
+        Isleaf(NodeInstance* node){
+            return node->Isleaf();
         }
         
         // TODO: allocator
