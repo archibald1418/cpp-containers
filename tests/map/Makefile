@@ -43,7 +43,7 @@ map_compare: map_my map_sys
 	@#ignore diff writing to stderr
 
 tree_test:
-	${CC} ${CFLAGS} -I${TESTS} -I${CONTAINERS} map_main.cpp -o tree
+	${CC} ${CFLAGS} -I${TESTS} -I${CONTAINERS} ${TESTSRC} -o tree
 
 clean:
 	-rm -rf *.o

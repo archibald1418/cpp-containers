@@ -3,6 +3,7 @@
 #include "utils.hpp"
 
 #include <iostream>
+#include <array>
 
 using ft::AVLNode;
 using ft::Node;
@@ -19,6 +20,23 @@ void MakeAVLCharTree(AVLNode<char>* &root) // changing pointers
   root = a; // <- that one
 }
 
+void ConstructAVLIntTree(AVLNode<int>* &root){
+	using ft::AVLTree;
+
+	const int len = 3;
+	std::array<int, len> vals = {1,2,3};
+	typedef std::array<int, 3>::iterator _it;
+
+	AVLTree<int> tree(root);
+
+	print_tree(tree);
+
+	for (_it it = vals.begin(); it != vals.end(); ++it){
+		tree.Insert(*it);
+	}
+
+	print_tree(tree);
+}
 
 int main(){
 	// Test nodes
@@ -28,23 +46,27 @@ using test::unique_ptr;
 using ft::AVLTree;
 using ft::tree_traits;
 
+typedef 
+	int
+		type;
 
-	Node<int> baseNode;
-	AVLNode<int> avlnode(8);
+	// Node<int> baseNode;
+	// AVLNode<int> avlnode(8);
 
 	// std::cout << avlnode.get_balance_factor() << std::endl;
 	// std::cout << avlnode.get() << std::endl;
 
-	AVLNode<char>* root = NULL;
-	AVLTree<char> T(root);
+	AVLNode<type>* root = nullptr_my;
+	// AVLTree<char> T(root);
 
-	MakeAVLCharTree(root);
+	// MakeAVLCharTree(root);
+	ConstructAVLIntTree(root);
 
-	std::cout << root->Left() << std::endl;
+	// std::cout << root->Left() << std::endl;
 
-	print_tree(root); // calls all getters
+	// print_tree(root); // calls all getters // TODO: should traverse __every__ node, so might use prev-next methods
 
-	delete root;
+	// delete root;
 
 	return (0);
 }
