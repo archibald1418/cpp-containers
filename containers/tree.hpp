@@ -3,6 +3,7 @@
 
 # include <memory>
 # include <stdexcept>
+# include <cstdint>
 
 # include "node.hpp"
 # include "type_traits.hpp"
@@ -54,6 +55,7 @@ namespace ft{
         typedef typename traits::value_type     value_type;
         typedef typename traits::value_compare  value_compare;
         typedef value_type                      V;
+        typedef std::size_t                     size_type;
 
         typedef typename traits::allocator_type                             allocator_type;
         typedef typename allocator_type::template rebind<node_t>::other     allocator_node;
@@ -62,6 +64,7 @@ namespace ft{
 
         protected:
             nodeptr root;
+            node_t phony; // placeholder for right nodes
         
         protected:
             allocator_node          _alloc_node;
@@ -70,7 +73,7 @@ namespace ft{
 
         public:
 
-            size_t _size;
+            size_type _size;
 
             BaseTree(const value_compare& comp) : traits(comp),
             _alloc_node(allocator_node()),
@@ -93,12 +96,19 @@ namespace ft{
                 }
             }
             ~BaseTree(){
-                freenode(root);
+                if (root)
+                    freenode(root);
             }
 
 
             nodeptr& End(){
                 return root->Parent();
+            }
+            nodeptr& Root(){
+                return root;
+            }
+            nodeptr& Begin(){
+                return Lmost();
             }
             nodeptr& Lmost(){
                 return root->Left();
@@ -120,15 +130,14 @@ namespace ft{
             }
 
 
-
             nodeptr buynode(nodeptr new_parent)
             {
-                // nodeptr ptr = _alloc_node.allocate(1); // FIXME: reinded allocator not working properly, trashes vtable
+                // nodeptr ptr = _alloc_node.allocate(1); // FIXME: rebound allocator not working properly, trashes vtable
                 nodeptr ptr = new node_t();
                 
                 // Same node for all pointers
-                _alloc_ptr.construct(&Left(ptr),   nullptr_my); 
-                _alloc_ptr.construct(&Right(ptr),  nullptr_my);
+                _alloc_ptr.construct(&Left(ptr),   &phony); 
+                _alloc_ptr.construct(&Right(ptr),  &phony);
                 _alloc_ptr.construct(&Parent(ptr), new_parent);
 
                 ptr->Isleaf() = false;
@@ -144,18 +153,24 @@ namespace ft{
             }
 
             void Init(){
-                // Buy null node for root
+                // Buy null node for root _alloc_node.construct(&phony, node_t())
+
                 root = buynode(nullptr_my); // init parent with NULL
                 root->Isleaf() = true;
-                End() = root;
-                Lmost() = root;
-                Rmost() = root;
+                Root() = root; // FIXME: sort out children of root and phony!
+                Lmost() = &phony;
+                Rmost() = &phony;
                 _size = 0;
+
             }
             
             bool empty(){
                 return (_size == 0);
             }
+            size_type size(){
+                return _size;
+            }
+            
             
             // TODO: coplien form, destructors, allocators(?)
             
@@ -168,21 +183,21 @@ namespace ft{
                 while (node and node->key != key)
                 {
                     if (node->key > key)
-                        node = node->left;
+                        node = node->Left();
                     else
-                        node = node->right;
+                        node = node->Right();
                 }
                 return node;
             }
 
             nodeptr tree_min(nodeptr node){
-                while (node->left)
-                    node = node->left;
+                while (node->Left())
+                    node = node->Left();
                 return node;
             }  
             nodeptr tree_max(nodeptr node){
-                while (node->right)
-                    node = node->right;
+                while (node->Right())
+                    node = node->Right();
                 return node;
             }
             nodeptr tree_next(nodeptr node){
@@ -190,26 +205,26 @@ namespace ft{
 
                 // Next item is the next greatest to the current item
                 // So it's in the right subtree
-                if (node->right)
-                    return tree_min(node->right);
+                if (node->Right())
+                    return tree_min(node->Right());
 
                 // Otherwise go up and search the first parent which is also a left node
-                nodeptr node_parent = node->parent;
-                while (node_parent and (node == node_parent->right)){
+                nodeptr node_parent = node->Parent();
+                while (node_parent and (node == node_parent->Right())){
                     node = node_parent;
-                    node_parent = node_parent->parent;
+                    node_parent = node_parent->Parent();
                 }
                 return node;
             }
             nodeptr tree_prev(nodeptr node){
                 // Same, but searching for rightmost child
-                if (node->left)
-                    return tree_max(node->left);
+                if (node->Left())
+                    return tree_max(node->Left());
 
-                nodeptr node_parent = node->parent;
-                while (node_parent and node == node_parent->left){
+                nodeptr node_parent = node->Parent();
+                while (node_parent and node == node_parent->Left()){
                     node = node_parent;
-                    node_parent = node_parent->parent;
+                    node_parent = node_parent->Parent();
                 }
                 return node;
             }
@@ -220,33 +235,40 @@ namespace ft{
 
                 if (empty())
                 {
-                    // root->set(item);
-                    root->Isleaf();
+                    root->Set(item);
                     _size++;
-                    return nullptr_my;
+                    return root; // return last inserted position
                 }
                 // if (root->Isleaf())
                 //     return this->Inserter(true, root, item); // a tree with one root only node has one leaf
 
-                nodeptr tmproot = End();
-                nodeptr tmphead = root;
-                bool add_left = true;
+                nodeptr tmproot = Root();
+                nodeptr tmphead = tmproot;
+                bool add_left = this->comp(item, Get(tmproot));
 
                 while (!tmproot->Isleaf()){
                     tmphead = tmproot;
-                    add_left = this->comp(item, get(tmproot));
+                    add_left = this->comp(item, Get(tmproot));
                     tmproot = add_left ? Left(tmproot) : Right(tmproot);
                 }
                 return this->Inserter(add_left, tmphead, item);
             };
-            virtual nodeptr Inserter(bool& add_left, nodeptr& tree_position, const value_type& item)
+            // virtual 
+            nodeptr Inserter(bool& add_left, nodeptr& tree_position, const value_type& item)
             {
                 nodeptr new_node = buynode(tree_position);
-                new_node->setYourMomma(item);
-                if (add_left)
+                new_node->Set(item); 
+                new_node->Isleaf() = true;
+                if (add_left) {
                     tree_position->Left() = new_node;
-                else
+                    tree_position->Isleaf() = false;
+                    Lmost() = new_node;
+                } else {
                     tree_position->Right() = new_node;
+                    tree_position->Isleaf() = false;
+                    Rmost() = new_node;
+                }
+                _size++;
                 /* 
                 ** Balancing logic goes here
                 */
@@ -285,7 +307,8 @@ namespace ft{
 
         AVLTree(const value_compare& comp) : __base(comp){};
         AVLTree() : __base(){};
-        AVLTree(AVLNode<T>*& root) : BaseTree<T, AVLNode>(root){};
+        AVLTree(AVLNode<T>*& root) : __base(root){};
+        virtual ~AVLTree(){};
 
         private:
 
