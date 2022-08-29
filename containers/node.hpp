@@ -54,7 +54,7 @@ namespace ft {
             pointer& Parent(){
                 return this->parent; // шиза полная
             }
-            bool& Isleaf(){
+            bool& IsPhony(){
                 return this->isleaf;
             }
 
@@ -80,9 +80,15 @@ namespace ft {
 
 
             virtual ~BaseNode(){
-                std::cout << "Calling base node dtor" << std::endl;
-                delete left;
-                delete right;
+                std::cout << "Calling base node dtor:" << Get() << std::endl;
+                if (!left->IsPhony()){
+                    left->IsPhony() = true;
+                    delete left;
+                }
+                if (!right->IsPhony()){
+                    right->IsPhony() = true;
+                    delete right;
+                }
             }
 
             static pointer create(const value_type& item, 
@@ -166,8 +172,8 @@ namespace ft {
         }
         template <typename NodeInstance>
         bool
-        Isleaf(NodeInstance* node){
-            return node->Isleaf();
+        IsPhony(NodeInstance* node){
+            return node->IsPhony();
         }
         
         // TODO: allocator
