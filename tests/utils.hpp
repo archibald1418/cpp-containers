@@ -160,18 +160,17 @@ void print_tree(node* p, int indent = 4)
 {
   if (!p)
     return ;
-  // FIXME: endless recursion, sort out children of root!
-  if(!p->Isleaf()) {
-      if(!p->Right()->Isleaf()) {
+  if(!p->IsPhony()) {
+      if(!p->Right()->IsPhony()) {
           print_tree(p->Right(), indent+4);
       }
       if (indent) {
           std::cout << std::setw(indent) << ' ';
       }
-      if (!p->Right()->Isleaf()) 
+      if (!p->Right()->IsPhony())
         std::cout<<" /\n" << std::setw(indent - 1) << ' ';
       std::cout << p->Get() << ":" << p->get_balance_factor() << "\n"; // Prints balfac ok!
-      if(!p->Left()->Isleaf()) {
+      if(!p->Left()->IsPhony()) {
           std::cout << std::setw(indent) << ' ' <<" \\\n";
           print_tree(p->Left(), indent+4);
       }
@@ -182,7 +181,9 @@ template <typename tree>
 void print_tree(tree& t){
   if (t.empty())
     return print("Tree is empty", BOLDBLUE);
-  print_tree(t.Begin());
+  std::cout << "*" << std::endl;
+  print_tree(t.Root());
+  std::cout << "*" << std::endl;
 }
 
 

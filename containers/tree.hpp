@@ -87,7 +87,7 @@ namespace ft{
                     Init();
                     other_root = root; // incoming pointer now points to root
                 }
-                else if (other_root->Isleaf())
+                else if (other_root->IsPhony())
                     root = other_root; // concatenate two trees
                 else {
                     Init();
@@ -96,8 +96,8 @@ namespace ft{
                 }
             }
             ~BaseTree(){
-                if (root)
-                    freenode(root);
+                if (!IsPhony(root))
+                    freenode(root); 
             }
 
 
@@ -111,10 +111,10 @@ namespace ft{
                 return Lmost();
             }
             nodeptr& Lmost(){
-                return root->Left();
+                return phony.Left();
             }
             nodeptr& Rmost(){
-                return root->Right();
+                return phony.Right();
             }
             nodeptr& Left(nodeptr& node){
                 return node->Left();
@@ -125,8 +125,8 @@ namespace ft{
             nodeptr& Parent(nodeptr& node){
                 return node->Parent();
             }
-            bool& Isleaf(nodeptr& node){
-                return node->Isleaf();
+            bool& IsPhony(nodeptr& node){
+                return node->IsPhony();
             }
 
 
@@ -140,7 +140,7 @@ namespace ft{
                 _alloc_ptr.construct(&Right(ptr),  &phony);
                 _alloc_ptr.construct(&Parent(ptr), new_parent);
 
-                ptr->Isleaf() = false;
+                ptr->IsPhony() = false;
                 // ...
                 return ptr;
             }
@@ -156,8 +156,8 @@ namespace ft{
                 // Buy null node for root _alloc_node.construct(&phony, node_t())
 
                 root = buynode(nullptr_my); // init parent with NULL
-                root->Isleaf() = true;
-                Root() = root; // FIXME: sort out children of root and phony!
+                root->IsPhony() = true;
+                Root()  = root; // FIXME: sort out children of root and phony!
                 Lmost() = &phony;
                 Rmost() = &phony;
                 _size = 0;
@@ -236,17 +236,18 @@ namespace ft{
                 if (empty())
                 {
                     root->Set(item);
+                    root->IsPhony() = false;
                     _size++;
                     return root; // return last inserted position
                 }
-                // if (root->Isleaf())
+                // if (root->IsPhony())
                 //     return this->Inserter(true, root, item); // a tree with one root only node has one leaf
 
                 nodeptr tmproot = Root();
                 nodeptr tmphead = tmproot;
                 bool add_left = this->comp(item, Get(tmproot));
 
-                while (!tmproot->Isleaf()){
+                while (!tmproot->IsPhony()){
                     tmphead = tmproot;
                     add_left = this->comp(item, Get(tmproot));
                     tmproot = add_left ? Left(tmproot) : Right(tmproot);
@@ -257,15 +258,12 @@ namespace ft{
             nodeptr Inserter(bool& add_left, nodeptr& tree_position, const value_type& item)
             {
                 nodeptr new_node = buynode(tree_position);
-                new_node->Set(item); 
-                new_node->Isleaf() = true;
+                new_node->Set(item);
                 if (add_left) {
                     tree_position->Left() = new_node;
-                    tree_position->Isleaf() = false;
                     Lmost() = new_node;
                 } else {
                     tree_position->Right() = new_node;
-                    tree_position->Isleaf() = false;
                     Rmost() = new_node;
                 }
                 _size++;
