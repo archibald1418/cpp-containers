@@ -23,17 +23,13 @@ void MakeAVLCharTree(AVLNode<char>* &root) // changing pointers
 void ConstructAVLIntTree(AVLNode<int>* &root){
 	using ft::AVLTree;
 
-	const int len = 3;
-	std::array<int, len> vals = {1,2,3};
-	typedef std::array<int, 3>::iterator _it;
-
 	AVLTree<int> tree(root);
 
 	print_tree(tree);
 
-	for (_it it = vals.begin(); it != vals.end(); ++it){
-		tree.Insert(*it);
-	}
+	tree.Insert(1);
+	tree.Insert(2);
+	tree.Insert(3);
 
 	print_tree(tree);
 }
