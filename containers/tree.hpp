@@ -64,7 +64,7 @@ namespace ft{
 
         protected:
             nodeptr root;
-            node_t phony; // placeholder for right nodes
+            nodeptr phony; // placeholder for nodes
         
         protected:
             allocator_node          _alloc_node;
@@ -97,7 +97,8 @@ namespace ft{
             }
             ~BaseTree(){
                 if (!IsPhony(root))
-                    freenode(root); 
+                    freenode(root);
+                    // TODO: traverse tree delete nodes separately
             }
 
 
@@ -111,10 +112,10 @@ namespace ft{
                 return Lmost();
             }
             nodeptr& Lmost(){
-                return phony.Left();
+                return phony->Left();
             }
             nodeptr& Rmost(){
-                return phony.Right();
+                return phony->Right();
             }
             nodeptr& Left(nodeptr& node){
                 return node->Left();
@@ -128,19 +129,22 @@ namespace ft{
             bool& IsPhony(nodeptr& node){
                 return node->IsPhony();
             }
+            bool& is_nil(nodeptr& node){
+                return IsPhony(node);
+            }
 
 
             nodeptr buynode(nodeptr new_parent)
             {
-                // nodeptr ptr = _alloc_node.allocate(1); // FIXME: rebound allocator not working properly, trashes vtable
-                nodeptr ptr = new node_t();
+                nodeptr ptr = _alloc_node.allocate(1); // FIXME: rebound allocator not working properly, trashes vtable
+                // nodeptr ptr = new node_t();
                 
                 // Same node for all pointers
-                _alloc_ptr.construct(&Left(ptr),   &phony); 
-                _alloc_ptr.construct(&Right(ptr),  &phony);
+                _alloc_ptr.construct(&Left(ptr),   phony); 
+                _alloc_ptr.construct(&Right(ptr),  phony);
                 _alloc_ptr.construct(&Parent(ptr), new_parent);
-
                 ptr->IsPhony() = false;
+                ptr->get_balance_factor() = 0;
                 // ...
                 return ptr;
             }
@@ -150,18 +154,32 @@ namespace ft{
                 _alloc_ptr.destroy(&Right(node));
                 _alloc_ptr.destroy(&Left(node));
                 _alloc_node.deallocate(node, 1);
+                // FIXME: node freeing not working properly
             }
 
-            void Init(){
-                // Buy null node for root _alloc_node.construct(&phony, node_t())
+            void Init()
+            {
+                /* 
+                        >>>>> shared phony node instead of null pointers <<<<
+
+                            null                        phony                     
+                             |                           |
+                           phony          ->           root
+                        /         \                  /        \
+                    null             null        phony          phony
+                */
+                phony = _alloc_node.allocate(1); // init parent with NULL
+                _alloc_node.construct(&Left(phony), nullptr_my);
+                _alloc_node.construct(&Right(phony), nullptr_my); 
+                _alloc_node.construct(&Parent(phony), nullptr_my);
+                phony->IsPhony() = true;
 
                 root = buynode(nullptr_my); // init parent with NULL
                 root->IsPhony() = true;
-                Root()  = root; // FIXME: sort out children of root and phony!
-                Lmost() = &phony;
-                Rmost() = &phony;
+                Root()  = root; 
+                Lmost() = phony;
+                Rmost() = phony;
                 _size = 0;
-
             }
             
             bool empty(){
@@ -180,7 +198,7 @@ namespace ft{
 
             nodeptr search(nodeptr node, const value_type& key)
             {
-                while (node and node->key != key)
+                while (!IsPhony(node) and node->key != key)
                 {
                     if (node->key > key)
                         node = node->Left();
@@ -191,12 +209,12 @@ namespace ft{
             }
 
             nodeptr tree_min(nodeptr node){
-                while (node->Left())
+                while (!IsPhony(node->Left()))
                     node = node->Left();
                 return node;
             }  
             nodeptr tree_max(nodeptr node){
-                while (node->Right())
+                while (!IsPhony(node->Right()))
                     node = node->Right();
                 return node;
             }
@@ -205,28 +223,28 @@ namespace ft{
 
                 // Next item is the next greatest to the current item
                 // So it's in the right subtree
-                if (node->Right())
+                if (!IsPhony(node->Right()))
                     return tree_min(node->Right());
 
                 // Otherwise go up and search the first parent which is also a left node
                 nodeptr node_parent = node->Parent();
-                while (node_parent and (node == node_parent->Right())){
+                while (!IsPhony(node_parent) and (node == node_parent->Right())){
                     node = node_parent;
                     node_parent = node_parent->Parent();
                 }
-                return node;
+                return node_parent;
             }
             nodeptr tree_prev(nodeptr node){
                 // Same, but searching for rightmost child
-                if (node->Left())
+                if (!IsPhony(node->Left()))
                     return tree_max(node->Left());
 
                 nodeptr node_parent = node->Parent();
-                while (node_parent and node == node_parent->Left()){
+                while (!IsPhony(node_parent) and node == node_parent->Left()){
                     node = node_parent;
                     node_parent = node_parent->Parent();
                 }
-                return node;
+                return node_parent;
             }
 
             nodeptr Insert(const value_type& item)
