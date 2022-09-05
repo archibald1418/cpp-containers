@@ -186,6 +186,13 @@ void print_tree(tree& t){
   std::cout << "*" << std::endl;
 }
 
+template <typename node>
+void print_node(node* t){
+  if (t->IsPhony())
+    return print("Node is empty", WHITE);
+  std::cout <<  "{" << t->Get() << ":"  << t->get_balance_factor() << "}" << std::endl;
+}
+
 
 // # define SEP_COUNT 5
 // # define SEP '`'

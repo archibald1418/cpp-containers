@@ -20,18 +20,54 @@ void MakeAVLCharTree(AVLNode<char>* &root) // changing pointers
   root = a; // <- that one
 }
 
-void ConstructAVLIntTree(AVLNode<int>* &root){
+
+ft::AVLTree<int>* ConstructAVLIntTree(AVLNode<int>* &root){
 	using ft::AVLTree;
 
-	AVLTree<int> tree(root);
+	AVLTree<int>* tree = new AVLTree<int>(root);
 
-	print_tree(tree);
 
-	tree.Insert(1);
-	tree.Insert(2);
-	tree.Insert(3);
+	print_tree(*tree);
 
-	print_tree(tree);
+	tree->Insert(11);
+	// print_tree(tree);
+	tree->Insert(7);
+	// print_tree(tree);
+	tree->Insert(12);
+	// print_tree(tree);
+	tree->Insert(4);
+	// print_tree(tree);
+	tree->Insert(2);
+	// print_tree(tree);
+	tree->Insert(-1);
+	// print_tree(tree);
+	tree->Insert(0);
+	// print_tree(tree);
+	tree->Insert(78);
+	// print_tree(tree);
+	tree->Insert(10);
+	// print_tree(tree);
+	tree->Insert(6);
+
+	print_tree(*tree);
+
+	return tree;
+}
+
+template <typename tree>
+void	test_tree_next(tree* t){
+
+	typedef typename tree::nodeptr nodeptr;
+
+	std::cout << "Printing tree:" << std::endl;
+	print_tree(*t);
+
+	nodeptr n = t->tree_next(t->Root());
+	print_node(n);
+	nodeptr nn = t->tree_prev(n);
+	print_node(nn);
+	assert nn == t->Root();
+
 }
 
 int main(){
@@ -56,13 +92,18 @@ typedef
 	// AVLTree<char> T(root);
 
 	// MakeAVLCharTree(root);
-	ConstructAVLIntTree(root);
+	ft::AVLTree<type>* tree = ConstructAVLIntTree(root);
+	(void)tree;
+	test_tree_next(tree);
+
 
 	// std::cout << root->Left() << std::endl;
 
 	// print_tree(root); // calls all getters // TODO: should traverse __every__ node, so might use prev-next methods
 
 	// delete root;
+
+	// TODO: delete tree
 
 	return (0);
 }
