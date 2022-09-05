@@ -2,8 +2,12 @@
 #include "node.hpp"
 #include "utils.hpp"
 
+# include <cassert>
+
 #include <iostream>
 #include <array>
+
+
 
 using ft::AVLNode;
 using ft::Node;
@@ -61,12 +65,23 @@ void	test_tree_next(tree* t){
 
 	std::cout << "Printing tree:" << std::endl;
 	print_tree(*t);
-
+// pretty print
 	nodeptr n = t->tree_next(t->Root());
 	print_node(n);
 	nodeptr nn = t->tree_prev(n);
 	print_node(nn);
-	assert nn == t->Root();
+	assert (nn == t->Root());
+
+
+	nodeptr rmost = t->Rmost();
+	print_node(rmost);
+	nodeptr end = t->tree_next(rmost);
+	print_node(end);
+	// nodeptr tmp = t->Root();
+	// while (tmp != t->Rmost()){
+	// 	print_node(tmp);
+	// 	tmp = t->tree_next(tmp);
+	// }
 
 }
 

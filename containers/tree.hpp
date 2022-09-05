@@ -103,7 +103,7 @@ namespace ft{
 
 
             nodeptr& End(){
-                return root->Parent();
+                return phony;
             }
             nodeptr& Root(){
                 return root;
@@ -175,7 +175,7 @@ namespace ft{
                 phony->IsPhony() = true;
 
                 root = buynode(nullptr_my); // init parent with NULL
-                root->IsPhony() = true;
+                root->IsPhony() = true; // root has no content yet
                 Root()  = root; 
                 Lmost() = phony;
                 Rmost() = phony;
@@ -220,12 +220,14 @@ namespace ft{
             }
             nodeptr tree_next(nodeptr node){
                 // Searching for next item in an ordered sequence
-
+                if (IsPhony(node) || node == Rmost())
+                    return phony;
+                // DEBUG: node == Rmost() case???
+                
                 // Next item is the next greatest to the current item
                 // So it's in the right subtree
                 if (!IsPhony(node->Right()))
                     return tree_min(node->Right());
-
                 // Otherwise go up and search the first parent which is also a left node
                 nodeptr node_parent = node->Parent();
                 while (!IsPhony(node_parent) and (node == node_parent->Right())){
@@ -235,6 +237,9 @@ namespace ft{
                 return node_parent;
             }
             nodeptr tree_prev(nodeptr node){
+                if (IsPhony(node) || node == Lmost())
+                    return phony;
+
                 // Same, but searching for rightmost child
                 if (!IsPhony(node->Left()))
                     return tree_max(node->Left());
@@ -256,6 +261,8 @@ namespace ft{
                     root->Set(item);
                     root->IsPhony() = false;
                     _size++;
+                    Lmost() = root;
+                    Rmost() = root;
                     return root; // return last inserted position
                 }
                 // if (root->IsPhony())
@@ -279,10 +286,12 @@ namespace ft{
                 new_node->Set(item);
                 if (add_left) {
                     tree_position->Left() = new_node;
-                    Lmost() = new_node;
+                    if (tree_position == Lmost())
+                        Lmost() = new_node;
                 } else {
                     tree_position->Right() = new_node;
-                    Rmost() = new_node;
+                    if (tree_position == Rmost())
+                        Rmost() = new_node;
                 }
                 _size++;
                 /* 
