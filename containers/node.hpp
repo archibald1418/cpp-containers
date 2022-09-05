@@ -81,14 +81,13 @@ namespace ft {
 
             virtual ~BaseNode(){
                 std::cout << "Calling base node dtor:" << Get() << std::endl;
-                if (!left->IsPhony()){
-                    left->IsPhony() = true;
+                if (!is_nil(left)){
                     delete left;
                 }
-                if (!right->IsPhony()){
-                    right->IsPhony() = true;
+                if (!is_nil(right)){
                     delete right;
                 }
+                
             }
 
             static pointer create(const value_type& item, 
@@ -130,34 +129,20 @@ namespace ft {
                 };
 
 
-                int get_balance_factor(){return this->balance_factor;}
+                int& get_balance_factor(){return this->balance_factor;}
 
                 static pointer create(const value_type& item,
                 pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL){
                     return (new AVLNode(item, left, right, balfac, parent));
                 }
-
-            // void        SetChild(const value_type& val)
-            // {
-            //     __base::Set(val);
-            // };
-
-            // void        Set(const value_type& val){
-            //     this->item = val;
-            // } 
-                
-            // void * getSet(){
-            //     return &Set;
-            // }
         };
-
 
 /* 
                 CRTP, with Tree and Node metaclasses, 
                 hold shared functionality of the children,
                 take designated child class as a template template parameter
                 and generating traits based on the parameter
-            */
+*/
 
         
         template <typename NodeInstance>
@@ -173,6 +158,11 @@ namespace ft {
         template <typename NodeInstance>
         bool
         IsPhony(NodeInstance* node){
+            return node->IsPhony();
+        }
+        template <typename NodeInstance>
+        bool
+        is_nil(NodeInstance* node){
             return node->IsPhony();
         }
         
