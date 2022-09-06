@@ -187,10 +187,39 @@ void print_tree(tree& t){
 }
 
 template <typename node>
-void print_node(node* t){
+void print_node(node* t, Color color = WHITE, bool nl = true){
+  if (!t)
+  {
+    std::cout << color << "nullptr" << RESET;
+    if (nl)
+      std::cout << std::endl;
+    return ;
+  }
   if (t->IsPhony())
-    return print("Node is empty", WHITE);
-  std::cout <<  "{" << t->Get() << ":"  << t->get_balance_factor() << "}" << std::endl;
+  {
+    std::cout << color << "empty" << RESET;
+    if (nl)
+      std::cout << std::endl;
+    return ;
+  }
+  std::cout << color <<  "{" << t->Get() << ":"  << t->get_balance_factor() << "}" << RESET;
+  if (nl)
+    std::cout << std::endl;
+}
+
+template <typename node>
+void print_adjacent_nodes(node* t){
+  if (t->IsPhony())
+    return print("Empty node", BOLDWHITE);
+  if (!t)
+    return print("Null node", BOLDWHITE);
+    int indent = 4;
+    std::cout << std::setw(indent * 4);            print_node(t->Parent(), BLUE, 1);
+    std::cout << std::setw(indent * 3) << "⬆" << std::endl;
+    std::cout << std::setw(indent * 2) << "-";  print_node(t, BOLDRED, 0);                std::cout << "-\n";
+    std::cout << std::setw(indent * 3) << "↙️" << std::setw(indent * 3) << "↘" << std::endl;
+    std::cout << std::setw(indent * 2); print_node(t->Left(), YELLOW, 0); std::cout << std::setw(indent * 3); print_node(t->Right(), YELLOW, 1);
+    std::cout << std::setw(indent * 4) << "⬇️" << std::endl;
 }
 
 

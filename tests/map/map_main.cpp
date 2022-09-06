@@ -72,17 +72,37 @@ void	test_tree_next(tree* t){
 	print_node(nn);
 	assert (nn == t->Root());
 
-
 	nodeptr rmost = t->Rmost();
 	print_node(rmost);
 	nodeptr end = t->tree_next(rmost);
+	nodeptr pend = t->tree_next(end);
 	print_node(end);
-	// nodeptr tmp = t->Root();
-	// while (tmp != t->Rmost()){
-	// 	print_node(tmp);
-	// 	tmp = t->tree_next(tmp);
-	// }
+	print_node(pend);
 
+	print_adjacent_nodes(t->Root());
+}
+
+template <typename tree>
+void test_tree_traverse(tree* t){
+	typedef typename tree::nodeptr nodeptr;
+
+	nodeptr tmp = t->Lmost();
+	print_tree(*t);
+	std::cout << "\tTraversing forwards" << std::endl;
+	while (!IsPhony(tmp))
+	{
+		print_node(tmp, GREEN);
+		tmp = t->tree_next(tmp);
+	}
+	std::cout << "\tTraversing backwards" << std::endl;
+	tmp = t->Rmost();
+	while (!IsPhony(tmp))
+	{
+		print_adjacent_nodes(tmp);
+		tmp = t->tree_prev(tmp);
+	}
+
+	// subtrees
 }
 
 int main(){
@@ -110,6 +130,7 @@ typedef
 	ft::AVLTree<type>* tree = ConstructAVLIntTree(root);
 	(void)tree;
 	test_tree_next(tree);
+	test_tree_traverse(tree);
 
 
 	// std::cout << root->Left() << std::endl;

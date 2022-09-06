@@ -222,8 +222,7 @@ namespace ft{
                 // Searching for next item in an ordered sequence
                 if (IsPhony(node) || node == Rmost())
                     return phony;
-                // DEBUG: node == Rmost() case???
-                
+
                 // Next item is the next greatest to the current item
                 // So it's in the right subtree
                 if (!IsPhony(node->Right()))
