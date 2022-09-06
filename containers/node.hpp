@@ -81,12 +81,13 @@ namespace ft {
 
             virtual ~BaseNode(){
                 std::cout << "Calling base node dtor:" << Get() << std::endl;
-                if (!is_nil(left)){
-                    delete left;
-                }
-                if (!is_nil(right)){
-                    delete right;
-                }
+                // NOTE: tree handles node destruction
+                // if (!is_nil(left)){
+                //     delete left;
+                // }
+                // if (!is_nil(right)){
+                //     delete right;
+                // }
                 
             }
 
