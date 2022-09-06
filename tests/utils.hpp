@@ -213,13 +213,19 @@ void print_adjacent_nodes(node* t){
     return print("Empty node", BOLDWHITE);
   if (!t)
     return print("Null node", BOLDWHITE);
-    int indent = 4;
-    std::cout << std::setw(indent * 4);            print_node(t->Parent(), BLUE, 1);
-    std::cout << std::setw(indent * 3) << "⬆" << std::endl;
-    std::cout << std::setw(indent * 2) << "-";  print_node(t, BOLDRED, 0);                std::cout << "-\n";
-    std::cout << std::setw(indent * 3) << "↙️" << std::setw(indent * 3) << "↘" << std::endl;
-    std::cout << std::setw(indent * 2); print_node(t->Left(), YELLOW, 0); std::cout << std::setw(indent * 3); print_node(t->Right(), YELLOW, 1);
-    std::cout << std::setw(indent * 4) << "⬇️" << std::endl;
+  int indent = 4;
+  std::cout << std::setw(indent * 4);            
+  print_node(t->Parent(), BLUE, 1);
+  std::cout << std::setw(indent * 3) << "⬆" << std::endl;
+  std::cout << std::setw(indent * 2) << "-";  
+  print_node(t, BOLDRED, 0);                
+  std::cout << "-\n";
+  std::cout << std::setw(indent * 3) << "↙️" << std::setw(indent * 3) << "↘" << std::endl;
+  std::cout << std::setw(indent * 2); 
+  print_node(t->Left(), YELLOW, 0); 
+  std::cout << std::setw(indent * 3); 
+  print_node(t->Right(), YELLOW, 1);
+  std::cout << std::setw(indent * 4) << "⬇️" << std::endl;
 }
 
 

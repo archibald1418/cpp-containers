@@ -97,7 +97,18 @@ namespace ft{
             }
             ~BaseTree(){
                 if (!IsPhony(root))
-                    freenode(root);
+                {
+                    nodeptr curr = Lmost();
+                    nodeptr next = curr;
+                    while (!curr->IsPhony())
+                    {
+                        next = tree_next(curr);
+                        freenode(curr);
+                        curr = next;
+                    }
+                }
+                freenode(phony);
+                    // freenode(root);
                     // TODO: traverse tree delete nodes separately
             }
 

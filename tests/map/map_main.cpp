@@ -131,6 +131,8 @@ typedef
 	(void)tree;
 	test_tree_next(tree);
 	test_tree_traverse(tree);
+	
+	delete tree;
 
 
 	// std::cout << root->Left() << std::endl;
