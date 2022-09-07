@@ -85,11 +85,11 @@ namespace ft{
                 }
 			
                 reference& operator*(){
-                    return _it->_value;
+                    return _it->Get();
                 }
 
                 const reference& operator*() const{
-                    return _it->_value;
+                    return _it->Get();
                 }
 
                 pointer operator->(){
