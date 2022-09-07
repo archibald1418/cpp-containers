@@ -92,6 +92,22 @@ struct is_pointer<
     typename enable_if<!is_same<typename remove_pointer<T>::type, T>::value>::type>
     :
     public true_type{};
+
+    
+    // Tree related
+    template <class NodePtr, class T>
+        struct tree_node_types {
+            typedef typename        remove_pointer<NodePtr>::type      node_type;
+            typedef typename        remove_const<NodePtr>::type         nodeptr;
+            typedef T                                                   node_value_type;
+            typedef T*                                                  node_value_type_pointer; 
+            typedef const T*                                            const_node_value_type_pointer;
+        /*
+        NOTE: 
+            stl here does some crpytic voidptr->valueptr pointer rebinds
+            to keep compatibility with smart pointers 
+        */
+        };
 }
 
 #endif // TYPE_TRAITS_H
