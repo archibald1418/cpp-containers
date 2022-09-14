@@ -1,0 +1,16 @@
+test
+a.out
+*.o
+.*.swp
+*.DS_Store
+#.vscode/
+*.gch
+**/*.dSYM/
+**/testmy
+**/testsys
+**/*.gch
+**/.*.swp
+**/*dump
+marina_containers/
+*.log
+sandbox/
