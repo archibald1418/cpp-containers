@@ -1,5 +1,5 @@
 all:
-	c++ -std=c++98 -I./ -Wall -Wextra -Werror -c *.cpp
+	c++ -std=c++98 -pedantic -I./ -Wall -Wextra -Werror -c *.cpp
 do:
 	c++ *.cpp
 
