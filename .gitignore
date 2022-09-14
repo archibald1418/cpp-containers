@@ -1,5 +1,6 @@
 test
 a.out
+tests/map/tree
 *.o
 .*.swp
 *.DS_Store
