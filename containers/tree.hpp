@@ -180,9 +180,9 @@ namespace ft{
                     null             null        phony          phony
                 */
                 phony = _alloc_node.allocate(1); // init parent with NULL
-                _alloc_node.construct(&Left(phony), nullptr_my);
-                _alloc_node.construct(&Right(phony), nullptr_my); 
-                _alloc_node.construct(&Parent(phony), nullptr_my);
+                _alloc_ptr.construct(&Left(phony), nullptr_my);
+                _alloc_ptr.construct(&Right(phony), nullptr_my); 
+                _alloc_ptr.construct(&Parent(phony), nullptr_my);
                 phony->IsPhony() = true;
 
                 root = buynode(nullptr_my); // init parent with NULL

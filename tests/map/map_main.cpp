@@ -128,20 +128,10 @@ typedef
 
 	// MakeAVLCharTree(root);
 	ft::AVLTree<type>* tree = ConstructAVLIntTree(root);
-	(void)tree;
 	test_tree_next(tree);
 	test_tree_traverse(tree);
 	
 	delete tree;
-
-
-	// std::cout << root->Left() << std::endl;
-
-	// print_tree(root); // calls all getters // TODO: should traverse __every__ node, so might use prev-next methods
-
-	// delete root;
-
-	// TODO: delete tree
 
 	return (0);
 }
