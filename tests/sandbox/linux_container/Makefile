@@ -5,7 +5,9 @@ WORKDIR=/Users/user/42cursus/containers_ft/tests/sandbox/std=
 SCRIPT=compile_test.sh
 
 PIPE=$(WORKDIR)/pipe
+COMMAND=$(WORKDIR)/command
 
+DOCKER_SHELL=/bin/bash
 BACKGR=-d
 FOREGR=-it
 
@@ -23,10 +25,11 @@ all: $(NAME)
 
 $(NAME): pre-build
 	cp $(SCRIPT) $(WORKDIR)
-	touch $(PIPE)
-	docker build -t $(NAME) .
-	docker run --rm --name $(NAME) $(RUNMODE) \
-		-v $(WORKDIR):$(VOLUME_DIR)  $(NAME)
+	touch $(PIPE) && touch $(COMMAND)
+	docker build -f ./Dockerfile -t $(NAME) .
+	docker run --rm $(RUNMODE) --name $(NAME) \
+		-v $(WORKDIR):$(VOLUME_DIR) \
+		 $(NAME) $(DOCKER_SHELL)
 
 pre-build:
 	. ./start_docker_machine.sh

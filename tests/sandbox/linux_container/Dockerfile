@@ -5,7 +5,8 @@ RUN apt update && apt -y upgrade && apt install -y vim clang
 
 #COPY ["compile_test.sh", "/opt/workspaceFolder/"]
 
+VOLUME /opt/workspaceFolder
 ENV COMPILE_FOLDER=/opt/workspaceFolder
 #RUN mkdir /opt/workspaceFolder && chmod 0777 /opt/workspaceFolder
-#ENTRYPOINT ls; 
-#while true; do eval \"$(cat pipe)\"; done
+WORKDIR /opt/workspaceFolder
+ENTRYPOINT while true; do eval $(cat < pipe | tr -d '\0') && > pipe; done
