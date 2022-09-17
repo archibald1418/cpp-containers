@@ -1,11 +1,12 @@
 test
-a.out
+**/a.out
 tests/map/tree
 *.o
-.*.swp
+**/.*.swp
+**/*.swp
 *.DS_Store
 #.vscode/
-*.gch
+**/*.gch
 **/*.dSYM/
 **/testmy
 **/testsys
@@ -13,5 +14,5 @@ tests/map/tree
 **/.*.swp
 **/*dump
 marina_containers/
-*.log
+**/*.log
 sandbox/
