@@ -27,7 +27,7 @@ endif
 
 # Checking for linux compatibility
 ifeq ($(mode),linux)
-	#TODO: set up docker-linux -> compile_test -> print logs here	
+	#TODO: set up docker-linux -> compile_test -> print logs here
 endif
 
 # Containers
@@ -50,7 +50,6 @@ map_sys:
 map_compare: map_my map_sys
 	-${DIFF} <(./testmy | tee my.log) <(./testsys | tee sys.log)
 	@#ignore diff writing to stderr
-	@#TODO: rewrite this for bash (for linux)
 
 tree_test:
 	${CC} ${CFLAGS} -I${TESTS} -I${CONTAINERS} ${TESTSRC} -o tree
