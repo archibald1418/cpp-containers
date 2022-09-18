@@ -9,4 +9,4 @@ VOLUME /opt/workspaceFolder
 ENV COMPILE_FOLDER=/opt/workspaceFolder
 #RUN mkdir /opt/workspaceFolder && chmod 0777 /opt/workspaceFolder
 WORKDIR /opt/workspaceFolder
-ENTRYPOINT while true; do eval $(cat < pipe | tr -d '\0') && > pipe; done
+ENTRYPOINT while true; do eval $(cat < pipe | tr -d '\0') >> eval.log && > pipe; done
