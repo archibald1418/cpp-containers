@@ -12,3 +12,5 @@ if [[ $? != 0 ]]; then
 else
 	echo 'Compilation OK'
 fi
+
+# TODO: how to print logs into shell?

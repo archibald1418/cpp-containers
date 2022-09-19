@@ -6,6 +6,8 @@ SCRIPT=compile_test.sh
 
 PIPE=$(WORKDIR)/pipe
 COMMAND=$(WORKDIR)/command
+LOG_INFO=$(WORKDIR)/eval.log
+LOG_ERROR=$(WORKDIR)/errors.log
 
 DOCKER_SHELL=/bin/bash
 BACKGR=-d
@@ -44,10 +46,11 @@ stop:
 	docker stop $(NAME)
 clean: 
 	rm -rf $(PIPE)
+	rm -rf $(LOG_INFO)
+	rm -rf $(LOG_ERROR)
 	$(MAKE) stop
 	-docker rm $(NAME)
 fclean: clean
-	rm -rf $(PIPE)
 	-docker stop $(NAME)
 	-docker kill $(NAME)
 	-yes | docker builder prune
