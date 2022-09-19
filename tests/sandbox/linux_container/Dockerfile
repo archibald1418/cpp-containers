@@ -9,4 +9,4 @@ ARG COMPILE_FOLDER=/opt/workspaceFolder
 VOLUME $COMPILE_FOLDER
 WORKDIR $COMPILE_FOLDER
 ENTRYPOINT \
-while true; do eval "$(cat < pipe | tr -d '\0')" >> eval.log 2>>errors.log; > pipe; done
+while true; do eval "$(cat < pipe | tr -d \"\0\")" >> eval.log 2>>errors.log; > pipe; done
