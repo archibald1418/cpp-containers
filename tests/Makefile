@@ -11,7 +11,6 @@ TESTSRC=vector_main.cpp utils.cpp
 
 DIFF=diff
 
-
 all: 
 	make -C vector 
 	@# TODO: add map and stack rules
@@ -59,7 +58,8 @@ map_compare:
 	make map_compare -C map;
 tree_test:
 	make tree_test -C map
-
+linux:
+	echo $(MAKECMDGOALS)
 
 clean:
 	-rm -rf *.o
