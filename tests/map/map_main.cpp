@@ -123,7 +123,7 @@ typedef
 	// std::cout << avlnode.get_balance_factor() << std::endl;
 	// std::cout << avlnode.get() << std::endl;
 
-	AVLNode<type>* root = nullptr_my;
+	AVLNode<type>* root = ft::nullptr_my;
 	// AVLTree<char> T(root);
 
 	// MakeAVLCharTree(root);

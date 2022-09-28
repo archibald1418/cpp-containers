@@ -6,6 +6,7 @@
 # include "tree.hpp"
 # include "type_traits.hpp"
 # include "pair.hpp"
+# include "utility.hpp"
 
 // /  /   /    /     /      /       /        /
 # include <typeinfo> 
@@ -92,7 +93,8 @@ namespace ft {
             }
 
             static pointer create(const value_type& item, 
-            pointer left = NULL, pointer right = NULL, pointer parent = NULL){
+            
+            pointer left = nullptr_my, pointer right = nullptr_my, pointer parent = nullptr_my){
                 return new node_t(item, left, right, parent);
             }
             static pointer clone(const node_t& node){
@@ -104,10 +106,11 @@ namespace ft {
             template <typename T>
         struct Node : public BaseNode<T, Node>{};
 
+   
         template <typename T>
-        struct AVLNode : public BaseNode<T, AVLNode>
+        struct AVLNode : public BaseNode<T, ft::AVLNode>
         {            
-            typedef BaseNode<T, AVLNode>          __base;
+            typedef BaseNode<T, ft::AVLNode>        __base; // AVLNode doesn't get parsed as a class template. Needed namespace
             typedef typename __base::node_t         node_t;
             typedef typename __base::value_type     value_type;
             typedef typename __base::pointer        pointer;
@@ -118,7 +121,10 @@ namespace ft {
             public:
                 AVLNode() : __base(), balance_factor(0){}
                 AVLNode(const value_type& item,
-                pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL)
+                pointer left = nullptr_my, 
+                pointer right = nullptr_my, 
+                int balfac = 0,
+                pointer parent = nullptr_my)
                 :
                 __base(item, left, right, parent), balance_factor(balfac){};
                 AVLNode(const node_t& other)
@@ -133,7 +139,10 @@ namespace ft {
                 int& get_balance_factor(){return this->balance_factor;}
 
                 static pointer create(const value_type& item,
-                pointer left = NULL, pointer right = NULL, int balfac = 0, pointer parent = NULL){
+                pointer left = nullptr_my, 
+                pointer right = nullptr_my, 
+                int balfac = 0,
+                pointer parent = nullptr_my){
                     return (new AVLNode(item, left, right, balfac, parent));
                 }
         };
