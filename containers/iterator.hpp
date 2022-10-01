@@ -80,7 +80,7 @@ namespace ft{
 				RAIterator(pointer it) : _it(it){};
 				template <typename Iter>
 				RAIterator(const RAIterator<Iter>& src, 
-				typename ft::enable_if<!ft::is_integral<Iter>::value>::type* = 0) : _it(src.base()){};
+				typename ft::enable_if<!ft::is_integral<Iter>::value>::type* = 0) : _it(src.base()){}
 
 			// Dtor
 				virtual ~RAIterator(){};

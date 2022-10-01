@@ -50,6 +50,7 @@ namespace ft{
     }
 
 /* --------------------------- Null-ptr type ----------------------- */
+// nullptr_my named constant object
 
     const 
     class nullptr_t
@@ -58,7 +59,7 @@ namespace ft{
             template<class T>
                 inline operator T*() const
                 {
-                    return reinterpret_cast<T*>(0);
+                    return static_cast<T*>(0);
                     // return 0;
                 }
 
@@ -74,30 +75,14 @@ namespace ft{
             private:
                 void operator&() const;
         }
-    nullptr_my = {};
-
-
-    struct nullptr_t_getter{
-        inline static const ft::nullptr_t& get_nullptr_t(void){
-            return ft::nullptr_my;
-        }
-        private:
-            nullptr_t_getter(){};
-    };
-    // Checklist requires that functions not be implemented in a header
-
-
+    nullptr_my = {}; /* NOTE: 
+        This syntax stands for 'user-defined default constructor'.
+        Without it, constant object would be considered a POD class (Plain Old Data),
+        (a passive data structure, a behaviourless record, i.e. not an object per se)
+        which is not initialized by default in C++
+                    
+    */
 }
-
-// ---------------- nullptr my ---------------------
-
-
-# define nullptr_my ft::nullptr_t_getter::get_nullptr_t()
-
-// ---------------- nullptr my ---------------------
-
-
-
 
 
 #endif // UTILITY_H

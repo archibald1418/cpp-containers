@@ -2,7 +2,7 @@
 # define STACK_H
 
 # include "vector.hpp"
-#include <stack>
+# include <stack>
 
 namespace ft {
     template <typename T, class Container = vector<T> >

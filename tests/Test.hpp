@@ -33,7 +33,7 @@ namespace test {
     struct test& operator++(int){
       this->a++;
       this->b++;
-      this->c = std::string(std::to_string(this->b));
+      this->c = std::string(1, this->b); // compatible with c++98
       return (*this);
     }
 

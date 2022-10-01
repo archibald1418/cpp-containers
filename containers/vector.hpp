@@ -1,7 +1,8 @@
 #ifndef VECTOR_H
 # define VECTOR_H
 
-# include <cstdint>
+// # include <cstdint>
+# include <limits>
 # include <memory>
 # include <iostream>
 # include <stdexcept>
@@ -12,7 +13,7 @@
 
 namespace ft
 {
-    typedef int8_t byte;
+    typedef char byte;
 
     template <typename T, class Alloc = std::allocator<T> >
     class vector

@@ -1,4 +1,4 @@
-SHELL:=/bin/zsh
+#SHELL:=/bin/zsh # NOTE: VMs don't have built-in zsh installed
 
 CC			=	clang++
 CFLAGS		=	-Wall -Wextra -Werror -std=c++98 -pedantic
@@ -14,12 +14,21 @@ DIFF	=	diff
 ifeq ($(mode),debug)
 	CFLAGS := -g -Wall -Wextra
 endif
+
+# Checking for leaks
 ifeq ($(mode),leak)
 	CFLAGS := -g -Wall -Wextra -fsanitize=leak
 endif
+
+# Checking for mangled memory
 ifeq ($(mode),memory)
 	CFLAGS := -g -Wall -Wextra -fsanitize=address
 endif
+
+# Checking for linux compatibility
+# ifeq ($(mode),linux)
+	# REVIEW:: set up docker-linux -> compile_test -> print logs here
+# endif
 
 # Containers
 

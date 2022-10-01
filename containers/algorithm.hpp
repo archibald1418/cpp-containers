@@ -4,7 +4,8 @@
 
 # include "type_traits.hpp"
 # include "utility.hpp"
-# include <memory>
+// # include <memory>
+# include <cstring>
 
 namespace ft{
 

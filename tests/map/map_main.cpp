@@ -5,7 +5,7 @@
 # include <cassert>
 
 #include <iostream>
-#include <array>
+// #include <array> // absent from c++98
 
 
 
@@ -123,25 +123,15 @@ typedef
 	// std::cout << avlnode.get_balance_factor() << std::endl;
 	// std::cout << avlnode.get() << std::endl;
 
-	AVLNode<type>* root = nullptr_my;
+	AVLNode<type>* root = ft::nullptr_my;
 	// AVLTree<char> T(root);
 
 	// MakeAVLCharTree(root);
 	ft::AVLTree<type>* tree = ConstructAVLIntTree(root);
-	(void)tree;
 	test_tree_next(tree);
 	test_tree_traverse(tree);
 	
 	delete tree;
-
-
-	// std::cout << root->Left() << std::endl;
-
-	// print_tree(root); // calls all getters // TODO: should traverse __every__ node, so might use prev-next methods
-
-	// delete root;
-
-	// TODO: delete tree
 
 	return (0);
 }

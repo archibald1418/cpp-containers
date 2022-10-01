@@ -12,7 +12,35 @@
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
             "cppStandard": "c++98",
-            "intelliSenseMode": "macos-clang-x64"
+            "intelliSenseMode": "macos-clang-x64",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        },
+        {
+            "name": "Linux-Mint",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include/c++/6"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++98",
+            "intelliSenseMode": "clang-x86"
+        },
+        {
+            "name": "wsl-debian",
+            "includePath": [
+                "/home/ldonita/42cursus/containers/**",
+                "/home/ldonita/42cursus/tests/**"
+            ],
+            "browse": {
+                "path": []
+            },
+            "defines": [],
+            // "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++98",
+            "intelliSenseMode": "linux-clang-x64"
         }
     ],
     "version": 4

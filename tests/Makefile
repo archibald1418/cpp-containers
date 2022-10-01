@@ -11,7 +11,6 @@ TESTSRC=vector_main.cpp utils.cpp
 
 DIFF=diff
 
-
 all: 
 	make -C vector 
 	@# TODO: add map and stack rules
@@ -60,6 +59,9 @@ map_compare:
 tree_test:
 	make tree_test -C map
 
+# REVIEW:: draft for sending make targets to docker on mac OS
+# linux: 
+# 	echo $(MAKECMDGOALS)
 
 clean:
 	-rm -rf *.o
