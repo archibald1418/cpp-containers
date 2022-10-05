@@ -1,4 +1,4 @@
-SHELL:=/bin/zsh
+# SHELL:=/bin/zsh
 
 CC		=	clang++
 CFLAGS		=	-Wall -Wextra -Werror -std=c++98 -pedantic

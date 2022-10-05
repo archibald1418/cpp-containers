@@ -1,4 +1,4 @@
-SHELL:=/bin/zsh
+# SHELL:=/bin/zsh
 
 CC=clang++
 C=gcc  # Check if it works with gcc compiler
