@@ -156,7 +156,8 @@ void print_test_info(const char *title, Color color = GREEN)
 
 
 template <typename node>
-void print_tree(node* p, int indent = 4)
+void print_tree(node* p, int indent = 4, 
+  typename ft::enable_if<true, typename node::__node_tag>::type* = 0)
 {
   if (!p)
     return ;
@@ -178,11 +179,11 @@ void print_tree(node* p, int indent = 4)
 }
 
 template <typename tree>
-void print_tree(tree& t){
-  if (t.empty())
+void print_tree(tree* t){
+  if (t->empty())
     return print("Tree is empty", BOLDBLUE);
   std::cout << "*" << std::endl;
-  print_tree(t.Root());
+  print_tree(t->Root());
   std::cout << "*" << std::endl;
 }
 

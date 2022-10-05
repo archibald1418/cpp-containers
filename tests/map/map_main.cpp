@@ -12,6 +12,8 @@
 using ft::AVLNode;
 using ft::Node;
 
+using ft::nullptr_my;
+
 void MakeAVLCharTree(AVLNode<char>* &root) // changing pointers
 {
   AVLNode<char> *a, *b, *c, *d, *e;
@@ -31,7 +33,7 @@ ft::AVLTree<int>* ConstructAVLIntTree(AVLNode<int>* &root){
 	AVLTree<int>* tree = new AVLTree<int>(root);
 
 
-	print_tree(*tree);
+	print_tree(tree);
 
 	tree->Insert(11);
 	// print_tree(tree);
@@ -53,7 +55,7 @@ ft::AVLTree<int>* ConstructAVLIntTree(AVLNode<int>* &root){
 	// print_tree(tree);
 	tree->Insert(6);
 
-	print_tree(*tree);
+	print_tree(tree);
 
 	return tree;
 }
@@ -105,6 +107,21 @@ void test_tree_traverse(tree* t){
 	// subtrees
 }
 
+template <typename tree>
+void test_tree_delete(tree* t){
+	// typedef typename tree::nodeptr nodeptr;
+
+	
+
+	
+	print_tree(t);
+
+	t->Delete(0);
+
+	print_tree(t);
+	
+}
+
 int main(){
 	// Test nodes
 
@@ -128,8 +145,9 @@ typedef
 
 	// MakeAVLCharTree(root);
 	ft::AVLTree<type>* tree = ConstructAVLIntTree(root);
-	test_tree_next(tree);
-	test_tree_traverse(tree);
+	// test_tree_next(tree);
+	// test_tree_traverse(tree);
+	test_tree_delete(tree);
 	
 	delete tree;
 
