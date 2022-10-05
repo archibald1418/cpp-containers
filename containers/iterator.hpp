@@ -333,8 +333,8 @@ operator+(typename RAIterator<T>::difference_type diff, const RAIterator<T>& lhs
 				return (*--copy);
 				/*
 					NOTE: 
-					reverse_iterator is an ADAPTOR - it extends a source class (ADAPTEE) to behave differently
-					(suiting certain needs that source class can't meet)
+					reverse_iterator is an ADAPTOR - it extends a target class (ADAPTEE) to behave differently
+					(suiting certain needs that target class can't meet)
 					Adaptor adapts source class interface (RAIterator<T>) to meet new requirements (iterating backwards)
 					without changing the source class (=without modifying the class)
 					and without changing the contexts in which the source class is usually used
