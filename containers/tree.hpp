@@ -224,7 +224,8 @@ namespace ft{
                 Rmost() = phony;
                 _size = 0;
             }
-            
+
+
             bool empty(){
                 return (_size == 0);
             }
