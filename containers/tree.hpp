@@ -95,6 +95,23 @@ namespace ft{
                     // just copy a value, can't grow from middle of tree
                 }
             }
+            BaseTree(const BaseTree& other){
+                if (this == &other)
+                    return *this;
+                *this = other;
+                return *this;
+            }
+            BaseTree& operator=(const BaseTree& other){
+                /* 
+                    TODO: iterate tree and deep-copy nodes 
+                    ...
+                */
+               _alloc_node = other._alloc_node;
+               _alloc = other._alloc;
+               _size = other._size;
+               _alloc_ptr = other._alloc_ptr;
+               // deepcopy root and phony
+            }
             ~BaseTree(){
                 if (!IsPhony(root))
                 {
@@ -108,11 +125,9 @@ namespace ft{
                     }
                 }
                 freenode(phony);
-                    // freenode(root);
-                    // TODO: traverse tree delete nodes separately
             }
 
-
+    // Tree parameter nodes
             nodeptr& End(){
                 return phony;
             }
@@ -128,27 +143,42 @@ namespace ft{
             nodeptr& Rmost(){
                 return phony->Right();
             }
-            nodeptr& Left(nodeptr& node){
+
+    //  Node getters
+            static nodeptr& Left(nodeptr& node){
                 return node->Left();
             }
-            nodeptr& Right(nodeptr& node){
+            static nodeptr& Right(nodeptr& node){
                 return node->Right();
             }
-            nodeptr& Parent(nodeptr& node){
+            static nodeptr& Parent(nodeptr& node){
                 return node->Parent();
             }
-            bool& IsPhony(nodeptr& node){
+
+    // Null node checks
+            static bool& IsPhony(nodeptr& node){
                 return node->IsPhony();
             }
-            bool& is_nil(nodeptr& node){
+            static bool IsNotPhony(nodeptr& node){
+                return !IsPhony(node);
+            }
+            static bool& is_nil(nodeptr& node){
                 return IsPhony(node);
             }
+            static bool& is_not_nil(nodeptr& node){
+                return !is_nil(node);
+            }
+            static bool& IsLeaf(nodeptr& node){
+                return IsPhony(Right(node)) && IsPhony(Left(node));
+            }
+            static bool& IsNotLeaf(nodeptr& node){
+                return !IsLeaf(node);
+            }
 
-
+    // Create node
             nodeptr buynode(nodeptr new_parent)
             {
-                nodeptr ptr = _alloc_node.allocate(1); // FIXME: rebound allocator not working properly, trashes vtable
-                // nodeptr ptr = new node_t();
+                nodeptr ptr = _alloc_node.allocate(1);
                 
                 // Same node for all pointers
                 _alloc_ptr.construct(&Left(ptr),   phony); 
@@ -160,14 +190,16 @@ namespace ft{
                 return ptr;
             }
 
-            void freenode(nodeptr node){
+            void freenode(nodeptr& node){
                 _alloc_ptr.destroy(&Parent(node));
                 _alloc_ptr.destroy(&Right(node));
                 _alloc_ptr.destroy(&Left(node));
                 _alloc_node.deallocate(node, 1);
-                // FIXME: node freeing not working properly
+                
+                node = nullptr_my;
             }
 
+    // Tree initializers
             void Init()
             {
                 /* 
@@ -201,22 +233,21 @@ namespace ft{
             }
             
             
-            // TODO: coplien form, destructors, allocators(?)
-            
             value_compare value_comp() const{
                 return this->comp;
             }
 
-            nodeptr search(nodeptr node, const value_type& key)
+    // Tree traversals
+            nodeptr search(nodeptr begin, const value_type& item)
             {
-                while (!IsPhony(node) and node->key != key)
+                while (!IsPhony(begin) && begin->Get() != item)
                 {
-                    if (node->key > key)
-                        node = node->Left();
+                    if (begin->Get() > item)
+                        begin = begin->Left();
                     else
-                        node = node->Right();
+                        begin = begin->Right();
                 }
-                return node;
+                return begin;
             }
 
             nodeptr tree_min(nodeptr node){
@@ -262,6 +293,8 @@ namespace ft{
                 return node_parent;
             }
 
+// ---------- Insertion -------------
+
             nodeptr Insert(const value_type& item)
             {
                 // Find tree position to insert to insert and return it
@@ -275,8 +308,6 @@ namespace ft{
                     Rmost() = root;
                     return root; // return last inserted position
                 }
-                // if (root->IsPhony())
-                //     return this->Inserter(true, root, item); // a tree with one root only node has one leaf
 
                 nodeptr tmproot = Root();
                 nodeptr tmphead = tmproot;
@@ -289,12 +320,12 @@ namespace ft{
                 }
                 return this->Inserter(add_left, tmphead, item);
             };
-            // virtual 
             nodeptr Inserter(bool& add_left, nodeptr& tree_position, const value_type& item)
             {
                 nodeptr new_node = buynode(tree_position);
                 new_node->Set(item);
-                if (add_left) {
+                if (add_left)
+                {
                     tree_position->Left() = new_node;
                     if (tree_position == Lmost())
                         Lmost() = new_node;
@@ -304,19 +335,63 @@ namespace ft{
                         Rmost() = new_node;
                 }
                 _size++;
-                /* 
-                ** Balancing logic goes here
-                */
+
+                    /*
+                    ** 
+                            Balancing logic goes here
+                    **
+                    */
                return new_node;
             }
             
+            nodeptr Delete(const value_type& item)
+            {
+            	nodeptr node = search(Root(), item);
+			   	if (is_nil(node))
+			   		return node;
+				return this->Deleter(node);
+            }
 
-            // nodeptr Deleter(const value_type& item){
-            //     // throw std::exception("Not Implemented");
-            //     // return this->Delete(tree_root, new_node);
-            //     (void)item;
-            //     return NULL;
-            // }
+            void shift_nodes(nodeptr& x, nodeptr& y)
+            {
+                nodeptr& parentx = Parent(x);
+                nodeptr& left_child = parentx->Left();
+                nodeptr& right_child = parentx->Right();
+                if (IsPhony(parentx)){
+                    this->root = y;
+                }
+                else if (x == left_child)
+                    left_child = y;
+                else
+                    right_child = y;
+                
+                if (IsNotPhony(y))
+                    Parent(y) = parentx;
+                // NOTE: after the 'shift', node 'x' is knocked out of the tree
+            }
+
+            nodeptr Deleter(nodeptr& node)
+            { // REVIEW: check all kinds of trees against this
+                if (IsPhony(Left(node))){
+                    shift_nodes(node, node->Right());
+                }
+                else if (IsPhony(Right(node))){
+                    shift_nodes(node, node->Left());
+                } else {
+                    nodeptr& next = tree_next(node);
+                    if (Parent(next) != node){ // If successor is not an immediate child
+                        // do a proper swap
+                        shift_nodes(next, next->Right());
+                        next->Right() = node->Right(); // this is a proper swap, so we should patch the links after shift_nodes is called
+                        Parent(next->Right()) = next;
+                        // the successor is raised next to the to-be-deleted node
+                    }
+                    shift_nodes(node, next); // REVIEW: why this?
+                    next->Left() = node->Left();
+                }
+                freenode(node); // DEBUG: can I safely delete the node? (should be ok)
+                return phony;
+            }
 
             // Happy tree friends
             template <typename U>
