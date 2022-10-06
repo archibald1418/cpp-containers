@@ -379,7 +379,7 @@ namespace ft{
                 else if (IsPhony(Right(node))){
                     shift_nodes(node, node->Left());
                 } else {
-                    nodeptr& next = tree_next(node);
+                    nodeptr next = tree_next(node);
                     if (Parent(next) != node){ // If successor is not an immediate child
                         // do a proper swap
                         shift_nodes(next, next->Right());
