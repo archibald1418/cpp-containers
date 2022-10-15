@@ -391,6 +391,7 @@ namespace ft{
                     next->Left() = node->Left();
                 }
                 freenode(node); // DEBUG: can I safely delete the node? (should be ok)
+		node = phony;
                 return phony;
             }
 
