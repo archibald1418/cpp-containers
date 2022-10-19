@@ -3,6 +3,7 @@
 
 # include <memory>
 # include <stdexcept>
+# include <iostream>
 // # include <cstdint>
 
 # include "node.hpp"
@@ -117,11 +118,15 @@ namespace ft{
                 {
                     nodeptr curr = Lmost();
                     nodeptr next = curr;
+                    std::cout << "..." << phony << "..." << std::endl;
                     while (!curr->IsPhony())
                     {
+                        std::cout << "..." << curr << "..." << std::endl;
                         next = tree_next(curr);
                         freenode(curr);
                         curr = next;
+
+                        
                     }
                 }
                 freenode(phony);
@@ -263,16 +268,21 @@ namespace ft{
             }
             nodeptr tree_next(nodeptr node){
                 // Searching for next item in an ordered sequence
+                std::cout << "lol" << std::endl;
                 if (IsPhony(node) || node == Rmost())
                     return phony;
 
+                std::cout << "lol" << std::endl;
                 // Next item is the next greatest to the current item
                 // So it's in the right subtree
                 if (!IsPhony(node->Right()))
                     return tree_min(node->Right());
+                std::cout << "lol" << std::endl;
                 // Otherwise go up and search the first parent which is also a left node
                 nodeptr node_parent = node->Parent();
+                std::cout << "lol" << std::endl;
                 while (!IsPhony(node_parent) and (node == node_parent->Right())){
+                    std::cout << "kek" << std::endl;
                     node = node_parent;
                     node_parent = node_parent->Parent();
                 }
@@ -387,11 +397,11 @@ namespace ft{
                         Parent(next->Right()) = next;
                         // the successor is raised next to the to-be-deleted node
                     }
-                    shift_nodes(node, next); // REVIEW: why this?
+                    shift_nodes(node, next); 
                     next->Left() = node->Left();
                 }
                 freenode(node); // DEBUG: can I safely delete the node? (should be ok)
-		node = phony;
+		        node = phony;
                 return phony;
             }
 
