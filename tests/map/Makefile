@@ -24,6 +24,9 @@ endif
 ifeq ($(mode),memory)
 	CFLAGS := -g -Wall -Wextra -fsanitize=address
 endif
+ifeq ($(mode),address)
+	CFLAGS := -g -Wall -Wextra -fsanitize=address
+endif
 
 # Checking for linux compatibility
 # ifeq ($(mode),linux)
