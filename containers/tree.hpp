@@ -12,6 +12,7 @@
 # include "tree_utils.hpp"
 # include "functional.hpp"
 # include "utility.hpp"
+# include "stack.hpp"
 
 
 # define LEFTHEAVY  -1
@@ -116,21 +117,28 @@ namespace ft{
             ~BaseTree(){
                 if (!IsPhony(root))
                 {
-                    nodeptr curr = Lmost();
-                    nodeptr next = curr;
-                    std::cout << "..." << phony << "..." << std::endl;
-                    while (!curr->IsPhony())
-                    {
-                        std::cout << "..." << curr << "..." << std::endl;
-                        next = tree_next(curr);
-                        freenode(curr);
-                        curr = next;
-
-                        
-                    }
-                }
-                freenode(phony);
-            }
+					ft::stack<nodeptr> S;
+					/*
+					 *FIXME: should go post-order, since reads from dead parents
+					* OR USE STACK (allows to avoid deleted nodes)
+					 * */		
+					nodeptr curr = root;
+					nodeptr right;
+					while (!IsPhony(curr) || !S.empty())
+					{
+						while (!IsPhony(curr))
+						{
+							S.push(curr);
+							curr = curr->Left();
+						}
+						right = S.top()->Right();
+						S.pop();
+						freenode(curr);
+						curr = right;
+					}
+					freenode(phony);
+				}
+			}
 
     // Tree parameter nodes
             nodeptr& End(){
@@ -196,6 +204,7 @@ namespace ft{
             }
 
             void freenode(nodeptr& node){
+				std::cout << "deleting ..." << node->Get() << "...\n";
                 _alloc_ptr.destroy(&Parent(node));
                 _alloc_ptr.destroy(&Right(node));
                 _alloc_ptr.destroy(&Left(node));
@@ -268,21 +277,21 @@ namespace ft{
             }
             nodeptr tree_next(nodeptr node){
                 // Searching for next item in an ordered sequence
-                std::cout << "lol" << std::endl;
+                std::cout << "entered tree next" << std::endl;
                 if (IsPhony(node) || node == Rmost())
                     return phony;
 
-                std::cout << "lol" << std::endl;
+                std::cout << "check right node" << std::endl;
                 // Next item is the next greatest to the current item
                 // So it's in the right subtree
                 if (!IsPhony(node->Right()))
                     return tree_min(node->Right());
-                std::cout << "lol" << std::endl;
+                std::cout << "checked right node" << std::endl;
                 // Otherwise go up and search the first parent which is also a left node
                 nodeptr node_parent = node->Parent();
-                std::cout << "lol" << std::endl;
+                std::cout << "finding next node" << std::endl;
                 while (!IsPhony(node_parent) and (node == node_parent->Right())){
-                    std::cout << "kek" << std::endl;
+                    std::cout << "next" << std::endl;
                     node = node_parent;
                     node_parent = node_parent->Parent();
                 }
