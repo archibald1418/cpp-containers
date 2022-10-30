@@ -339,9 +339,12 @@ namespace ft
             : _alloc(other._alloc), _cap(other._size), _size(other._size), _first(NULL)
         {
             // cap := size when copying (STL vector allocates _size number of objects)
-            _first = _alloc.allocate(_cap);
-            for (size_type i = 0; i < _size; i++)
-                _alloc.construct(_first + i, T(other._first[i]));
+			if (_cap) {
+				_first = _alloc.allocate(_cap);
+				for (size_type i = 0; i < _size; i++)
+					_alloc.construct(_first + i, T(other._first[i]));
+			} 
+				// DEBUG: new 0 gives 1 byte of extra memory!111 (fixed)
         }
 
         // Destructor
