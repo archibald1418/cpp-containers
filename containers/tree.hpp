@@ -114,6 +114,8 @@ namespace ft{
                _alloc_ptr = other._alloc_ptr;
                // deepcopy root and phony
             }
+
+			// Destructor
             ~BaseTree(){
                 if (!IsPhony(root))
                 {
@@ -131,7 +133,8 @@ namespace ft{
 							S.push(curr);
 							curr = curr->Left();
 						}
-						right = S.top()->Right();
+						curr = S.top();
+						right = curr->Right();
 						S.pop();
 						freenode(curr);
 						curr = right;
