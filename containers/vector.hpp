@@ -315,9 +315,11 @@ namespace ft
                         const allocator_type &alloc = allocator_type())
             : _alloc(alloc), _cap(size), _size(size)
         {
-            _first = _alloc.allocate(_cap);
-            for (size_type i = 0; i < size; i++)
-                _alloc.construct(_first + i, T(value));
+			if (_cap) {
+				_first = _alloc.allocate(_cap);
+				for (size_type i = 0; i < size; i++)
+					_alloc.construct(_first + i, T(value));
+			}
         }
 
         // Range constructor. Leveraging SFINAE to distinguish from previous version
@@ -329,9 +331,11 @@ namespace ft
         {
             _size = static_cast<size_type>(last - first);
             _cap = _size;
-            _first = _alloc.allocate(_cap);
-            for (size_type i = 0; i < _size; ++i)
-                _alloc.construct(_first + i, T(first[i]));
+			if (_cap) {
+				_first = _alloc.allocate(_cap);
+				for (size_type i = 0; i < _size; ++i)
+					_alloc.construct(_first + i, T(first[i]));
+			}
         }
 
         // Copy constructor

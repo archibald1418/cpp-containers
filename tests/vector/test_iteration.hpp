@@ -29,33 +29,33 @@ void test_iterators(V &v)
   typename V::iterator end = v.end();
   typename V::reverse_iterator rbegin = v.rbegin();
   typename V::reverse_iterator rend = v.rend();
-  typename V::const_iterator cbegin = v.cbegin();
-  typename V::const_iterator cend = v.cend();
-  typename V::const_reverse_iterator crbegin = v.crbegin();
-  typename V::const_reverse_iterator crend = v.crend();
+  /* typename V::const_iterator cbegin = v.cbegin(); */
+  /* typename V::const_iterator cend = v.cend(); */
+  /* typename V::const_reverse_iterator crbegin = v.crbegin(); */
+  /* typename V::const_reverse_iterator crend = v.crend(); */
 
   vector<char> vchar(5, 'h');
 
   // vector<std::string> vstring(5, "Hello!111");
 
   // Comparison
-  assert (crbegin != crend);
-  assert (end == cend);
+  /* assert (crbegin != crend); */
+  /* assert (end == cend); */
   assert (end > begin);
-  assert (begin == cbegin);
-  assert (cbegin == begin);
-  assert (crbegin <= rend);
+  /* assert (begin == cbegin); */
+  /* assert (cbegin == begin); */
+  /* assert (crbegin <= rend); */
   assert (begin < end);
   assert (begin != end);
-  assert (rbegin == crbegin);
+  /* assert (rbegin == crbegin); */
   
   assert ((rend - rbegin) == static_cast<typename V::difference_type>(v.size()));
   assert ((end - begin) == static_cast<typename V::difference_type>(v.size()));
-  assert ((cend - begin) == static_cast<typename V::difference_type>(v.size()));
-  assert ((crend - rbegin) == static_cast<typename V::difference_type>(v.size()));
+  /* assert ((cend - begin) == static_cast<typename V::difference_type>(v.size())); */
+  /* assert ((crend - rbegin) == static_cast<typename V::difference_type>(v.size())); */
 
-  assert ((begin + 1) == (cbegin + 1));
-  assert ((end - 1) == (cend - 1));
+  /* assert ((begin + 1) == (cbegin + 1)); */
+  /* assert ((end - 1) == (cend - 1)); */
   // assert ((rbegin + 1) == (end - 1));  // CE - iterators are different
   // assert (rbegin > end); CE - can't compare iterator with adaptor
   // end[0]; rend[0];   //UB + possible heap-buffer-overflow ('ends' are invalid iterators)
@@ -88,12 +88,12 @@ void test_iterators(V &v)
   
   // Constant elems
     // Assigning to these leads to CE
-  std::cout << RED << "Iterators to constant elements\n" << RESET;
+  /* std::cout << RED << "Iterators to constant elements\n" << RESET; */
 
-  std::cout << std::left << std::setw(35) << "First const elem of vector V:"       << "\t" << *cbegin << "\n";
-  std::cout << std::left << std::setw(35) << "Last const elem of vector V:"        << "\t" << *(cend - 1) << std::endl;
-  std::cout << std::left << std::setw(35) << "First const elem of vector V[::-1]:" << "\t" << *crbegin << std::endl;    // will take the last item of array
-  std::cout << std::left << std::setw(35) << "Last const elem of vector V[::-1]:"  << "\t" << *(crend - 1) << std::endl; // will move reverse iterator to first position in array
+  /* std::cout << std::left << std::setw(35) << "First const elem of vector V:"       << "\t" << *cbegin << "\n"; */
+  /* std::cout << std::left << std::setw(35) << "Last const elem of vector V:"        << "\t" << *(cend - 1) << std::endl; */
+  /* std::cout << std::left << std::setw(35) << "First const elem of vector V[::-1]:" << "\t" << *crbegin << std::endl;    // will take the last item of array */
+  /* std::cout << std::left << std::setw(35) << "Last const elem of vector V[::-1]:"  << "\t" << *(crend - 1) << std::endl; // will move reverse iterator to first position in array */
 
   // *cbegin = 5; // CE 
 
@@ -148,17 +148,17 @@ void test_vector_iterate(V &v)
   iterator_type begin = v.begin(); // implicitly requiring an iterator based on vector constness
   iterator_type end = v.end();
   
-  typename V::const_iterator cend = v.cend(); // explicitly requiring a const iterator
-  typename V::const_iterator cbegin = v.cbegin();
+  /* typename V::const_iterator cend = v.cend(); // explicitly requiring a const iterator */
+  /* typename V::const_iterator cbegin = v.cbegin(); */
   reverse_iterator_type rbegin = v.rbegin();
   reverse_iterator_type rend = v.rend();
-  typename V::const_reverse_iterator crbegin = v.crbegin();
-  typename V::const_reverse_iterator crend = v.crend();
+  /* typename V::const_reverse_iterator crbegin = v.crbegin(); */
+  /* typename V::const_reverse_iterator crend = v.crend(); */
   
-  (void)cend;
-  (void)cbegin;
-  (void)crbegin;
-  (void)crend;
+  /* (void)cend; */
+  /* (void)cbegin; */
+  /* (void)crbegin; */
+  /* (void)crend; */
 
   std::cout << "Iterating through vector" << std::endl;
   for (; begin != end; ++begin)
