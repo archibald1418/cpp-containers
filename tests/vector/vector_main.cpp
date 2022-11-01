@@ -1,7 +1,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <type_traits>
+/* #include <type_traits> */
 #include <cassert>
 #include <stack>
 #include <iterator>
