@@ -121,7 +121,7 @@ namespace ft{
                 {
 					ft::stack<nodeptr> S;
 					/*
-					 *FIXME: should go post-order, since reads from dead parents
+					 *should go post-order, since reads from dead parents
 					* OR USE STACK (allows to avoid deleted nodes)
 					 * */		
 					nodeptr curr = root;
