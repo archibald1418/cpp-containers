@@ -26,6 +26,10 @@ namespace ft{
             typedef typename        node_types::node_type               node_type;
             typedef typename        node_types::node_value_type         node_value_type;
             typedef typename        node_types::const_node_value_type   const_node_value_type;           
+				
+			/*
+			 *TODO: test these typedefs ^ especially tree_node_types
+			 * */	
 
             protected:
                 pointer _it;
@@ -42,7 +46,7 @@ namespace ft{
 
             public:
                 tree_iterator(void){
-                    _it = NULL;
+                    _it = nullptr_my;
                 }
 
                 tree_iterator(pointer ptr) : _it(ptr) {}
@@ -115,6 +119,7 @@ namespace ft{
             // Traversals
                 void Dec()
                 {
+				/* TODO: test this */
                     if (_it->IsPhony())
                         _it = _it->Right();
                     else if (!_it->Left()->IsPhony())
@@ -130,6 +135,7 @@ namespace ft{
 
                 void Inc()
                 {
+					/* TODO: test this */
                     if (_it->IsPhony()) { ; }
                     else if (!_it->Right()->IsPhony())
                         _it = Min(_it->Right());
