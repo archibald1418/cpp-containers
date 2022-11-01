@@ -1,4 +1,4 @@
-# SHELL:=/bin/zsh
+SHELL:=/bin/zsh
 
 CC		=	clang++
 CFLAGS		=	-Wall -Wextra -Werror -std=c++98 -pedantic
@@ -34,6 +34,7 @@ vector_sys:
 vector_compare: vector_my vector_sys
 	-${DIFF} <(./testmy | tee my.log) <(./testsys | tee sys.log)
 	@#ignore diff writing to stderr
+	@#TODO: replace this for sh
 
 clean:
 	-rm -rf *.o
