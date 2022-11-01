@@ -46,6 +46,15 @@ namespace ft
     >
     class map
     {
+		/* TODO: ready for writing map 
+		 *- AVLTree<value_type> as private member on stack memory
+		 *- AVLTree<value_type> knows its Compare, its Alloc => its node allocators
+		 *- map methods call tree's methods
+		 *- iterator is dereferenced by calling Get() method from pointer to tree (calls node's Get())
+		 *- if found key that's already present, throws error
+		 * 
+		 * - CAUTION: Iterators are based on Lmost and Rmost tracking! TEST THIS CAREFULLY
+		 * */
         public:
             typedef Key					        key_type;
             typedef T					        mapped_type;
