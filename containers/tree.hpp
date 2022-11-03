@@ -24,9 +24,9 @@ namespace ft{
 
     template <
         typename T,
+		template<typename> class NodeType,
         class Alloc = std::allocator<T>, 
-        class Predicate = ft::less<T>, // value_compare for insertion
-		class template<typename> class NodeType
+        class Predicate = less<T> // value_compare for insertion
     > 
     struct tree_traits
     {
@@ -60,6 +60,7 @@ namespace ft{
 
         typedef tree_traits<T, NodeType>        traits;
 		typedef typename traits::node_t			node_t;
+		typedef typename traits::nodeptr		nodeptr;
         typedef typename traits::value_type     value_type;
         typedef typename traits::value_compare  value_compare;
         /* typedef NodeType<T>                     node_t; */
@@ -69,6 +70,8 @@ namespace ft{
         typedef std::size_t                     size_type;
 
         typedef typename traits::allocator_type                             allocator_type;
+		typedef typename traits::allocator_node								allocator_node;
+		typedef typename traits::allocator_node_pointer						allocator_node_pointer;
         /* typedef typename allocator_type::template rebind<node_t>::other     allocator_node; */
         /* typedef typename allocator_type::template rebind<node_t*>::other    allocator_node_pointer; */
 
@@ -427,7 +430,6 @@ namespace ft{
                 }
                 freenode(node); // DEBUG: can I safely delete the node? (should be ok)
 		        node = phony;
-				_size--;
                 return phony;
             }
 
@@ -446,7 +448,7 @@ namespace ft{
     template <typename T>
     struct AVLTree : public BaseTree<T, AVLNode>
     {
-        typedef tree_traits<T>                          traits;
+        typedef tree_traits<T, AVLNode>                 traits;
         typedef BaseTree<T, AVLNode>                    __base;
         typedef typename traits::value_compare          value_compare;
         typedef typename traits::value_type             value_type;
