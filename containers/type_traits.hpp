@@ -11,6 +11,11 @@ namespace ft {
     struct false_type{
         static const bool value = false;
     };
+	
+	template <typename T>
+	struct boolean : public true_type{};
+	template <>
+	struct boolean<false> : public false_type{};
 
 template <typename T>
 struct is_const : public false_type{};
@@ -108,6 +113,12 @@ struct is_pointer<
             to keep compatibility with smart pointers 
         */
         };
+
+	
+	// -------------------- Map types ---------------
+	
+	template <typename T>
+	struct is_multi : public boolean<T>{};
 }
 
 #endif // TYPE_TRAITS_H
