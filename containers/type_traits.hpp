@@ -12,7 +12,7 @@ namespace ft {
         static const bool value = false;
     };
 	
-	template <typename T>
+	template <bool>
 	struct boolean : public true_type{};
 	template <>
 	struct boolean<false> : public false_type{};
@@ -117,8 +117,8 @@ struct is_pointer<
 	
 	// -------------------- Map types ---------------
 	
-	template <typename T>
-	struct is_multi : public boolean<T>{};
+	template <bool b>
+	struct is_multi : public boolean<b>{};
 }
 
 #endif // TYPE_TRAITS_H
