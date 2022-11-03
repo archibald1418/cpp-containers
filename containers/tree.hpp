@@ -23,10 +23,10 @@
 namespace ft{
 
     template <
-    // TODO: extend this to handle mappings (kv pairs with comparators)
         typename T,
         class Alloc = std::allocator<T>, 
-        class Predicate = ft::less<T> // value_compare for insertion
+        class Predicate = ft::less<T>, // value_compare for insertion
+		class template<typename> class NodeType
     > 
     struct tree_traits
     {
@@ -34,6 +34,12 @@ namespace ft{
         typedef T*                              pointer;
         typedef Predicate                       value_compare; // oblivious to whether pair is a mapping or not
         typedef Alloc                           allocator_type;
+		typedef	NodeType<T>						node_t;
+		typedef node_t*							nodeptr;
+
+        typedef typename allocator_type::template rebind<node_t>::other     allocator_node;
+        typedef typename allocator_type::template rebind<node_t*>::other    allocator_node_pointer;
+
         // typedef Predicate                    key_compare; -> 'set traits'
 
         value_compare comp; // comparator should be created before it could be called
@@ -47,21 +53,24 @@ namespace ft{
             class T,
             template<typename> class NodeType
         >
-    struct BaseTree : public tree_traits<T>
+    struct BaseTree : public tree_traits<T, NodeType>
     {
-        typedef tree_traits<T>                  traits;
-        typedef NodeType<T>                     node_t;
         typedef BaseNode<T, NodeType>           __base_node;
-        typedef node_t*                         nodeptr;
         typedef BaseTree<T, NodeType>           tree_t;
+
+        typedef tree_traits<T, NodeType>        traits;
+		typedef typename traits::node_t			node_t;
         typedef typename traits::value_type     value_type;
         typedef typename traits::value_compare  value_compare;
+        /* typedef NodeType<T>                     node_t; */
+        /* typedef node_t*                         nodeptr; */
+
         typedef value_type                      V;
         typedef std::size_t                     size_type;
 
         typedef typename traits::allocator_type                             allocator_type;
-        typedef typename allocator_type::template rebind<node_t>::other     allocator_node;
-        typedef typename allocator_type::template rebind<node_t*>::other    allocator_node_pointer;
+        /* typedef typename allocator_type::template rebind<node_t>::other     allocator_node; */
+        /* typedef typename allocator_type::template rebind<node_t*>::other    allocator_node_pointer; */
 
 
         protected:
@@ -367,6 +376,10 @@ namespace ft{
                return new_node;
             }
             
+
+// ---------- Deletion -------------
+
+
             nodeptr Delete(const value_type& item)
             {
             	nodeptr node = search(Root(), item);
