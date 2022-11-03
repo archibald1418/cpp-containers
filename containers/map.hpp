@@ -50,6 +50,7 @@ namespace ft
     class map
     {
 		/* TODO: ready for writing map 
+		 * - make tree accessible for map (via inheritance)
 		 *- AVLTree<value_type> as private member on stack memory
 		 *- AVLTree<value_type> knows its Compare, its Alloc => its node allocators
 		 *- map methods call tree's methods
