@@ -427,6 +427,7 @@ namespace ft{
                 }
                 freenode(node); // DEBUG: can I safely delete the node? (should be ok)
 		        node = phony;
+				_size--;
                 return phony;
             }
 
