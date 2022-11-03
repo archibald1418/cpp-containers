@@ -75,7 +75,8 @@ namespace ft{
             private:
                 void operator&() const;
         }
-    nullptr_my = {}; /* NOTE: 
+    nullptr_my = {}; 
+	/* NOTE: 
         This syntax stands for 'user-defined default constructor'.
         Without it, constant object would be considered a POD class (Plain Old Data),
         (a passive data structure, a behaviourless record, i.e. not an object per se)
