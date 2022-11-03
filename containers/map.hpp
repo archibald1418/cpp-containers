@@ -5,11 +5,12 @@
 # include "utility.hpp"
 # include "node.hpp"
 # include "tree.hpp"
+# include "type_traits.hpp"
 # include <memory>
 
 namespace ft
 {
-    
+
     template <
         typename Key,
         typename Value,
@@ -23,11 +24,13 @@ namespace ft
         typedef Key                                                                 key_type;
         typedef pair<const Key, Value>                                              value_type;
         typedef Predicate                                                           key_compare;
+		typedef IsMulti																is_multi<MultiFlag>;
         // NOTE: there will be key_comp() function that applies key_compare to ft::pair<T, U>::first_argument_type
-        typedef Alloc                                                               allocator_type; 
-        typedef typename allocator_type::template rebind<value_type>::other         allocator_node;
+		// TODO: these should be obtained from the tree's typedefs
+        /* typedef Alloc                                                               allocator_type; */ 
+        /* typedef typename allocator_type::template rebind<value_type>::other         allocator_node; */
 
-        typedef NodeType<value_type>                                                node_t;
+        /* typedef NodeType<value_type>                                                node_t; */
         // typedef ft::tree_traits<node_t, key_compare>                                tree_traits;
 
         Predicate comp;
@@ -35,14 +38,14 @@ namespace ft
         map_traits() : comp(){};
         map_traits(Predicate Parg) : comp(Parg){};
     };
-    
+   
 
     
     template <
         typename Key,
         typename T,
         typename Compare = less<Key>,
-	    typename Alloc = std::allocator<ft::pair<const Key, T> > 
+	    typename Alloc = std::allocator<pair<const Key, T> > 
     >
     class map
     {
@@ -56,11 +59,22 @@ namespace ft
 		 * - CAUTION: Iterators are based on Lmost and Rmost tracking! TEST THIS CAREFULLY
 		 * */
         public:
-            typedef Key					        key_type;
-            typedef T					        mapped_type;
-            typedef ft::pair<const Key, T>		value_type;
-            typedef Compare					    keycompare;
-            typedef Alloc					    allocator_type;
+            typedef Key										key_type;
+            typedef T										mapped_type;
+            typedef pair<const Key, T>						value_type;
+            typedef Compare									key_compare;
+            typedef Alloc									allocator_type;
+
+			typedef size_type								std::size_t;
+			typedef difference_type							std::ptrdiff_t;
+
+			typedef value_type&								reference;
+			typedef const value_type&						const_reference;
+			typedef typename allocator_type::pointer		pointer;
+			typedef typename allocator_type::const_pointer	const_pointer;
+
+			// TODO: create iterators
+			
     };
 
 
