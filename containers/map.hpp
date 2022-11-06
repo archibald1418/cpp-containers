@@ -10,45 +10,63 @@
 
 namespace ft
 {
-
     template <
         typename Key,
         typename Value,
-        class Predicate, // DEBUG: This should be ft::less<Key>, but will it access the pair's first element????
+        class Predicate, // DEBUG: This should be ft::less<Key> - when comparing pair it will compare 'first' - if equals - should throw error!
         class Alloc,
         bool MultiFlag,
-        template<typename> class NodeType
+        template<typename> class NodeType = AVLNode
     >
     struct map_traits
     {
-        typedef Key                                                                 key_type;
-        typedef pair<const Key, Value>                                              value_type;
-        typedef Predicate                                                           key_compare;
-		typedef IsMulti																is_multi<MultiFlag>;
+        typedef Key						key_type;
+        typedef pair<const Key, Value>	value_type;
+        typedef Predicate				key_compare;
+		typedef IsMulti					is_multi<MultiFlag>;
         // NOTE: there will be key_comp() function that applies key_compare to ft::pair<T, U>::first_argument_type
 		// TODO: these should be obtained from the tree's typedefs
         /* typedef Alloc                                                               allocator_type; */ 
         /* typedef typename allocator_type::template rebind<value_type>::other         allocator_node; */
 
         /* typedef NodeType<value_type>                                                node_t; */
-        // typedef ft::tree_traits<node_t, key_compare>                                tree_traits;
+
+        typedef tree_traits<
+				value_type,
+				NodeType,
+				Alloc,
+				Predicate>								tree_traits;
+		typedef BaseNode<T, NodeType>					__base_node;
+		typedef BaseTree<T, NodeType>					tree_t;
+
+		typedef typename tree_traits::node_t			node_t;
+		typedef typename tree_traits::nodeptr			nodeptr;
+		typedef typename tree_traits::value_type		value_type;
+		typedef typename tree_traits::pointer			pointer;
+		typedef typename tree_traits::allocator_type	allocator_type;
+
+		typedef typename
+			allocator_type::template rebind<node_t>::other	allocator_node;
+		typedef typename
+			allocator_type::template rebind<node_t*>::other	allocator_node_pointer;
+
 
         Predicate comp;
 
         map_traits() : comp(){};
         map_traits(Predicate Parg) : comp(Parg){};
+		// TODO: maybe try throw error in comp if keys are equal?..
     };
    
-
-    
     template <
         typename Key,
         typename T,
         typename Compare = less<Key>,
 	    typename Alloc = std::allocator<pair<const Key, T> > 
     >
-    class map
+    class map : public BaseTree<map_traits<Key, T, Compare, Alloc, false> >
     {
+
 		/* TODO: ready for writing map 
 		 * - make tree accessible for map (via inheritance)
 		 *- AVLTree<value_type> as private member on stack memory
@@ -59,6 +77,11 @@ namespace ft
 		 * 
 		 * - CAUTION: Iterators are based on Lmost and Rmost tracking! TEST THIS CAREFULLY
 		 * */
+
+		private:
+			typedef map_traits<Key, T, Compare, Alloc, false>	traits;
+			typedef BaseTree<traits>							tree;
+			typedef typename tree::traits						tree_traits;
         public:
             typedef Key										key_type;
             typedef T										mapped_type;
@@ -75,7 +98,6 @@ namespace ft
 			typedef typename allocator_type::const_pointer	const_pointer;
 
 			// TODO: create iterators
-			
     };
 
 
