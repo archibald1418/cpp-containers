@@ -37,7 +37,7 @@ namespace ft
 				Alloc,
 				Predicate>								tree_traits;
 		typedef BaseNode<T, NodeType>					__base_node;
-		typedef BaseTree<T, NodeType>					tree_t;
+		typedef BaseTree<tree_traits>					tree_t;
 
 		typedef typename tree_traits::node_t			node_t;
 		typedef typename tree_traits::nodeptr			nodeptr;
@@ -97,6 +97,16 @@ namespace ft
 			typedef typename allocator_type::pointer		pointer;
 			typedef typename allocator_type::const_pointer	const_pointer;
 
+			typedef typename traits::node_t				node_t;
+			typedef typename traits::nodeptr			nodeptr;
+			typedef typename traits::value_type			value_type;
+			typedef typename traits::pointer			pointer;
+			typedef typename traits::allocator_type		allocator_type;
+
+			typedef typename traits::allocator_node			allocator_node;
+			typedef typename traits::allocator_node_pointer	allocator_node_pointer;
+
+			typedef node_t								node_type;
 			// TODO: create iterators
     };
 
