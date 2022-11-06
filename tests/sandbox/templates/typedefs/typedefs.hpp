@@ -26,8 +26,11 @@ class Container
 		typedef allocator	allocator_type;
 
 		// template template typedef
-		using template temp;
 
+		typedef template<typename> TTT template_class;
+		typedef template_class<int> TTTint;
+
+		TTTint tint;
 
 
     
