@@ -34,8 +34,12 @@ namespace ft{
         typedef T*                              pointer;
         typedef Predicate                       value_compare; // oblivious to whether pair is a mapping or not
         typedef Alloc                           allocator_type;
+
+		typedef BaseNode<T, NodeType>			__base_node;
 		typedef	NodeType<T>						node_t;
 		typedef node_t*							nodeptr;
+
+		typedef typename BaseTree<tree_traits<T, __base_node> >::tree_t	tree_t;
 
         typedef typename allocator_type::template rebind<node_t>::other     allocator_node;
         typedef typename allocator_type::template rebind<node_t*>::other    allocator_node_pointer;
@@ -56,7 +60,7 @@ namespace ft{
         typedef Traits					        traits;
 		
 		typedef typename traits::__base_node	__base_node;
-		typedef typename traits::tree_t			tree_t;
+		typedef BaseTree<traits>				tree_t;
 
 		typedef typename traits::node_t			node_t;
 		typedef typename traits::nodeptr		nodeptr;
@@ -444,26 +448,17 @@ namespace ft{
 
     };
 
-
-	BaseTree<
-            class T,
-            template<typename> class NodeType
-	> : public tree_traits<T, NodeType> {
-
-				// NOTE: this is essentially alias for testing and for inherited classes
-				// whilst Traits-class version is for constructing a map class
-				// using a tree as a map's backend essentially
-	};
+	
     
 
     template <typename T>
-    struct AVLTree : public BaseTree<T, AVLNode>
+    struct AVLTree : public BaseTree<tree_traits<T, AVLNode> >
     {
         typedef tree_traits<T, AVLNode>                 traits;
-        typedef BaseTree<T, AVLNode>                    __base;
+        typedef BaseTree<traits>                    	__base;
         typedef typename traits::value_compare          value_compare;
         typedef typename traits::value_type             value_type;
-        typedef AVLNode<T>                              node_t;
+        typedef typename traits::node_t					node_t;
         
 
         AVLTree(const value_compare& comp) : __base(comp){};
