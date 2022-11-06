@@ -1,7 +1,17 @@
 #include <iterator>
 #include <iostream>
+#include <cstddef>
 
-template <typename T, class allocator = std::allocator<T> >
+template<typename T>
+struct template_class {
+	T t;
+	template_class (){
+		std::cout << t << std::endl;
+	}
+};
+
+template <typename T, class allocator = std::allocator<T>,
+		 template<typename> class temp = template_class>
 class Container
 {
     
@@ -13,6 +23,13 @@ class Container
         typedef T&          reference;
         typedef const T&    const_reference;
         typedef T           value_type;
+		typedef allocator	allocator_type;
+
+		// template template typedef
+		using template temp;
+
+
+
     
     // Rebind structure
     template <class U>
@@ -24,7 +41,7 @@ class Container
         
         allocator<T>::rebind<Node_class>::other
             */
-            typedef allocator<U> other;
+            typedef std::allocator<U> other;
         };
     
 };
