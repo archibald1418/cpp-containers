@@ -49,16 +49,15 @@ namespace ft{
         ~tree_traits(){};
     };
 
-        template <
-            class T,
-            template<typename> class NodeType
-        >
-    struct BaseTree : public tree_traits<T, NodeType>
+	
+        template <class Traits>
+    struct BaseTree : public Traits
     {
-        typedef BaseNode<T, NodeType>           __base_node;
-        typedef BaseTree<T, NodeType>           tree_t;
+        typedef Traits					        traits;
+		
+		typedef typename traits::__base_node	__base_node;
+		typedef typename traits::tree_t			tree_t;
 
-        typedef tree_traits<T, NodeType>        traits;
 		typedef typename traits::node_t			node_t;
 		typedef typename traits::nodeptr		nodeptr;
         typedef typename traits::value_type     value_type;
@@ -444,7 +443,19 @@ namespace ft{
             // because they need access to protected fields
 
     };
+
+
+	BaseTree<
+            class T,
+            template<typename> class NodeType
+	> : public tree_traits<T, NodeType> {
+
+				// NOTE: this is essentially alias for testing and for inherited classes
+				// whilst Traits-class version is for constructing a map class
+				// using a tree as a map's backend essentially
+	};
     
+
     template <typename T>
     struct AVLTree : public BaseTree<T, AVLNode>
     {
@@ -487,10 +498,9 @@ namespace ft{
             void UpdateRightTree (node_t* &tree, int &reviseBalanceFactor);
     };
 
-
+	
 
 }
-
 
 
 #endif // TREE_H
