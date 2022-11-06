@@ -39,8 +39,6 @@ namespace ft{
 		typedef	NodeType<T>						node_t;
 		typedef node_t*							nodeptr;
 
-		typedef typename BaseTree<tree_traits<T, __base_node> >::tree_t	tree_t;
-
         typedef typename allocator_type::template rebind<node_t>::other     allocator_node;
         typedef typename allocator_type::template rebind<node_t*>::other    allocator_node_pointer;
 
@@ -60,7 +58,6 @@ namespace ft{
         typedef Traits					        traits;
 		
 		typedef typename traits::__base_node	__base_node;
-		typedef BaseTree<traits>				tree_t;
 
 		typedef typename traits::node_t			node_t;
 		typedef typename traits::nodeptr		nodeptr;
