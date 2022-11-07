@@ -52,6 +52,15 @@ struct Container
 
 struct Child : public Container<int>{
 
+	protected:
+		void method1(void){
+
+		}
+};
+
+
+struct Brother : public Container<int> {
+
 };
 
 struct Grandchild : public Child{
