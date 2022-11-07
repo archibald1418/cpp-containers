@@ -11,6 +11,7 @@
 # include "node.hpp"
 # include "colors.hpp"
 # include "tree_utils.hpp"
+# include "map.hpp"
 
 template <typename Container>
 void create_vector_of_ints(Container &vector, int elems)
@@ -231,28 +232,14 @@ void print_adjacent_nodes(node* t){
   std::cout << std::setw(indent * 4) << "⬇️" << std::endl;
 }
 
+/* ---------------------- Map ------------------------- */
 
-// # define SEP_COUNT 5
-// # define SEP '`'
-// # define LINK_LR '\\'
-// # define LINK_RL '/'
-// template <typename Node>
-// void print_tree(Node* root, int lvl = 0)
-// {
-  
-//   if (root == NULL)
-//     return ;
-  
-//   // Print right child on this level
-//   print_tree(root->Right(), lvl + 1);
 
-//   // Indent, marking the level
-//   std::cout  << std::string(lvl * SEP_COUNT, SEP);
-//   std::cout << root->get() << "\n";
+template<typename Key, typename Value>
+void print_map_tree(ft::map<Key, Value>& m){
+	print_tree(m.getRoot());
+}
 
-//   // Left child on same level
-//   print_tree(root->Left(), lvl + 1); 
-// }
 
 
 #endif // UTILS_H
