@@ -51,11 +51,32 @@ namespace ft
 			allocator_type::template rebind<node_t*>::other	allocator_node_pointer;
 
 
-        Predicate comp;
+        key_compare comp;
 
         map_traits() : comp(){};
-        map_traits(Predicate Parg) : comp(Parg){};
+        map_traits(key_compare comparator) : comp(comparator){};
 		// TODO: maybe try throw error in comp if keys are equal?..
+
+	
+		class value_compare : public binary_function<value_type, value_type, bool>
+		{
+			protected:
+				key_compare comp;
+			public:
+				bool operator()(const value_type& X, const value_type& Y)const{
+					// All extra logic goes here
+					return comp(X.first, Y.first);
+				}
+
+				value_compare(key_compare comp) : comp(comp){};
+		};
+
+		protected:
+			const key_type& getKeyByVal(const value_type& pairxy) const{
+				return pairxy.first;
+			}
+		
+		key_compare comp;
     };
    
     template <
@@ -106,8 +127,9 @@ namespace ft
 			typedef typename traits::allocator_node			allocator_node;
 			typedef typename traits::allocator_node_pointer	allocator_node_pointer;
 
-			typedef node_t								node_type;
+			typedef node_t								node_type; // member type since c++17
 			// TODO: create iterators
+			
     };
 
 
