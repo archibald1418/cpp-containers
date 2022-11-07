@@ -23,9 +23,7 @@ namespace ft
         typedef Key						key_type;
         typedef pair<const Key, Value>	value_type;
         typedef Predicate				key_compare;
-		typedef IsMulti					is_multi<MultiFlag>;
-        // NOTE: there will be key_comp() function that applies key_compare to ft::pair<T, U>::first_argument_type
-		// TODO: these should be obtained from the tree's typedefs
+		typedef is_multi<MultiFlag>		isMulti;
         /* typedef Alloc                                                               allocator_type; */ 
         /* typedef typename allocator_type::template rebind<value_type>::other         allocator_node; */
 
@@ -36,12 +34,11 @@ namespace ft
 				NodeType,
 				Alloc,
 				Predicate>								tree_traits;
-		typedef BaseNode<T, NodeType>					__base_node;
+		typedef BaseNode<value_type, NodeType>			__base_node;
 		typedef BaseTree<tree_traits>					tree_t;
 
 		typedef typename tree_traits::node_t			node_t;
 		typedef typename tree_traits::nodeptr			nodeptr;
-		typedef typename tree_traits::value_type		value_type;
 		typedef typename tree_traits::pointer			pointer;
 		typedef typename tree_traits::allocator_type	allocator_type;
 
@@ -75,8 +72,6 @@ namespace ft
 			const key_type& getKeyByVal(const value_type& pairxy) const{
 				return pairxy.first;
 			}
-		
-		key_compare comp;
     };
    
     template <
@@ -110,23 +105,20 @@ namespace ft
             typedef Compare									key_compare;
             typedef Alloc									allocator_type;
 
-			typedef size_type								std::size_t;
-			typedef difference_type							std::ptrdiff_t;
+			typedef std::size_t 							size_type;
+			typedef std::ptrdiff_t							difference_type;
 
 			typedef value_type&								reference;
 			typedef const value_type&						const_reference;
 			typedef typename allocator_type::pointer		pointer;
 			typedef typename allocator_type::const_pointer	const_pointer;
 
+			// Node stuff
 			typedef typename traits::node_t				node_t;
 			typedef typename traits::nodeptr			nodeptr;
-			typedef typename traits::value_type			value_type;
-			typedef typename traits::pointer			pointer;
-			typedef typename traits::allocator_type		allocator_type;
 
 			typedef typename traits::allocator_node			allocator_node;
-			typedef typename traits::allocator_node_pointer	allocator_node_pointer;
-
+			typedef typename traits::allocator_node_pointer allocator_node_pointer;
 			typedef node_t								node_type; // member type since c++17
 			// TODO: create iterators
 			
