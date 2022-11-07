@@ -122,6 +122,12 @@ void test_tree_delete(tree* t){
 	
 }
 
+template <typename Key, typename Value>
+void	test_map_typedefs (void){
+	
+	ft::map<std::string, int> Map;
+}
+
 int main(){
 	// Test nodes
 
@@ -134,22 +140,17 @@ typedef
 	int
 		type;
 
-	// Node<int> baseNode;
-	// AVLNode<int> avlnode(8);
 
-	// std::cout << avlnode.get_balance_factor() << std::endl;
-	// std::cout << avlnode.get() << std::endl;
-
-	AVLNode<type>* root = ft::nullptr_my;
+	/* AVLNode<type>* root = ft::nullptr_my; */
 	// AVLTree<char> T(root);
 
 	// MakeAVLCharTree(root);
-	ft::AVLTree<type>* tree = ConstructAVLIntTree(root);
+	/* ft::AVLTree<type>* tree = ConstructAVLIntTree(root); */
 	// test_tree_next(tree);
 	// test_tree_traverse(tree);
-	test_tree_delete(tree);
+	/* test_tree_delete(tree); */
 	
-	delete tree;
+	/* delete tree; */
 
 	return (0);
 }
