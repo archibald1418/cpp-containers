@@ -56,6 +56,9 @@ map_compare: map_my map_sys
 
 tree_test:
 	${CC} ${CFLAGS} -I${TESTS} -I${CONTAINERS} ${TESTSRC} -o tree
+map_test:
+	${CC} ${CFLAGS} -I${TESTS} -I${CONTAINERS} ${TESTSRC} -o map
+
 
 clean:
 	-rm -rf *.o

@@ -1,6 +1,7 @@
 #include "tree.hpp"
 #include "node.hpp"
 #include "utils.hpp"
+#include "map.hpp"
 
 # include <cassert>
 
@@ -136,16 +137,13 @@ using test::unique_ptr;
 using ft::AVLTree;
 using ft::tree_traits;
 
-typedef 
-	int
-		type;
 
 
-	/* AVLNode<type>* root = ft::nullptr_my; */
+	/* AVLNode<int>* root = ft::nullptr_my; */
 	// AVLTree<char> T(root);
 
 	// MakeAVLCharTree(root);
-	/* ft::AVLTree<type>* tree = ConstructAVLIntTree(root); */
+	/* ft::AVLTree<int>* tree = ConstructAVLIntTree(root); */
 	// test_tree_next(tree);
 	// test_tree_traverse(tree);
 	/* test_tree_delete(tree); */
