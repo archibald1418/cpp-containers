@@ -4,6 +4,11 @@
 int main()
 {
 
+	Child::Inner i;
+	Grandchild::Inner j;
+
+	j.i = 5;
+	i.i = 5;
     // Node<> node;
     
     // node1.content = "Pi is ";

@@ -12,7 +12,7 @@ struct template_class {
 
 template <typename T, class allocator = std::allocator<T>,
 		 template<typename> class temp = template_class>
-class Container
+struct Container
 {
     
         // Basic type definitions for allocator use
@@ -26,11 +26,6 @@ class Container
 		typedef allocator	allocator_type;
 
 		// template template typedef
-
-		typedef template<typename> TTT template_class;
-		typedef template_class<int> TTTint;
-
-		TTTint tint;
 
 
     
@@ -46,6 +41,19 @@ class Container
             */
             typedef std::allocator<U> other;
         };
+
+	class Inner {
+		public:
+			int i;
+	};
     
 };
 
+
+struct Child : public Container<int>{
+
+};
+
+struct Grandchild : public Child{
+
+};
