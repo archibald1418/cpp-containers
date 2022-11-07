@@ -16,3 +16,5 @@ tests/map/tree
 marina_containers/
 **/*.log
 sandbox/
+tests/map/map
+tests/map/tree

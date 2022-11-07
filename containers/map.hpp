@@ -97,6 +97,7 @@ namespace ft
 			typedef map_traits<Key, T, Compare, Alloc, false>	traits;
 			typedef BaseTree<traits>							tree;
 			typedef typename tree::traits						tree_traits;
+			typedef tree										__base;
         public:
             typedef Key										key_type;
             typedef T										mapped_type;
@@ -120,6 +121,12 @@ namespace ft
 			typedef typename traits::allocator_node_pointer allocator_node_pointer;
 			typedef node_t								node_type; // member type since c++17
 			
+			map() : __base(key_compare()){
+
+			}
+			~map(){
+
+			}
 			
 			const nodeptr& getRoot()const{
 				return this->Root();
