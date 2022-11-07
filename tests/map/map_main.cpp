@@ -127,6 +127,10 @@ template <typename Key, typename Value>
 void	test_map_typedefs (void){
 	
 	ft::map<std::string, int> Map;
+
+	/* print_tree(Map.call_root()); */
+	print_tree(Map.getRoot());
+	
 }
 
 int main(){

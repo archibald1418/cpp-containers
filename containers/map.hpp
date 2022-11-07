@@ -80,11 +80,10 @@ namespace ft
         typename Compare = less<Key>,
 	    typename Alloc = std::allocator<pair<const Key, T> > 
     >
-    class map : public BaseTree<map_traits<Key, T, Compare, Alloc, false> >
+    class map : protected BaseTree<map_traits<Key, T, Compare, Alloc, false> >
     {
-
+		// protected - for stopping access from the outside
 		/* TODO: ready for writing map 
-		 * - make tree accessible for map (via inheritance)
 		 *- AVLTree<value_type> as private member on stack memory
 		 *- AVLTree<value_type> knows its Compare, its Alloc => its node allocators
 		 *- map methods call tree's methods
@@ -120,8 +119,11 @@ namespace ft
 			typedef typename traits::allocator_node			allocator_node;
 			typedef typename traits::allocator_node_pointer allocator_node_pointer;
 			typedef node_t								node_type; // member type since c++17
-			// TODO: create iterators
 			
+			
+			const nodeptr& getRoot()const{
+				return this->Root();
+			}
     };
 
 
