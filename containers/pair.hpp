@@ -1,6 +1,7 @@
 #ifndef PAIR_H
 # define PAIR_H
 
+# include <iostream>
 
 namespace ft{
 
@@ -27,6 +28,11 @@ namespace ft{
             this->first = other.first;
             this->second = other.second;
         }  
+
+		friend std::ostream& operator<<(std::ostream& os, const pair& p){
+			os << "{" << p.first << " : " << p.second << "}" <<   std::endl;
+			return os;
+		}
     };
 
 }
