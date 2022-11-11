@@ -18,55 +18,56 @@ namespace ft
         bool MultiFlag,
         template<typename> class NodeType = AVLNode
     >
+	// NOTE: ft::less<Key> is for comparing key_type-s directly
     struct map_traits
     {
         typedef Key						key_type;
         typedef pair<const Key, Value>	value_type;
+		typedef is_multi<MultiFlag>		isMulti; // flag for non-strict total order
+
         typedef Predicate				key_compare;
-		typedef is_multi<MultiFlag>		isMulti;
-        /* typedef Alloc                                                               allocator_type; */ 
-        /* typedef typename allocator_type::template rebind<value_type>::other         allocator_node; */
-
-        /* typedef NodeType<value_type>                                                node_t; */
-
-        typedef tree_traits<
-				value_type,
-				NodeType,
-				Alloc,
-				Predicate>								tree_traits;
-		typedef BaseNode<value_type, NodeType>			__base_node;
-		typedef BaseTree<tree_traits>					tree_t;
-
-		typedef typename tree_traits::node_t			node_t;
-		typedef typename tree_traits::nodeptr			nodeptr;
-		typedef typename tree_traits::pointer			pointer;
-		typedef typename tree_traits::allocator_type	allocator_type;
-
-		typedef typename
-			allocator_type::template rebind<node_t>::other	allocator_node;
-		typedef typename
-			allocator_type::template rebind<node_t*>::other	allocator_node_pointer;
-
-
-        key_compare comp;
-
-        map_traits() : comp(){};
-        map_traits(key_compare comparator) : comp(comparator){};
-		// TODO: maybe try throw error in comp if keys are equal?..
-
-	
+		
 		class value_compare : public binary_function<value_type, value_type, bool>
 		{
 			protected:
 				key_compare comp;
 			public:
 				bool operator()(const value_type& X, const value_type& Y)const{
-					// All extra logic goes here
+					// All extra logic goes here - TODO: throw error ifeq and not multi
 					return comp(X.first, Y.first);
 				}
 
 				value_compare(key_compare comp) : comp(comp){};
 		};
+
+		// Tree
+		typedef tree_traits<
+				value_type,
+				NodeType,
+				Alloc,
+				value_compare>							tree_traits;
+				// NOTE: value_compare compares compairs pairs by comparing keys
+		typedef BaseNode<value_type, NodeType>			__base_node;
+		typedef BaseTree<tree_traits>					tree_t;
+
+		// nodes
+		typedef typename tree_traits::node_t			node_t;
+		typedef typename tree_traits::nodeptr			nodeptr;
+
+		typedef typename tree_traits::pointer			pointer;
+
+		// Allocation
+		typedef typename tree_traits::allocator_type			allocator_type;
+		typedef typename tree_traits::allocator_node			allocator_node;
+		typedef typename tree_traits::allocator_node_pointer	allocator_node_pointer;
+
+		// TODO: node info comes from trees, type info goes here
+
+
+        key_compare comp;
+
+        map_traits() : comp(){};
+        map_traits(Predicate c) : comp(c){};
 
 		protected:
 			const key_type& getKeyByVal(const value_type& pairxy) const{
@@ -121,14 +122,14 @@ namespace ft
 			typedef typename traits::allocator_node_pointer allocator_node_pointer;
 			typedef node_t								node_type; // member type since c++17
 			
-			map() : __base(key_compare()){
+			explicit map(const key_compare& comp = key_compare()) : __base(value_compare()){
 
 			}
 			~map(){
 
 			}
 			
-			const nodeptr& getRoot()const{
+			const nodeptr& getRoot(){
 				return this->Root();
 			}
     };
