@@ -8,6 +8,8 @@
 # include "type_traits.hpp"
 # include <memory>
 
+# include <iostream>
+
 namespace ft
 {
     template <
@@ -125,8 +127,8 @@ namespace ft
 			explicit map(const key_compare& comp = key_compare()) : __base(comp){
 
 			}
-			~map(){
-
+			virtual ~map(){
+				std::cout << "Destroying map" << std::endl;
 			}
 			
 			const nodeptr& getRoot(){

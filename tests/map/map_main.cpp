@@ -119,7 +119,14 @@ void test_tree_delete(tree* t){
 	t->Delete(0);
 
 	print_tree(t);
+}
+
+template <typename tree>
+void test_empty_tree() {
 	
+	AVLNode<int>* root = ft::nullptr_my;
+	AVLTree<char> T(root);
+	delete tree;
 }
 
 template <typename Key, typename Val>
@@ -141,18 +148,17 @@ using ft::AVLTree;
 using ft::tree_traits;
 
 
-
-	AVLNode<int>* root = ft::nullptr_my;
+	/* AVLNode<int>* root = ft::nullptr_my; */
 	/* AVLTree<char> T(root); */
 
 	// MakeAVLCharTree(root);
-	ft::AVLTree<int>* tree = ConstructAVLIntTree(root);
+	/* ft::AVLTree<int>* tree = ConstructAVLIntTree(root); */
 	/* test_tree_next(tree); */
 	/* test_tree_traverse(tree); */
 	/* test_tree_delete(tree); */
 	
-	/* test_map_typedefs<char, int>(); */
-	delete tree;
+	test_map_typedefs<char, int>();
+	/* delete tree; */
 
 	return (0);
 }
