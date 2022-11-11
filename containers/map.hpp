@@ -122,7 +122,7 @@ namespace ft
 			typedef typename traits::allocator_node_pointer allocator_node_pointer;
 			typedef node_t								node_type; // member type since c++17
 			
-			explicit map(const key_compare& comp = key_compare()) : __base(value_compare()){
+			explicit map(const key_compare& comp = key_compare()) : __base(comp){
 
 			}
 			~map(){

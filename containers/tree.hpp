@@ -42,8 +42,6 @@ namespace ft{
         typedef typename allocator_type::template rebind<node_t>::other     allocator_node;
         typedef typename allocator_type::template rebind<node_t*>::other    allocator_node_pointer;
 
-        // typedef Predicate                    key_compare; -> 'set traits'
-
         value_compare comp; // comparator should be created before it could be called
 
         tree_traits(value_compare& comp) : comp(comp){};
@@ -88,11 +86,13 @@ namespace ft{
         public:
 
             size_type _size;
+			value_compare comp;
 
-            BaseTree(const value_compare& comp) : traits(comp),
+            BaseTree(const value_compare& comp) :
             _alloc_node(allocator_node()),
             _alloc_ptr(allocator_node_pointer()),
-            _alloc(allocator_type())
+            _alloc(allocator_type()),
+			comp(comp)
             {
                 Init();
             };
