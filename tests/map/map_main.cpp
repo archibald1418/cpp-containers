@@ -123,10 +123,10 @@ void test_tree_delete(tree* t){
 	
 }
 
-template <typename Key, typename Value>
+template <typename Key, typename Val>
 void	test_map_typedefs (void){
 	
-	ft::map<std::string, int> Map;
+	ft::map<Key, Val> Map;
 
 	/* print_tree(Map.call_root()); */
 	print_tree(Map.getRoot());
@@ -152,6 +152,7 @@ using ft::tree_traits;
 	// test_tree_traverse(tree);
 	/* test_tree_delete(tree); */
 	
+	test_map_typedefs<char, int>();
 	/* delete tree; */
 
 	return (0);
