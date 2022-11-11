@@ -3,8 +3,7 @@
 #include "utils.hpp"
 #include "map.hpp"
 
-# include <cassert>
-
+# include <cassert> 
 #include <iostream>
 // #include <array> // absent from c++98
 
@@ -67,7 +66,7 @@ void	test_tree_next(tree* t){
 	typedef typename tree::nodeptr nodeptr;
 
 	std::cout << "Printing tree:" << std::endl;
-	print_tree(*t);
+	print_tree(t);
 // pretty print
 	nodeptr n = t->tree_next(t->Root());
 	print_node(n);
@@ -90,7 +89,7 @@ void test_tree_traverse(tree* t){
 	typedef typename tree::nodeptr nodeptr;
 
 	nodeptr tmp = t->Lmost();
-	print_tree(*t);
+	print_tree(t);
 	std::cout << "\tTraversing forwards" << std::endl;
 	while (!IsPhony(tmp))
 	{
@@ -143,17 +142,17 @@ using ft::tree_traits;
 
 
 
-	/* AVLNode<int>* root = ft::nullptr_my; */
-	// AVLTree<char> T(root);
+	AVLNode<int>* root = ft::nullptr_my;
+	/* AVLTree<char> T(root); */
 
 	// MakeAVLCharTree(root);
-	/* ft::AVLTree<int>* tree = ConstructAVLIntTree(root); */
-	// test_tree_next(tree);
-	// test_tree_traverse(tree);
+	ft::AVLTree<int>* tree = ConstructAVLIntTree(root);
+	/* test_tree_next(tree); */
+	/* test_tree_traverse(tree); */
 	/* test_tree_delete(tree); */
 	
-	test_map_typedefs<char, int>();
-	/* delete tree; */
+	/* test_map_typedefs<char, int>(); */
+	delete tree;
 
 	return (0);
 }

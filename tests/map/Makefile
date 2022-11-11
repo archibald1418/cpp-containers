@@ -67,6 +67,6 @@ clean:
 	-rm -rf .*.swp
 	-rm -rf a.out
 	-rm -rf *.log
-	-rm -rf tree
+	-rm -rf tree map
 
 re-test: clean
