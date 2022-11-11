@@ -128,9 +128,11 @@ namespace ft{
             }
 
 			// Destructor
-            ~BaseTree(){
-                if (!IsPhony(root))
-                {
+            virtual ~BaseTree(){
+                if (IsPhony(root))
+					freenode(root);
+				else 
+				{
 					ft::stack<nodeptr> S;
 					/*
 					 *should go post-order, since reads from dead parents
@@ -151,8 +153,8 @@ namespace ft{
 						freenode(curr);
 						curr = right;
 					}
-					freenode(phony);
 				}
+				freenode(phony);
 			}
 
     // Tree parameter nodes
