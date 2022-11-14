@@ -12,6 +12,7 @@
 # include "colors.hpp"
 # include "tree_utils.hpp"
 # include "map.hpp"
+# include "pick_map.hpp"
 
 template <typename Container>
 void create_vector_of_ints(Container &vector, int elems)
@@ -240,7 +241,6 @@ template<typename Key, typename Value>
 void print_map_tree(ft::map<Key, Value>& m){
 	print_tree(m.getRoot());
 }
-
 
 
 #endif // UTILS_H

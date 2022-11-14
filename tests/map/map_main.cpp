@@ -148,31 +148,31 @@ void	test_map_iterator(){
 
 
 }
-template <>
+
+template<>
 void	test_map_iterator<int, int>(){
 	
-	typedef ft::map<int, int> map_type;
+	typedef map<int, int> map_type;
 	/* typedef map<int, int> map_type; */
 	typedef map_type::iterator It;
 	typedef map_type::value_type value_type;
-	typedef ft::pair<It, bool> return_type;
+	/* typedef pair<It, bool> return_type; */
 
 	map_type Map;
 
 	for (int i = 0; i < 10; i++){
-		return_type ret(
-			Map.insert(value_type(i, 2 * i))
-		);
+		Map.insert(value_type(i, 2 * i));
 	}
 
 	/* print_map_tree(Map); */
-
-	/* for (It it = Map.begin(); it < Map.end(); ++it){ */
-	/* 	std::cout << *it << std::endl; */
-	/* } */
-
+	for (It it = Map.begin(); it != Map.end(); ++it){
+		std::cout <<
+			"{" << it->first << " : "  <<
+		it->second << "}" << std::endl;
+	}
 
 }
+
 
 int main(){
 	// Test nodes
