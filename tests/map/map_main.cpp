@@ -166,6 +166,7 @@ void	test_map_iterator<int, int>(){
 
 	/* print_map_tree(Map); */
 	for (It it = Map.begin(); it != Map.end(); ++it){
+		// NOTE: bidir iterator doesn't have <>, only == != 
 		std::cout <<
 			"{" << it->first << " : "  <<
 		it->second << "}" << std::endl;
