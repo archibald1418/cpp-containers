@@ -139,9 +139,6 @@ namespace ft
 			/* } */
 
 		private:
-			const nodeptr& getRoot(){
-				return this->Root();
-			}
 			nodeptr getKeyByVal(const value_type& node){
 				return node.first;
 			}
@@ -207,6 +204,10 @@ namespace ft
 				return pair<iterator, bool>(this->Insert(value), true);
 			}
 			
+
+			const nodeptr& getRoot(){
+				return this->Root();
+			}
     };
 
 
