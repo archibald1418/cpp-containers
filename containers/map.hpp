@@ -142,6 +142,10 @@ namespace ft
 			const nodeptr& getRoot(){
 				return this->Root();
 			}
+			nodeptr getKeyByVal(const value_type& node){
+				return node.first;
+			}
+
 
 		public:
 			explicit map(const key_compare& comp = key_compare())
@@ -169,18 +173,38 @@ namespace ft
 				return this->empty();
 			}
 
-			iterator find(const Key& key){
-				return iterator(this->search(getRoot(), key));
+			// Find & count search values by key
+			// Insert & Delete search by node, it's ok
+			iterator find(const Key& key)
+			{
+				nodeptr begin = getRoot();
+				while (!IsPhony(begin) && begin->Get() != key){
+					value_type& val = begin->Get();
+					if (getKeyByVal(val) == key)
+						return iterator(begin);
+					if (getKeyByVal(val) > key)
+						begin = begin->Left();
+					else
+						begin = begin->Right();
+				}
+				return end();
 			}
 			const_iterator find(const Key& key)const{
-				return const_iterator(this->search(getRoot(), key));
+				return const_iterator(find(key));
 			}
 
 			size_type count(const Key& key){
-				// if found key returns 1, else 0
-				// uses IsPhony
-				(void)key;
+				if (find(key) != end())
+						return 1;
 				return 0;
+			}
+
+			pair<iterator, bool> insert(const value_type& value){
+				
+				nodeptr found = this->search(getRoot(), value);
+				if (!IsPhony(found))
+					return pair<iterator, bool>(iterator(found), false);
+				return pair<iterator, bool>(this->Insert(value), true);
 			}
 			
     };

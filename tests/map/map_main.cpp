@@ -109,11 +109,6 @@ void test_tree_traverse(tree* t){
 
 template <typename tree>
 void test_tree_delete(tree* t){
-	// typedef typename tree::nodeptr nodeptr;
-
-	
-
-	
 	print_tree(t);
 
 	t->Delete(0);
@@ -124,9 +119,9 @@ void test_tree_delete(tree* t){
 template <typename tree>
 void test_empty_tree() {
 	
-	AVLNode<int>* root = ft::nullptr_my;
-	AVLTree<char> T(root);
-	delete tree;
+	/* AVLNode<int>* root = ft::nullptr_my; */
+	/* AVLTree<char> T(root); */
+	/* delete tree; */
 }
 
 template <typename Key, typename Val>
@@ -136,7 +131,20 @@ void	test_map_typedefs (void){
 
 	/* print_tree(Map.call_root()); */
 	print_tree(Map.getRoot());
+}
+
+template <typename Key, typename Val>
+void	test_map_insert(){
+
+	ft::map<Key, Val> Map;
+	(void)Map;
+}
+
+template <typename Key, typename Val>
+void	test_map_iterator(){
 	
+	ft::map<Key, Val> Map;
+
 }
 
 int main(){
@@ -147,7 +155,6 @@ using test::unique_ptr;
 using ft::AVLTree;
 using ft::tree_traits;
 
-
 	/* AVLNode<int>* root = ft::nullptr_my; */
 	/* AVLTree<char> T(root); */
 
@@ -157,7 +164,8 @@ using ft::tree_traits;
 	/* test_tree_traverse(tree); */
 	/* test_tree_delete(tree); */
 	
-	test_map_typedefs<char, int>();
+	/* test_map_typedefs<std::string, int>(); */
+	test_map_iterator<int, int>();
 	/* delete tree; */
 
 	return (0);
