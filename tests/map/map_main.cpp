@@ -172,6 +172,26 @@ void	test_map_iterator<int, int>(){
 		it->second << "}" << std::endl;
 	}
 
+	// TODO: check for similar keys - shouldn't insert (or what? check sys)
+	// 
+	/* TODO: equal range - lower b - upper b can just be like this:
+	 * 
+	 * equal range:
+	 * - call find
+	 * - increment
+	 * - return pair<found, next_to_found>
+	 * 
+	 * lower bound:
+	 * - call find
+	 * - return found
+	 *
+	 * upper bound:
+	 * - call find
+	 * - return next_to_found
+	*/
+
+	// TODO: erase: just call the deleter
+
 }
 
 
