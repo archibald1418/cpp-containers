@@ -230,6 +230,13 @@ namespace ft{
                 node = nullptr_my;
             }
 
+			// Function for hard-replacing node content
+			void	Replace(nodeptr& where, const value_type& what){
+				_alloc.destroy(&where->Get());
+				_alloc.construct(&where->Get(), what);
+			}
+
+
     // Tree initializers
             void Init()
             {
@@ -338,7 +345,8 @@ namespace ft{
 
                 if (empty())
                 {
-                    root->Set(item);
+                    /* root->Set(item); */
+					Replace(root, item);
                     root->IsPhony() = false;
                     _size++;
                     Lmost() = root;
@@ -360,7 +368,8 @@ namespace ft{
             nodeptr Inserter(bool& add_left, nodeptr& tree_position, const value_type& item)
             {
                 nodeptr new_node = buynode(tree_position);
-                new_node->Set(item);
+                /* new_node->Set(item); */
+				Replace(new_node, item);
                 if (add_left)
                 {
                     tree_position->Left() = new_node;
