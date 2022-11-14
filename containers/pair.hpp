@@ -17,17 +17,17 @@ namespace ft{
         pair(const T1& x, const T2& y) : first(x), second(y){};
 
         template <typename U1, typename U2>
-        pair(const pair<U1, U2>&  p){
-            first = p.first;
-            second = p.second;
-        }
+        pair(const pair<U1, U2>& p)
+		:
+		first(p.first),
+		second(p.second){}
 
         pair& operator=(const pair& other){
             if (this == &other)
                 return *this;    
             this->first = other.first;
             this->second = other.second;
-        }  
+        }
 
 		friend std::ostream& operator<<(std::ostream& os, const pair& p){
 			os << "{'" << p.first << "' : '" << p.second << "'}" <<   std::endl;
