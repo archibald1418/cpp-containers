@@ -16,7 +16,7 @@ namespace ft {
     template <typename T>
     struct less : public binary_function<T, T, bool>{
 
-        bool operator()(const T& lhs, const T& rhs){
+        bool operator()(const T& lhs, const T& rhs)const{
             return lhs < rhs;
         }
         
