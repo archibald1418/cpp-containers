@@ -2,6 +2,7 @@
 
 CC			=	clang++
 CFLAGS		=	-Wall -Wextra -Werror -std=c++98 -pedantic
+C++98		=	-std=c++98
 
 CONTAINERS=		../../containers
 TESTS=			../
@@ -17,15 +18,15 @@ endif
 
 # Checking for leaks
 ifeq ($(mode),leak)
-	CFLAGS := -g -Wall -Wextra -fsanitize=leak
+	CFLAGS := -g -Wall -Wextra -fsanitize=leak $(C++98)
 endif
 
 # Checking for mangled memory
 ifeq ($(mode),memory)
-	CFLAGS := -g -Wall -Wextra -fsanitize=address
+	CFLAGS := -g -Wall -Wextra -fsanitize=address $(C++98)
 endif
 ifeq ($(mode),address)
-	CFLAGS := -g -Wall -Wextra -fsanitize=address
+	CFLAGS := -g -Wall -Wextra -fsanitize=address $(C++98)
 endif
 
 # Checking for linux compatibility
@@ -37,6 +38,7 @@ endif
 
 DO_INCLUDE	=	-I${CONTAINERS} -I. -I${TESTS}
 TESTSRC		=	map_main.cpp ../utils.cpp
+TESTTREESRC =	tree_main.cpp ../utils.cpp
 
 TESTS_F		=	pick_map.hpp Test.hpp types.hpp utils.hpp colors.hpp
 TESTS_H		=	$(addprefix $(TESTS), $(TESTS_F))
@@ -55,7 +57,7 @@ map_compare: map_my map_sys
 	@#ignore diff writing to stderr
 
 tree_test:
-	${CC} ${CFLAGS} -I${TESTS} -I${CONTAINERS} ${TESTSRC} -o tree
+	${CC} ${CFLAGS} -I${TESTS} -I${CONTAINERS} ${TESTTREESRC} -o tree
 map_test:
 	${CC} ${CFLAGS} -I${TESTS} -I${CONTAINERS} ${TESTSRC} -o map
 
