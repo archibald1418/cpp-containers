@@ -102,11 +102,13 @@ struct is_pointer<
     // Tree related
     template <class NodePtr, class T>
         struct tree_node_types {
-            typedef typename        remove_pointer<NodePtr>::type      node_type;
+            typedef typename        remove_pointer<NodePtr>::type		node_type;
             typedef typename        remove_const<NodePtr>::type         nodeptr;
+			typedef const nodeptr										const_nodeptr;
             typedef T                                                   node_value_type;
             typedef T*                                                  node_value_type_pointer; 
-            typedef const T*                                            const_node_value_type_pointer;
+            typedef const T*                                           	const_node_value_type_pointer;
+			typedef const T												const_node_value_type;
         /*
         NOTE: 
             stl here does some crpytic voidptr->valueptr pointer rebinds

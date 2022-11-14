@@ -10,9 +10,9 @@ namespace ft{
     template <class T, class NodeType>
         struct tree_iterator : public iterator<bidirectional_iterator_tag, NodeType>
         {
-            typedef iterator<bidirectional_iterator_tag, T>         __base;
+            typedef iterator<bidirectional_iterator_tag, NodeType>  __base;
 
-            typedef typename __base::itereator_category		    	itereator_category;
+            typedef typename __base::iterator_category		    	iterator_category;
 			typedef typename __base::value_type				        value_type;
 			typedef typename __base::difference_type		        difference_type;
 			typedef typename __base::pointer				        pointer;
@@ -162,7 +162,7 @@ namespace ft{
             public:
 				typedef iterator<bidirectional_iterator_tag, T>         __base;
 
-				typedef typename __base::itereator_category		    itereator_category;
+				typedef typename __base::iterator_category		    iterator_category;
 				typedef typename __base::value_type				        value_type;
 				typedef typename __base::difference_type		        difference_type;
 				typedef typename __base::pointer				        pointer;
