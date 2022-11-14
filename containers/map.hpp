@@ -6,6 +6,7 @@
 # include "node.hpp"
 # include "tree.hpp"
 # include "type_traits.hpp"
+# include "tree_iterator.hpp"
 # include <memory>
 
 # include <iostream>
@@ -124,6 +125,11 @@ namespace ft
 			typedef typename traits::allocator_node_pointer allocator_node_pointer;
 			typedef node_t								node_type; // member type since c++17
 			
+			typedef tree_iterator<value_type, node_t>			iterator;
+			typedef const_tree_iterator<value_type, node_t>		const_iterator;
+			/* typedef reverse_iterator<iterator>					reverse_iterator; */
+			/* typedef reverse_iterator<const_iterator>			const_reverse_iterator; */
+
 			explicit map(const key_compare& comp = key_compare()) : __base(comp){
 
 			}
