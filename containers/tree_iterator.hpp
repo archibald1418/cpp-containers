@@ -13,10 +13,14 @@ namespace ft{
             typedef iterator<bidirectional_iterator_tag, NodeType>  __base;
 
             typedef typename __base::iterator_category		    	iterator_category;
-			typedef typename __base::value_type				        value_type;
+			typedef T										        value_type;
 			typedef typename __base::difference_type		        difference_type;
 			typedef typename __base::pointer				        pointer;
-			typedef typename __base::reference				        reference;
+			typedef typename remove_const<T>::type&				    reference;
+			typedef const T											const_value_type;
+			typedef const T&										const_reference;
+			typedef const T*										const_value_pointer;
+			typedef T*												value_pointer;
 
             typedef tree_node_types<NodeType*, value_type>          node_types;
         /*
@@ -82,19 +86,19 @@ namespace ft{
                     return temp;
                 }
 			
-                reference& operator*(){
+                reference operator*(){
                     return _it->Get();
                 }
 
-                const reference& operator*() const{
+                const_reference operator*() const{
                     return _it->Get();
                 }
 
-                pointer operator->(){
+                value_pointer operator->(){
                     return &**this;
                 }
 
-                const pointer operator->() const {
+                const_value_pointer operator->() const {
                     return &**this;
                 }
 
