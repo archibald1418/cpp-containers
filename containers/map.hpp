@@ -208,6 +208,30 @@ namespace ft
 			const nodeptr& getRoot(){
 				return this->Root();
 			}
+
+		/*
+		 *TODO: equal range, lower bound, upper bound, erase, swap
+		 * */
+
+		// 
+		/* TODO: equal range - lower b - upper b
+		 * since map doesn't allow for matching keys, these can just go like this:
+		 * 
+		 * equal range:
+		 *	   - call find
+		 *	   - increment
+		 *	   - return pair<found, next_to_found>
+		 * 
+		 * lower bound:
+		 *	   - call find
+		 *	   - return found
+		 *
+		 * upper bound:
+		 *	   - call find
+		 *	   - return next_to_found
+		*/
+
+		// TODO: erase: just call the deleter duh
     };
 
 
