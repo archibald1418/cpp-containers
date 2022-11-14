@@ -3,7 +3,7 @@
 #include "utils.hpp"
 #include "map.hpp"
 
-/* #include "pick_map.hpp" */
+#include "pick_map.hpp"
 
 # include <cassert> 
 #include <iostream>
