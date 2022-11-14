@@ -130,16 +130,59 @@ namespace ft
 			/* typedef reverse_iterator<iterator>					reverse_iterator; */
 			/* typedef reverse_iterator<const_iterator>			const_reverse_iterator; */
 
-			explicit map(const key_compare& comp = key_compare()) : __base(comp){
+			/* template< class InputIt > */
+			/* map( InputIt first, InputIt last, */
+			/* 	 const Compare& comp = Compare(), */
+			/* 	 const Alloc& alloc = Allocator()){ */
 
-			}
-			virtual ~map(){
-				std::cout << "Destroying map" << std::endl;
-			}
-			
+				
+			/* } */
+
+		private:
 			const nodeptr& getRoot(){
 				return this->Root();
 			}
+
+		public:
+			explicit map(const key_compare& comp = key_compare())
+			:
+			__base(comp){}
+
+			virtual ~map(){
+				std::cout << "Destroying map" << std::endl;
+			}
+
+			allocator_type get_allocator(){
+				return allocator_type();
+			}
+			
+
+			iterator begin(){
+				return iterator(this->Lmost());
+			}
+
+			iterator end(){
+				return iterator(this->Rmost());
+			}
+
+			bool empty(){
+				return this->empty();
+			}
+
+			iterator find(const Key& key){
+				return iterator(this->search(getRoot(), key));
+			}
+			const_iterator find(const Key& key)const{
+				return const_iterator(this->search(getRoot(), key));
+			}
+
+			size_type count(const Key& key){
+				// if found key returns 1, else 0
+				// uses IsPhony
+				(void)key;
+				return 0;
+			}
+			
     };
 
 
