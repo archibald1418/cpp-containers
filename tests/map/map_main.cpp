@@ -137,13 +137,32 @@ template <typename Key, typename Val>
 void	test_map_insert(){
 
 	ft::map<Key, Val> Map;
-	(void)Map;
 }
 
 template <typename Key, typename Val>
 void	test_map_iterator(){
 	
 	ft::map<Key, Val> Map;
+
+
+}
+template <>
+void	test_map_iterator<int, int>(){
+	
+	typedef ft::map<int, int> map_type;
+	typedef map_type::iterator It;
+	typedef map_type::value_type value_type;
+	typedef ft::pair<It, bool> return_type;
+
+	map_type Map;
+
+	for (int i = 0; i < 10; i++){
+		return_type ret(
+			Map.insert(value_type(i, 2 * i))
+		);
+	}
+
+	print_map_tree(Map);
 
 }
 

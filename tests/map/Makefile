@@ -12,7 +12,7 @@ DIFF	=	diff
 
 # Flags for debug mode. Invoke with make mode=debug
 ifeq ($(mode),debug)
-	CFLAGS := -g -Wall -Wextra
+	CFLAGS := -g -Wall -Wextra -std=c++98
 endif
 
 # Checking for leaks
