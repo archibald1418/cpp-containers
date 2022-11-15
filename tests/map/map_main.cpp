@@ -194,6 +194,31 @@ void	test_map_iterator<int, int>(){
 
 }
 
+template<typename Pair_ii>
+void	print_pair_ii(const Pair_ii& pair_ii){
+	std::cout << "* " << *pair_ii.first << " : " << *pair_ii.second << " *\n";
+}
+template<typename Pair_ib>
+void	print_pair_ib(const Pair_ib& pair_ib){
+	std::cout << "? " << *pair_ib.first << " : " << pair_ib.second << " ?\n";
+}
+
+void 	test_map_ranges(){
+	
+	typedef map<int, int> map_type;
+	//typedef pair<map_type::iterator, map_type::iterator> pair_ii;	
+	//typedef pair<map_type::iterator, bool> 	pair_ib;	
+	typedef map_type::value_type		value_type;
+
+	map_type Map;
+	for (int i = 0; i < 4; i += 2){
+		Map.insert(value_type(i,   i / 2));
+		Map.insert(value_type(i+1, i * 2));
+	}
+	
+	print_map(Map);
+}
+
 
 int main(){
 	// Test nodes
@@ -213,7 +238,8 @@ using ft::tree_traits;
 	/* test_tree_delete(tree); */
 	
 	/* test_map_typedefs<std::string, int>(); */
-	test_map_iterator<int, int>();
+	//test_map_iterator<int, int>();
+	test_map_ranges();
 	/* delete tree; */
 
 	return (0);
