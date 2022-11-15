@@ -8,6 +8,7 @@
 # include "type_traits.hpp"
 # include "tree_iterator.hpp"
 # include <memory>
+# include <limits>
 
 # include <iostream>
 
@@ -82,7 +83,7 @@ namespace ft
         typename Key,
         typename T,
         typename Compare = less<Key>,
-	    typename Alloc = std::allocator<pair<const Key, T> > 
+	typename Alloc = std::allocator<pair<const Key, T> > 
     >
     class map : protected BaseTree<map_traits<Key, T, Compare, Alloc, false> >
     {
@@ -138,6 +139,11 @@ namespace ft
 				
 			/* } */
 
+			typedef pair<iterator, bool>				pair_ib;
+			typedef pair<iterator, iterator>			pair_ii;
+			typedef pair<const_iterator, bool>			pair_cb;
+			typedef pair<const_iterator, const_iterator>		pair_cc;
+
 		private:
 			nodeptr getKeyByVal(const value_type& node){
 				return node.first;
@@ -148,6 +154,19 @@ namespace ft
 			explicit map(const key_compare& comp = key_compare())
 			:
 			__base(comp){}
+
+			template< class InputIt >
+			map(InputIt first, InputIt last,
+				const Compare& comp = Compare(),
+				const Alloc& alloc = Alloc() )
+			: __base(comp, alloc){
+				for (; first != last; ++first)
+				{
+					this->insert(*first);
+				}
+			}
+
+			
 
 			virtual ~map(){
 				std::cout << "Destroying map" << std::endl;
@@ -163,11 +182,21 @@ namespace ft
 			}
 
 			iterator end(){
-				return iterator(this->Rmost());
+				return iterator(this->End());
+				// this causes segfault somewhere
 			}
 
-			bool empty(){
+			bool empty()const{
 				return this->empty();
+			}
+
+			size_type size()const{
+				return this->_size;
+			}
+			size_type max_size()const{
+			return	ft::min<size_type>(
+				this->_alloc.max_size(),
+				std::numeric_limits<difference_type>::max());
 			}
 
 			// Find & count search values by key
@@ -212,6 +241,32 @@ namespace ft
 		/*
 		 *TODO: equal range, lower bound, upper bound, erase, swap
 		 * */
+			pair_ii equal_range(const Key& key)
+			{
+				iterator found = this->find(key);
+				if (found == end())
+					return pair_ii(end(), end());
+				const iterator& next = ++found;
+				if (next == end())
+					return pair_ii(found, end());
+				if (found == begin())
+					return pair_ii(end(), found);
+			}
+
+			pair_cc equal_range(const Key& key)const
+			{
+				const_iterator found = this->find(key);
+				const const_iterator& cend = const_iterator(end());
+				const const_iterator& cbegin = const_iterator(begin());
+
+				if (found == cend)
+					return pair_cc(cend, cend);
+				const const_iterator& next = ++found;
+				if (next == cend)
+					return pair_cc(found, cend);
+				if (found == const_iterator(cbegin))
+					return pair_cc(cend, found);
+			}
 
 		// 
 		/* TODO: equal range - lower b - upper b
@@ -230,8 +285,25 @@ namespace ft
 		 *	   - call find
 		 *	   - return next_to_found
 		*/
+		
+		iterator lower_bound(const Key& key){
+			return find(key);
+		}
+
+		const_iterator lower_bound(const Key& key)const{
+			return const_iterator(find(key));
+		}
+
+		iterator upper_bound(const Key& key){
+			return equal_range(key).second;
+		}
+
+		const_iterator upper_bound(const Key& key)const{
+			return const_iterator(equal_range(key).second);		
+		}
 
 		// TODO: erase: just call the deleter duh
+		// TODO: at + []
     };
 
 
