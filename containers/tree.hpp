@@ -88,11 +88,11 @@ namespace ft{
             size_type _size;
 			value_compare comp;
 
-            BaseTree(const value_compare& comp) :
+            BaseTree(const value_compare& comp, const allocator_type& alloc = allocator_type()) :
             _alloc_node(allocator_node()),
             _alloc_ptr(allocator_node_pointer()),
-            _alloc(allocator_type()),
-			comp(comp)
+            _alloc(alloc),
+	    comp(comp)
             {
                 Init();
             };
