@@ -1,8 +1,8 @@
 #SHELL:=/bin/zsh # NOTE: VMs don't have built-in zsh installed
 
 CC			=	clang++
-CFLAGS		=	-Wall -Wextra -Werror -std=c++98 -pedantic
 C++98		=	-std=c++98
+CFLAGS		=	-Wall -Wextra -Werror $(C++98) -pedantic
 
 CONTAINERS=		../../containers
 TESTS=			../
@@ -13,9 +13,11 @@ DIFF	=	diff
 
 .PHONY: map clean re all
 
+mode=
+
 # Flags for debug mode. Invoke with make mode=debug
 ifeq ($(mode),debug)
-	CFLAGS := -g -Wall -Wextra -std=c++98
+	CFLAGS := -g -Wall -Wextra $(C++98)
 endif
 
 # Checking for leaks
