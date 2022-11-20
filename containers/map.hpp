@@ -145,7 +145,7 @@ namespace ft
 			typedef pair<const_iterator, const_iterator>		pair_cc;
 
 		private:
-			nodeptr getKeyByVal(const value_type& node){
+			const Key& getKeyByVal(const value_type& node)const{
 				return node.first;
 			}
 
@@ -203,12 +203,12 @@ namespace ft
 			// Insert & Delete search by node, it's ok
 			iterator find(const Key& key)
 			{
-				nodeptr begin = getRoot();
-				while (!IsPhony(begin) && begin->Get() != key){
-					value_type& val = begin->Get();
-					if (getKeyByVal(val) == key)
+				nodeptr begin = getRoot(); // starting from root gives logN complexity
+				while (!IsPhony(begin)){
+					const key_type& other = getKeyByVal(begin->Get());
+					if (other == key)
 						return iterator(begin);
-					if (getKeyByVal(val) > key)
+					if (other > key)
 						begin = begin->Left();
 					else
 						begin = begin->Right();
@@ -227,8 +227,9 @@ namespace ft
 
 			pair<iterator, bool> insert(const value_type& value){
 				
-				nodeptr found = this->search(getRoot(), value);
-				if (!IsPhony(found))
+				/* nodeptr found = this->search(getRoot(), value); */
+				iterator found = find(value.first); // find same key!
+				if (found != end())
 					return pair<iterator, bool>(iterator(found), false);
 				return pair<iterator, bool>(this->Insert(value), true);
 			}
