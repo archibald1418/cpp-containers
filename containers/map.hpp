@@ -180,11 +180,17 @@ namespace ft
 			iterator begin(){
 				return iterator(this->Lmost());
 			}
+			/* iterator rbegin(){ */
+			/* 	return --end(); */
+			/* } */
 
 			iterator end(){
 				return iterator(this->End());
 				// this causes segfault somewhere
 			}
+			/* iterator rend(){ */
+			/* 	return --begin(); */
+			/* } */
 
 			bool empty()const{
 				return this->empty();
@@ -234,6 +240,12 @@ namespace ft
 				return pair<iterator, bool>(this->Insert(value), true);
 			}
 			
+			template<typename InputIt>
+			void	insert(InputIt first, InputIt last){
+				for (; first != last; ++first){
+					insert(*first);
+				}
+			}
 
 			const nodeptr& getRoot(){
 				return this->Root();
