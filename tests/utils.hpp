@@ -169,12 +169,12 @@ void print_tree(node* p, int indent = 4,
           print_tree(p->Right(), indent+4);
       }
       if (indent) {
-          std::cout << std::setw(indent) << ' ';
+          std::cout << std::setw(indent)  << ' ';
       }
       if (!p->Right()->IsPhony())
-        std::cout<<" /\n" << std::setw(indent - 1) << ' ';
+        std::cout<<" /\n" << std::setw(indent - 1) <<  ' ';
       /* std::cout << p->Get() << ":" << p->get_balance_factor() << "\n"; // Prints balfac ok! */
-      std::cout << p->Get() << "\n";
+      std::cout << p->Get() << std::setfill('_') << "\n";
       if(!p->Left()->IsPhony()) {
           std::cout << std::setw(indent) << ' ' <<" \\\n";
           print_tree(p->Left(), indent+4);
