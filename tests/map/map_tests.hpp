@@ -8,11 +8,15 @@
 	template<typename Key, typename Val>
 	class TestMap
 	{
-		typedef map<Key, Val>						map_type;
-		typedef typename map_type::value_type			value_type;
-		typedef typename map_type::const_iterator		const_iterator;
-		typedef typename map_type::iterator		iterator;
+		typedef map<Key, Val>									map_type;
+		typedef typename map_type::value_type					value_type;
+		typedef typename map_type::const_iterator				const_iterator;
+		typedef typename map_type::iterator						iterator;
+		typedef typename map_type::reverse_iterator				reverse_iterator;
+		typedef typename map_type::const_reverse_iterator		const_reverse_iterator;
+
 		typedef iterator								It;
+		typedef reverse_iterator						Rit;
 
 		typedef pair<iterator, bool>				Pair_ib;
 		typedef pair<iterator, iterator>			Pair_ii;
@@ -60,25 +64,26 @@
 			}
 
 			// forward
-			for (It it = Map.begin(); it != Map.end(); ++it){
-				// NOTE: bidir iterator doesn't have <>, only == != 
-				std::cout <<
-					"{" << it->first << " : "  <<
-				it->second << "}" << std::endl;
-			}
+			/* for (It it = Map.begin(); it != Map.end(); ++it){ */
+			/* 	// NOTE: bidir iterator doesn't have <>, only == != */ 
+			/* 	std::cout << */
+			/* 		"{" << it->first << " : "  << */
+			/* 	it->second << "}" << std::endl; */
+			/* } */
 
 			// forward - backward
-			int i = 0;
-			It it = Map.begin();
-			for (; i < 3; ++it, ++i){
-				std::cout <<
-					"{" << it->first << " : "  <<
-				it->second << "}" << std::endl;
-			}
-			for (; i > 0; --it, --i){
-				std::cout <<
-					"{" << it->first << " : "  <<
-				it->second << "}" << std::endl;
+			/* int i = 0; */
+			/* It it = Map.begin(); */
+			/* for (; i < 3; ++it, ++i){ */
+			/* 	std::cout <<  "{" << it->first << " : "  << it->second << "}" << std::endl; */
+			/* } */
+			/* for (; i > 0; --it, --i){ */
+			/* 	std::cout << "{" << it->first << " : "  <<	it->second << "}" << std::endl; */
+			/* } */
+
+			// reverse
+			for (Rit rit = Map.rbegin(); rit != Map.rend(); ++rit){
+				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
 			}
 		}
 			/* TODO: equal range - lower b - upper b can just be like this:

@@ -128,16 +128,8 @@ namespace ft
 			
 			typedef tree_iterator<value_type, node_t>			iterator;
 			typedef const_tree_iterator<value_type, node_t>		const_iterator;
-			/* typedef reverse_iterator<iterator>					reverse_iterator; */
-			/* typedef reverse_iterator<const_iterator>			const_reverse_iterator; */
-
-			/* template< class InputIt > */
-			/* map( InputIt first, InputIt last, */
-			/* 	 const Compare& comp = Compare(), */
-			/* 	 const Alloc& alloc = Allocator()){ */
-
-				
-			/* } */
+			typedef ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
 			typedef pair<iterator, bool>				pair_ib;
 			typedef pair<iterator, iterator>			pair_ii;
@@ -166,8 +158,6 @@ namespace ft
 				}
 			}
 
-			
-
 			virtual ~map(){
 				std::cout << "Destroying map" << std::endl;
 			}
@@ -180,17 +170,16 @@ namespace ft
 			iterator begin(){
 				return iterator(this->Lmost());
 			}
-			/* iterator rbegin(){ */
-			/* 	return --end(); */
-			/* } */
+			reverse_iterator rbegin(){
+				return reverse_iterator(--end());
+			}
 
 			iterator end(){
 				return iterator(this->End());
-				// this causes segfault somewhere
 			}
-			/* iterator rend(){ */
-			/* 	return --begin(); */
-			/* } */
+			reverse_iterator rend(){
+				return reverse_iterator(--begin());
+			}
 
 			bool empty()const{
 				return this->empty();
@@ -233,7 +222,6 @@ namespace ft
 
 			pair<iterator, bool> insert(const value_type& value){
 				
-				/* nodeptr found = this->search(getRoot(), value); */
 				iterator found = find(value.first); // find same key!
 				if (found != end())
 					return pair<iterator, bool>(iterator(found), false);
@@ -251,9 +239,9 @@ namespace ft
 				return this->Root();
 			}
 
-		/*
-		 *TODO: equal range, lower bound, upper bound, erase, swap
-		 * */
+			/*
+			 *TODO: equal range, lower bound, upper bound, erase, swap
+			 * */
 			pair_ii equal_range(const Key& key)
 			{
 				iterator found = this->find(key);
@@ -281,42 +269,42 @@ namespace ft
 					return pair_cc(cend, found);
 			}
 
-		// 
-		/* TODO: equal range - lower b - upper b
-		 * since map doesn't allow for matching keys, these can just go like this:
-		 * 
-		 * equal range:
-		 *	   - call find
-		 *	   - increment
-		 *	   - return pair<found, next_to_found>
-		 * 
-		 * lower bound:
-		 *	   - call find
-		 *	   - return found
-		 *
-		 * upper bound:
-		 *	   - call find
-		 *	   - return next_to_found
-		*/
-		
-		iterator lower_bound(const Key& key){
-			return find(key);
-		}
+			// 
+			/* TODO: equal range - lower b - upper b
+			 * since map doesn't allow for matching keys, these can just go like this:
+			 * 
+			 * equal range:
+			 *	   - call find
+			 *	   - increment
+			 *	   - return pair<found, next_to_found>
+			 * 
+			 * lower bound:
+			 *	   - call find
+			 *	   - return found
+			 *
+			 * upper bound:
+			 *	   - call find
+			 *	   - return next_to_found
+			*/
+			
+			iterator lower_bound(const Key& key){
+				return find(key);
+			}
 
-		const_iterator lower_bound(const Key& key)const{
-			return const_iterator(find(key));
-		}
+			const_iterator lower_bound(const Key& key)const{
+				return const_iterator(find(key));
+			}
 
-		iterator upper_bound(const Key& key){
-			return equal_range(key).second;
-		}
+			iterator upper_bound(const Key& key){
+				return equal_range(key).second;
+			}
 
-		const_iterator upper_bound(const Key& key)const{
-			return const_iterator(equal_range(key).second);		
-		}
+			const_iterator upper_bound(const Key& key)const{
+				return const_iterator(equal_range(key).second);		
+			}
 
-		// TODO: erase: just call the deleter duh
-		// TODO: at + []
+			// TODO: erase: just call the deleter duh
+			// TODO: at + []
     };
 
 
