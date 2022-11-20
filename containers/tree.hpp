@@ -255,7 +255,7 @@ namespace ft{
                 _alloc_ptr.construct(&Parent(phony), nullptr_my);
                 phony->IsPhony() = true;
 
-                root = buynode(nullptr_my); // init parent with NULL
+                root = buynode(phony); // init parent with phony
                 root->IsPhony() = true; // root has no content yet
                 Root()  = root; 
                 Lmost() = phony;
