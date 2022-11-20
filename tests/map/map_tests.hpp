@@ -13,13 +13,22 @@
 		typedef typename map_type::iterator		iterator;
 		typedef iterator								It;
 
-		typedef pair<iterator, bool>				pair_ib;
-		typedef pair<iterator, iterator>			pair_ii;
+		typedef pair<iterator, bool>				Pair_ib;
+		typedef pair<iterator, iterator>			Pair_ii;
 		
 	public:
 		map_type	Map;
 
 	public:
+		void	print_pair_ii(const Pair_ii& pair_ii){
+			std::cout << "[ " << *pair_ii.first << " ; " << *pair_ii.second << " )\n";
+		}
+		void	print_pair_ib(const Pair_ib& pair_ib){
+			std::string status[2] = {std::string("Not inserted"), std::string("Inserted ok")};
+
+			std::cout << "? " << *pair_ib.first << " : " << status[pair_ib.second] << " ?\n";
+		}
+		
 		void	test_map_insert()
 		{
 			// Adds these
