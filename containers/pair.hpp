@@ -30,7 +30,7 @@ namespace ft{
         }
 
 		friend std::ostream& operator<<(std::ostream& os, const pair& p){
-			os << "{'" << p.first << "' : '" << p.second << "'}" <<   std::endl;
+			os << "{'" << p.first << "' : '" << p.second << "'}";
 			return os;
 		}
     };
