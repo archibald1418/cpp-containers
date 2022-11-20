@@ -9,6 +9,7 @@
 #include <iostream>
 // #include <array> // absent from c++98
 
+#include "map_tests.hpp"
 
 
 using ft::AVLNode;
@@ -137,7 +138,7 @@ void	test_map_typedefs (void){
 
 template <typename Key, typename Val>
 void	test_map_insert(){
-
+	
 	ft::map<Key, Val> Map;
 }
 
@@ -211,12 +212,18 @@ void 	test_map_ranges(){
 	typedef map_type::value_type		value_type;
 
 	map_type Map;
-	for (int i = 0; i < 4; i += 2){
-		Map.insert(value_type(i,   i / 2));
-		Map.insert(value_type(i+1, i * 2));
-	}
-	
+	/* int f = 1; */
+	int i = 5;
+	Map.insert(value_type(i , i));
+	for (; i < 15; i+=3){
+		Map.insert(value_type(i - 2, i));
+		Map.insert(value_type(i + 2, i));
+		Map.insert(value_type(i - 1, i));
+		Map.insert(value_type(i + 1, i));
+
+	} 
 	print_map(Map);
+	/* print_tree(Map.getRoot()); */
 }
 
 
@@ -239,7 +246,12 @@ using ft::tree_traits;
 	
 	/* test_map_typedefs<std::string, int>(); */
 	//test_map_iterator<int, int>();
-	test_map_ranges();
+	/* test_map_ranges(); */
+	
+	TestMap<int, int> t;
+	t.test_map_insert();
+	print_map(t.Map);
+
 	/* delete tree; */
 
 	return (0);
