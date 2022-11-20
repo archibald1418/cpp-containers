@@ -22,8 +22,17 @@
 	public:
 		void	test_map_insert()
 		{
+			// Adds these
 			Map.insert(value_type(0, 5));
+			Map.insert(value_type(3, 5));
+			Map.insert(value_type(2, 3));
+			Map.insert(value_type(1, 3));
+
+			// Doesn't add these
 			Map.insert(value_type(0, 3));
+			Map.insert(value_type(0, 3));
+			Map.insert(value_type(3, 3));
+			Map.insert(value_type(1, 3));
 		}
 
 		template <typename K, typename V>
