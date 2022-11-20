@@ -3,6 +3,7 @@
 
 # include "utils.hpp"
 # include "pick_map.hpp"
+# include <vector>
 
 	template<typename Key, typename Val>
 	class TestMap
@@ -42,22 +43,23 @@
 			Map.insert(value_type(0, 3));
 			Map.insert(value_type(3, 3));
 			Map.insert(value_type(1, 3));
+
+			// range insert
+			using std::vector;
+			vector<value_type> tmp;
+			for (int i = -5; i < 0; ++i){
+				tmp.push_back(value_type(i, -1)); // {-5, -1}, {-4, -1}...
+			}
+			Map.insert(tmp.begin(), tmp.end());
 		}
 
-		template <typename K, typename V>
 		void	test_map_iterator(){
-			
-			ft::map<K, V> Map;
-		}
-
-		template<>
-		void	test_map_iterator<int, int>(){
 			
 			for (int i = 0; i < 10; i++){
 				Map.insert(value_type(i, 2 * i));
 			}
 
-			/* print_map_tree(Map); */
+			// forward
 			for (It it = Map.begin(); it != Map.end(); ++it){
 				// NOTE: bidir iterator doesn't have <>, only == != 
 				std::cout <<
@@ -65,8 +67,20 @@
 				it->second << "}" << std::endl;
 			}
 
-			// TODO: check for similar keys - shouldn't insert (or what? check sys)
-			// 
+			// forward - backward
+			int i = 0;
+			It it = Map.begin();
+			for (; i < 3; ++it, ++i){
+				std::cout <<
+					"{" << it->first << " : "  <<
+				it->second << "}" << std::endl;
+			}
+			for (; i > 0; --it, --i){
+				std::cout <<
+					"{" << it->first << " : "  <<
+				it->second << "}" << std::endl;
+			}
+		}
 			/* TODO: equal range - lower b - upper b can just be like this:
 			 * 
 			 * equal range:
@@ -78,7 +92,6 @@
 			 * - call find
 			 * - return found
 			 */
-		}
 	};
 
 #endif
