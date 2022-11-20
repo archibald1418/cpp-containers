@@ -242,8 +242,6 @@ void print_map_tree(ft::map<Key, Value>& m){
 	print_tree(m.getRoot());
 }
 
-// TODO: print_map function which prints map like this {1 :1, 2 : 2}
-
 template<class map_type>
 void	print_map(map_type& Map){
 	typedef typename map_type::iterator iter;

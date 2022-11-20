@@ -10,6 +10,7 @@ TESTFILE=		test
 DO_TESTFILE=	-o ${TESTFILE}
 
 DIFF	=	diff
+DEBUG	=	-fno-limit-debug-info
 
 .PHONY: map clean re all
 
@@ -17,7 +18,7 @@ mode=
 
 # Flags for debug mode. Invoke with make mode=debug
 ifeq ($(mode),debug)
-	CFLAGS := -g -Wall -Wextra $(C++98)
+	CFLAGS := -g $(DEBUG) -Wall -Wextra $(C++98)
 endif
 
 # Checking for leaks
