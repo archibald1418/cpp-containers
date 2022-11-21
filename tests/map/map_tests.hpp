@@ -57,35 +57,39 @@
 			Map.insert(tmp.begin(), tmp.end());
 		}
 
-		void	test_map_iterator(){
+		void	test_map_iterator()
+		{
 			
 			for (int i = 0; i < 10; i++){
 				Map.insert(value_type(i, 2 * i));
 			}
 
 			// forward
-			/* for (It it = Map.begin(); it != Map.end(); ++it){ */
-			/* 	// NOTE: bidir iterator doesn't have <>, only == != */ 
-			/* 	std::cout << */
-			/* 		"{" << it->first << " : "  << */
-			/* 	it->second << "}" << std::endl; */
-			/* } */
+			for (It it = Map.begin(); it != Map.end(); ++it){
+				// NOTE: bidir iterator doesn't have <>, only == != 
+				std::cout <<
+					"{" << it->first << " : "  <<
+				it->second << "}" << std::endl;
+			}
 
 			// forward - backward
-			/* int i = 0; */
-			/* It it = Map.begin(); */
-			/* for (; i < 3; ++it, ++i){ */
-			/* 	std::cout <<  "{" << it->first << " : "  << it->second << "}" << std::endl; */
-			/* } */
-			/* for (; i > 0; --it, --i){ */
-			/* 	std::cout << "{" << it->first << " : "  <<	it->second << "}" << std::endl; */
-			/* } */
+			int i = 0;
+			It it = Map.begin();
+			for (; i < 3; ++it, ++i){
+				std::cout <<  "{" << it->first << " : "  << it->second << "}" << std::endl;
+			}
+			for (; i > 0; --it, --i){
+				std::cout << "{" << it->first << " : "  <<	it->second << "}" << std::endl;
+			}
 
+			std::cout << "reverse " << std::endl;
 			// reverse
 			for (Rit rit = Map.rbegin(); rit != Map.rend(); ++rit){
 				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
 			}
 		}
+
+
 			/* TODO: equal range - lower b - upper b can just be like this:
 			 * 
 			 * equal range:
