@@ -16,7 +16,6 @@ namespace ft{
             typedef typename __base::iterator_category		    	iterator_category;
 			typedef typename __base::value_type						value_type;
 			typedef typename __base::pointer				        pointer;
-			typedef typename __base::difference_type				difference_type;
 			typedef const pointer				    				const_pointer;
 			typedef typename remove_const<T>::type&				    reference;
 			typedef const T											const_value_type;
@@ -118,8 +117,8 @@ namespace ft{
                 void Dec()
                 {
 				/* TODO: test this */
-                    if (_it->IsPhony())
-                        _it = _it->Right();
+                    if (_it->IsPhony()) {return ;}
+                        /* _it = _it->Right(); // DEBUG: will it stop the other way round? */
                     else if (!_it->Left()->IsPhony())
                         _it = Max(_it->Left());
                     else {
@@ -133,7 +132,6 @@ namespace ft{
 
                 void Inc()
                 {
-					/* TODO: test this */
                     if (_it->IsPhony()) { ; }
                     else if (!_it->Right()->IsPhony())
                         _it = Min(_it->Right());
