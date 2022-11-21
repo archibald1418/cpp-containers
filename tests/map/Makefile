@@ -10,7 +10,8 @@ TESTFILE=		test
 DO_TESTFILE=	-o ${TESTFILE}
 
 DIFF	=	diff
-DEBUG	=	-fno-limit-debug-info
+# DEBUG	=	-fno-limit-debug-info
+DEBUG = -fstandalone-debug
 
 .PHONY: map clean re all
 
