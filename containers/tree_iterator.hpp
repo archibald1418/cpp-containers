@@ -10,17 +10,17 @@ namespace ft{
     template <class T, class NodeType>
         struct tree_iterator : public iterator<bidirectional_iterator_tag, NodeType>
         {
-            typedef iterator<bidirectional_iterator_tag, NodeType>  __base;
+            typedef iterator<bidirectional_iterator_tag, T>  __base;
+			// 
 
             typedef typename __base::iterator_category		    	iterator_category;
-			typedef T										        value_type;
-			typedef typename __base::difference_type		        difference_type;
+			typedef typename __base::value_type						value_type;
 			typedef typename __base::pointer				        pointer;
+			typedef typename __base::difference_type				difference_type;
+			typedef const pointer				    				const_pointer;
 			typedef typename remove_const<T>::type&				    reference;
 			typedef const T											const_value_type;
 			typedef const T&										const_reference;
-			typedef const T*										const_value_pointer;
-			typedef T*												value_pointer;
 
             typedef tree_node_types<NodeType*, value_type>          node_types;
         /*
@@ -37,12 +37,12 @@ namespace ft{
 			 * */	
 
             protected:
-                pointer _it;
+                node_type* _it;
             
             public:
             // Ctors
                 tree_iterator(): _it(0){};
-                tree_iterator(pointer ptr) : _it(ptr){};
+                tree_iterator(node_type* ptr) : _it(ptr){};
                 /* tree_iterator(const tree_iterator& src) : _it(src.base()){}; */
 
             // Dtor
@@ -94,11 +94,11 @@ namespace ft{
                     return _it->Get();
                 }
 
-                value_pointer operator->(){
+                pointer operator->(){
                     return &**this;
                 }
 
-                const_value_pointer operator->() const {
+                const_pointer operator->() const {
                     return &**this;
                 }
 
@@ -110,7 +110,7 @@ namespace ft{
                     return !(_it == x._it);
                 }
 
-                pointer	base() const{
+                node_type*	base() const{
                     return _it;
                 }
 
@@ -123,7 +123,7 @@ namespace ft{
                     else if (!_it->Left()->IsPhony())
                         _it = Max(_it->Left());
                     else {
-                        pointer tmp;
+                        node_type* tmp;
                         while(!((tmp = _it->Parent())->IsPhony()) && _it == tmp->Left())
                             _it = tmp;
                         if (!tmp->IsPhony())
@@ -138,21 +138,21 @@ namespace ft{
                     else if (!_it->Right()->IsPhony())
                         _it = Min(_it->Right());
                     else {
-                        pointer tmp;
+                        node_type* tmp;
                         while(!((tmp = _it->Parent())->IsPhony()) && _it == tmp->Right())
                             _it = tmp;
                         _it = tmp;
                     }
                 }
 
-                static pointer Max(pointer ptr) 
+                static node_type* Max(node_type* ptr) 
                 {
                     while (!ptr->Right()->IsPhony())
                         ptr = ptr->Right();
                     return ptr;
                 }
 
-                static pointer Min(pointer ptr)
+                static node_type* Min(node_type* ptr)
                 {
                     while (!ptr->Left()->IsPhony())
                         ptr = ptr->Left();

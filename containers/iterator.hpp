@@ -296,7 +296,13 @@ operator+(typename RAIterator<T>::difference_type diff, const RAIterator<T>& lhs
 // Reverse iterator adapter
 
 	template <class Iter>
-		struct reverse_iterator : public iterator<typename Iter::iterator_category, typename Iter::value_type>
+		struct reverse_iterator : public iterator<
+			typename Iter::iterator_category, 
+			typename Iter::value_type,
+			typename Iter::difference_type,
+			typename Iter::pointer, 
+			typename Iter::reference > 
+					// some containers might have their own type definitions! 
 		{
 			typedef Iter iterator_type; // base iterator type
 			typedef typename iterator_type::iterator_category	iterator_category;
@@ -344,7 +350,7 @@ operator+(typename RAIterator<T>::difference_type diff, const RAIterator<T>& lhs
 				*/ 
 			}
 			pointer operator->()const{
-				(&(operator*()));
+				return &(operator*()); // calls its star operator, takes address
 			}
 
 			// Increment/Decrement
