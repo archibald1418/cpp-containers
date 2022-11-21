@@ -77,6 +77,8 @@ namespace ft{
         protected:
             nodeptr root;
             nodeptr phony; // placeholder for nodes
+			nodeptr lmost;
+			nodeptr rmost;
         
         protected:
             allocator_node          _alloc_node;
@@ -159,7 +161,7 @@ namespace ft{
 
     // Tree parameter nodes
             nodeptr& End(){
-                return phony;
+                return Rmost();
             }
             nodeptr& Root(){
                 return root;
@@ -168,10 +170,10 @@ namespace ft{
                 return Lmost();
             }
             nodeptr& Lmost(){
-                return phony->Left();
+                return lmost;
             }
             nodeptr& Rmost(){
-                return phony->Right();
+                return rmost;
             }
 
     //  Node getters
