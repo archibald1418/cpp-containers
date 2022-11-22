@@ -171,14 +171,14 @@ namespace ft
 				return iterator(this->Lmost());
 			}
 			reverse_iterator rbegin(){
-				return reverse_iterator(this->Rmost());
+				return reverse_iterator(this->Rbegin()); // operator-- gives rmost
 			}
 
 			iterator end(){
 				return iterator(this->End());
 			}
 			reverse_iterator rend(){
-				return reverse_iterator(end());
+				return reverse_iterator(begin());
 			}
 
 			bool empty()const{

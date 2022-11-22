@@ -79,6 +79,14 @@ namespace ft{
             nodeptr phony; // placeholder for nodes
 			nodeptr lmost;
 			nodeptr rmost;
+
+			// functional singly-linked 'end' node for reverse iterator
+			nodeptr n_rbegin;	
+			// his parent is rmost, rmost doesn't know about him
+			// deref is undefined
+			// children are null
+			// can do -- to rmost: rmost has no children so it will be prev
+
         
         protected:
             allocator_node          _alloc_node;
@@ -157,11 +165,15 @@ namespace ft{
 					}
 				}
 				freenode(phony);
+				freenode(n_rbegin);
 			}
 
     // Tree parameter nodes
             nodeptr& End(){
-                return Rmost();
+                return phony;
+            }
+            nodeptr& Rbegin(){
+                return n_rbegin; // another end, which supports operator--
             }
             nodeptr& Root(){
                 return root;
@@ -263,6 +275,13 @@ namespace ft{
                 Lmost() = phony;
                 Rmost() = phony;
                 _size = 0;
+
+				// init rbegin
+                n_rbegin = _alloc_node.allocate(1);
+                _alloc_ptr.construct(&Left(n_rbegin), phony);
+                _alloc_ptr.construct(&Right(n_rbegin), phony); 
+                _alloc_ptr.construct(&Parent(n_rbegin), Rmost());
+                n_rbegin->IsPhony() = false; // should support operator--
             }
 
 
@@ -353,6 +372,7 @@ namespace ft{
                     _size++;
                     Lmost() = root;
                     Rmost() = root;
+					Rbegin()->Parent() = Rmost();
                     return root; // return last inserted position
                 }
 
@@ -379,8 +399,10 @@ namespace ft{
                         Lmost() = new_node;
                 } else {
                     tree_position->Right() = new_node;
-                    if (tree_position == Rmost())
+                    if (tree_position == Rmost()){
                         Rmost() = new_node;
+						Rbegin()->Parent() = Rmost();
+					}
                 }
                 _size++;
 
