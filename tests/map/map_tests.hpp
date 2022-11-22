@@ -64,13 +64,13 @@
 				Map.insert(value_type(i, 2 * i));
 			}
 
-			/* // forward */
-			/* for (It it = Map.begin(); it != Map.end(); ++it){ */
-			/* 	// NOTE: bidir iterator doesn't have <>, only == != */ 
-			/* 	std::cout << */
-			/* 		"{" << it->first << " : "  << */
-			/* 	it->second << "}" << std::endl; */
-			/* } */
+			// forward
+			for (It it = Map.begin(); it != Map.end(); ++it){
+				// NOTE: bidir iterator doesn't have <>, only == != 
+				std::cout <<
+					"{" << it->first << " : "  <<
+				it->second << "}" << std::endl;
+			}
 
 			// forward - backward
 			int i = 0;
@@ -82,14 +82,9 @@
 				std::cout << "{" << it->first << " : "  <<	it->second << "}" << std::endl;
 			}
 
-			std::cout << "reverse " << std::endl;
 			// reverse
-			for (Rit rit = Map.rbegin(); rit != Map.rend(); ++rit){
-				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
-			}
 			std::cout << "reverse " << std::endl;
-			Rit rit = Map.rend();
-			for (; rit != Map.rbegin(); --rit){
+			for (Rit rit = Map.rbegin(); rit != Map.rend(); ++rit){
 				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
 			}
 		}
