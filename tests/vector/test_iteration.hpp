@@ -25,53 +25,61 @@ void test_iterators(V &v)
   print("Look test_iterators function for assertions. \n \
   Assertion throws an error if the expression is not correct", MAGENTA);
 
+  
   typename V::iterator begin = v.begin();
   typename V::iterator end = v.end();
   typename V::reverse_iterator rbegin = v.rbegin();
   typename V::reverse_iterator rend = v.rend();
-  /* typename V::const_iterator cbegin = v.cbegin(); */
-  /* typename V::const_iterator cend = v.cend(); */
-  /* typename V::const_reverse_iterator crbegin = v.crbegin(); */
-  /* typename V::const_reverse_iterator crend = v.crend(); */
+  typename V::const_iterator cbegin = v.begin();
+  typename V::const_iterator cend = v.end();
+  typename V::const_reverse_iterator crbegin = v.rbegin();
+  typename V::const_reverse_iterator crend = v.rend();
 
   vector<char> vchar(5, 'h');
 
   // vector<std::string> vstring(5, "Hello!111");
 
   // Comparison
-  /* assert (crbegin != crend); */
-  /* assert (end == cend); */
+  assert (crbegin != crend);
+  assert (end == cend);
   assert (end > begin);
-  /* assert (begin == cbegin); */
-  /* assert (cbegin == begin); */
-  /* assert (crbegin <= rend); */
+  assert (begin == cbegin);
+  assert (cbegin == begin);
+  assert (crbegin <= rend);
   assert (begin < end);
   assert (begin != end);
-  /* assert (rbegin == crbegin); */
+  assert (rbegin == crbegin);
   
+// Arithmetic
   assert ((rend - rbegin) == static_cast<typename V::difference_type>(v.size()));
   assert ((end - begin) == static_cast<typename V::difference_type>(v.size()));
-  /* assert ((cend - begin) == static_cast<typename V::difference_type>(v.size())); */
-  /* assert ((crend - rbegin) == static_cast<typename V::difference_type>(v.size())); */
+  assert ((cend - begin) == static_cast<typename V::difference_type>(v.size()));
+  assert ((crend - rbegin) == static_cast<typename V::difference_type>(v.size()));
 
-  /* assert ((begin + 1) == (cbegin + 1)); */
-  /* assert ((end - 1) == (cend - 1)); */
-  // assert ((rbegin + 1) == (end - 1));  // CE - iterators are different
-  // assert (rbegin > end); CE - can't compare iterator with adaptor
-  // end[0]; rend[0];   //UB + possible heap-buffer-overflow ('ends' are invalid iterators)
+// Different iterator comparison
+//	All OK - because compatible
+	  assert ((begin + 1) == (cbegin + 1)); 
+	  assert ((end - 1) == (cend - 1));
+	  assert (end > (end - 1));
+	  assert (rend > (rend - 1));
+//	All CEs:
+	  /* assert ((rbegin + 1) == (end - 1));  // CE - iterators are different */
+	  /* assert (rbegin > end); CE - can't compare iterator with adaptor */
+
+// Past-the-end iterators
+  /* 	end[0]; rend[0];   
+   *  		UB + possible heap-buffer-overflow ('ends' are invalid iterators)
+   *  	*/
+
+// Comparison
   assert (begin[v.size() - 1] == end[-1]);
   assert (begin[v.size() - 1] == rbegin[0]);
   assert (rbegin[0] == end[-1]);
   assert (&rbegin[-1] == end.base()); 
 
-  // Wrong type comparison
-  // std::cout << (begin > vstring.begin()) << std::endl; CE
+// Wrong type comparison
+  // 	std::cout << (begin > vstring.begin()) << std::endl; CE
 
-  // Arithmetic
-  assert (end > (end - 1));
-  assert (rend > (rend - 1));
-  // vchar.insert;
-  
 
   test_vector_iterate(v);
 
@@ -86,8 +94,8 @@ void test_iterators(V &v)
 
   std::cout << std::endl;
   
-  // Constant elems
-    // Assigning to these leads to CE
+// Constant elems
+//	Assigning to these leads to CE
   /* std::cout << RED << "Iterators to constant elements\n" << RESET; */
 
   /* std::cout << std::left << std::setw(35) << "First const elem of vector V:"       << "\t" << *cbegin << "\n"; */
@@ -160,19 +168,19 @@ void test_vector_iterate(V &v)
   /* (void)crbegin; */
   /* (void)crend; */
 
-  std::cout << "Iterating through vector" << std::endl;
+  std::cout << "iterating through vector" << std::endl;
   for (; begin != end; ++begin)
   {
     std::cout << *begin << " ";
   }
   // std::cout << "\n";
-  // std::cout << "Iterating through vector using const iterator" << std::endl;
-  // for (; cbegin != cend; ++cbegin)
-  // {
-  //   std::cout << *cbegin << " ";
-  //   // *cbegin = 5
-  //   // compile error
-  // }
+   /* std::cout << "Iterating through vector using const iterator" << std::endl; */
+   /* for (; cbegin != cend; ++cbegin) */
+   /* { */
+   /*   std::cout << *cbegin << " "; */
+   /*   // *cbegin = 5 */
+   /*   // compile error */
+   /* } */
   std::cout << std::endl;
 
   std::cout << std::string(20, '>') << std::endl;
