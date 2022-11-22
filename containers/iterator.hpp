@@ -80,7 +80,8 @@ namespace ft{
 				RAIterator(pointer it) : _it(it){};
 				template <typename Iter>
 				RAIterator(const RAIterator<Iter>& src, 
-				typename ft::enable_if<!ft::is_integral<Iter>::value>::type* = 0) : _it(src.base()){}
+				typename ft::enable_if<!ft::is_integral<Iter>::value>::type* = 0) : _it(src.base()){}		
+			
 
 			// Dtor
 				virtual ~RAIterator(){};
@@ -319,6 +320,9 @@ operator+(typename RAIterator<T>::difference_type diff, const RAIterator<T>& lhs
 			reverse_iterator() : _it(iterator_type()){};
 			explicit reverse_iterator(iterator_type it): _it(it){};
 			reverse_iterator(const reverse_iterator &src) : _it(src._it){};
+			template <typename RIter>
+			reverse_iterator(const reverse_iterator<RIter>& src, 
+			typename ft::enable_if<!ft::is_integral<RIter>::value>::type* = 0) : _it(src.base()){}		
 		// Dtor
 			virtual ~reverse_iterator(){};
 
