@@ -17,6 +17,8 @@
 
 		typedef iterator								It;
 		typedef reverse_iterator						Rit;
+		typedef const_iterator							Cit;
+		typedef const_reverse_iterator					Rcit;
 
 		typedef pair<iterator, bool>				Pair_ib;
 		typedef pair<iterator, iterator>			Pair_ii;
@@ -86,6 +88,18 @@
 			std::cout << "reverse " << std::endl;
 			for (Rit rit = Map.rbegin(); rit != Map.rend(); ++rit){
 				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
+			}
+			Rit rit = Map.rbegin();
+			for (; i < 3; ++rit, ++i){
+				std::cout <<  "{" << rit->first << " : "  << rit->second << "}" << std::endl;
+			}
+			for (; i > 0; --rit, --i){
+				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
+			}
+
+			void	test_map_const_iterator(){
+
+				std::cout << "const direct" << std::endl;
 			}
 		}
 
