@@ -61,12 +61,12 @@
 
 		void	test_map_iterator()
 		{
-			
+			// fill map
 			for (int i = 0; i < 5; i++){
 				Map.insert(value_type(i, 2 * i));
 			}
 
-			// forward
+			// direct
 			for (It it = Map.begin(); it != Map.end(); ++it){
 				// NOTE: bidir iterator doesn't have <>, only == != 
 				std::cout <<
@@ -89,6 +89,7 @@
 			for (Rit rit = Map.rbegin(); rit != Map.rend(); ++rit){
 				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
 			}
+			// forward - backward
 			Rit rit = Map.rbegin();
 			for (; i < 3; ++rit, ++i){
 				std::cout <<  "{" << rit->first << " : "  << rit->second << "}" << std::endl;
@@ -97,10 +98,11 @@
 				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
 			}
 
-			void	test_map_const_iterator(){
-
-				std::cout << "const direct" << std::endl;
-			}
+			// const
+			typename map_type::const_iterator cbegin = Map.begin();
+			/* typename map_type::const_reverse_iterator crbegin = Map.rbegin(); */
+			/* typename map_type::const_iterator cend = Map.end(); */
+			/* typename map_type::const_reverse_iterator crend = Map.rend(); */
 		}
 
 
