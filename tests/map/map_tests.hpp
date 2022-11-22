@@ -18,7 +18,7 @@
 		typedef iterator								It;
 		typedef reverse_iterator						Rit;
 		typedef const_iterator							Cit;
-		typedef const_reverse_iterator					Rcit;
+		typedef const_reverse_iterator					Crit;
 
 		typedef pair<iterator, bool>				Pair_ib;
 		typedef pair<iterator, iterator>			Pair_ii;
@@ -61,48 +61,82 @@
 
 		void	test_map_iterator()
 		{
+
 			// fill map
-			for (int i = 0; i < 5; i++){
+			int i;
+
+			for (i = 0; i < 5; i++){
 				Map.insert(value_type(i, 2 * i));
 			}
+			
+			// non-const
+				// direct
+				for (It it = Map.begin(); it != Map.end(); ++it){
+					// NOTE: bidir iterator doesn't have <>, only == != 
+					std::cout <<
+						"{" << it->first << " : "  <<
+					it->second << "}" << std::endl;
+				}
 
-			// direct
-			for (It it = Map.begin(); it != Map.end(); ++it){
-				// NOTE: bidir iterator doesn't have <>, only == != 
-				std::cout <<
-					"{" << it->first << " : "  <<
-				it->second << "}" << std::endl;
-			}
+					// forward - backward
+					It it = Map.begin();
+					for (i = 0; i < 3; ++it, ++i){
+						std::cout <<  "{" << it->first << " : "  << it->second << "}" << std::endl;
+					}
+					for (; i > 0; --it, --i){
+						std::cout << "{" << it->first << " : "  <<	it->second << "}" << std::endl;
+					}
 
-			// forward - backward
-			int i = 0;
-			It it = Map.begin();
-			for (; i < 3; ++it, ++i){
-				std::cout <<  "{" << it->first << " : "  << it->second << "}" << std::endl;
-			}
-			for (; i > 0; --it, --i){
-				std::cout << "{" << it->first << " : "  <<	it->second << "}" << std::endl;
-			}
-
-			// reverse
-			std::cout << "reverse " << std::endl;
-			for (Rit rit = Map.rbegin(); rit != Map.rend(); ++rit){
-				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
-			}
-			// forward - backward
-			Rit rit = Map.rbegin();
-			for (; i < 3; ++rit, ++i){
-				std::cout <<  "{" << rit->first << " : "  << rit->second << "}" << std::endl;
-			}
-			for (; i > 0; --rit, --i){
-				std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
-			}
+				// reverse
+				std::cout << "reverse " << std::endl;
+				for (Rit rit = Map.rbegin(); rit != Map.rend(); ++rit){
+					std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
+				}
+					// forward - backward
+					Rit rit = Map.rbegin();
+					for (i = 0; i < 3; ++rit, ++i){
+						std::cout <<  "{" << rit->first << " : "  << rit->second << "}" << std::endl;
+					}
+					for (; i > 0; --rit, --i){
+						std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
+					}
 
 			// const
 			typename map_type::const_iterator cbegin = Map.begin();
-			/* typename map_type::const_reverse_iterator crbegin = Map.rbegin(); */
-			/* typename map_type::const_iterator cend = Map.end(); */
-			/* typename map_type::const_reverse_iterator crend = Map.rend(); */
+			typename map_type::const_reverse_iterator crbegin = Map.rbegin();
+			typename map_type::const_iterator cend = Map.end();
+			typename map_type::const_reverse_iterator crend = Map.rend();
+
+			// direct
+			for (Cit cit = cbegin; cit != cend; ++cit){
+				// NOTE: bidir iterator doesn't have <>, only == != 
+				std::cout <<
+					"{" << cit->first << " : "  <<
+				cit->second << "}" << std::endl;
+			}
+
+				// forward - backward
+				Cit cit = cbegin;
+				for (i = 0; i < 3; ++cit, ++i){
+					std::cout <<  "{" << cit->first << " : "  << cit->second << "}" << std::endl;
+				}
+				for (; i > 0; --cit, --i){
+					std::cout << "{" << cit->first << " : "  <<	cit->second << "}" << std::endl;
+				}
+
+			// reverse
+			std::cout << "reverse " << std::endl;
+			for (Crit crit = crbegin; crit != crend; ++crit){
+				std::cout << "{" << crit->first << " : "  <<	crit->second << "}" << std::endl;
+			}
+				// forward - backward
+				Crit crit = crbegin;
+				for (i = 0; i < 3; ++crit, ++i){
+					std::cout <<  "{" << crit->first << " : "  << crit->second << "}" << std::endl;
+				}
+				for (; i > 0; --crit, --i){
+					std::cout << "{" << crit->first << " : "  <<	crit->second << "}" << std::endl;
+				}
 		}
 
 
