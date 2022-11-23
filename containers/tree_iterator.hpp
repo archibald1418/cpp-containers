@@ -282,7 +282,8 @@ namespace ft{
                         node_type* tmp;
                         while(!((tmp = _it->Parent())->IsPhony()) && _it == tmp->Right())
                             _it = tmp;
-                        _it = tmp;
+						if (!tmp->IsPhony())
+							_it = tmp;
                     }
                 }
 

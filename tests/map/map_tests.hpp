@@ -145,12 +145,25 @@
 		}
 
 		void	test_map_erase(){
-			add_range(1, 10, 0);
-			iterator first = Map.begin();	// 1
+			add_range(1, 4, 0);
+			/* iterator first = Map.begin();	// 1 */
 
 			// XXX debug root case - middle case ok, end case ok
-			Map.erase(--Map.end()); // should leave [1,2]
+			/* Map.erase(--Map.end()); // should leave [1,2] */
 			// TODO: add functional end-node
+			
+			print_map(Map);
+		}
+
+		void test_iterator_increment(){
+			add_range(1, 2, 0);
+
+			It last = --Map.end();
+			It end = Map.end();
+
+			/* std::cout << *last << std::endl; */
+			std::cout << (++last == end) << std::endl;
+
 			print_map(Map);
 		}
 

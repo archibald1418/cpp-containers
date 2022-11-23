@@ -255,7 +255,8 @@ using ft::tree_traits;
 	/* t.test_map_iterator(); */
 
 	/* delete tree; */
-	t.test_map_erase();
+	/* t.test_map_erase(); */
+	t.test_iterator_increment();
 
 	return (0);
 }

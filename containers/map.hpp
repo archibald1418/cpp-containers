@@ -170,6 +170,7 @@ namespace ft
 				return const_iterator(this->End());
 			}
 
+			// DEBUG: Rend node symmetric to End
 			reverse_iterator rend(){
 				return reverse_iterator(begin());
 			} const_reverse_iterator rend()const{

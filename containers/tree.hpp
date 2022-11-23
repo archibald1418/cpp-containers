@@ -165,12 +165,12 @@ namespace ft{
 					}
 				}
 				freenode(phony);
-				freenode(n_rbegin);
+				/* freenode(n_rbegin); */
 			}
 
     // Tree parameter nodes
             nodeptr& End(){
-                return phony;
+                return n_rbegin;
             }
             nodeptr& Rbegin(){
                 return n_rbegin; // another end, which supports operator--
@@ -372,7 +372,10 @@ namespace ft{
                     _size++;
                     Lmost() = root;
                     Rmost() = root;
-					Rbegin()->Parent() = Rmost();
+
+					End()->Parent() = Rmost();
+					Rmost()->Right() = End();
+
                     return root; // return last inserted position
                 }
 
@@ -380,7 +383,7 @@ namespace ft{
                 nodeptr tmphead = tmproot;
                 bool add_left = this->comp(item, Get(tmproot));
 
-                while (!tmproot->IsPhony()){
+                while (!tmproot->IsPhony() && tmproot != End()){
                     tmphead = tmproot;
                     add_left = this->comp(item, Get(tmproot));
                     tmproot = add_left ? Left(tmproot) : Right(tmproot);
@@ -401,7 +404,9 @@ namespace ft{
                     tree_position->Right() = new_node;
                     if (tree_position == Rmost()){
                         Rmost() = new_node;
-						Rbegin()->Parent() = Rmost();
+
+						End()->Parent() = Rmost();
+						Rmost()->Right() = End();
 					}
                 }
                 _size++;
@@ -428,9 +433,15 @@ namespace ft{
 
             void shift_nodes(nodeptr& x, nodeptr& y)
             {
-				//DEBUG x=root CASE!!!
-				if (x == Lmost())
-					Lmost() = y;
+				/* bool islmost = (x == Lmost()); */
+				/* bool isrmost = (x == Rmost()); */
+				/* if (x == Lmost()) */
+				/* 	Lmost() = y; */
+				/* if (x == Rmost()){ */
+				/* 	Rmost() = y; */
+				/* 	End()->Parent() = Rmost(); */
+				/* } */
+
                 nodeptr& parentx = Parent(x);
                 nodeptr& left_child = parentx->Left();
                 nodeptr& right_child = parentx->Right();
@@ -444,6 +455,12 @@ namespace ft{
                 
                 if (IsNotPhony(y))
                     Parent(y) = parentx;
+				/* if (islmost == true) */
+				/* 	Lmost() = parentx; */
+				/* if (isrmost == true){ */
+				/* 	Rmost() = parentx; */
+				/* 	End()->Parent() = Rmost(); */
+				/* } */
                 // NOTE: after the 'shift', node 'x' is knocked out of the tree
             }
 
