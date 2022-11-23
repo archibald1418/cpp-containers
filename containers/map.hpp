@@ -37,7 +37,6 @@ namespace ft
 				key_compare comp;
 			public:
 				bool operator()(const value_type& X, const value_type& Y)const{
-					// All extra logic goes here - TODO: throw error ifeq and not multi
 					return comp(X.first, Y.first);
 				}
 
@@ -65,9 +64,6 @@ namespace ft
 		typedef typename tree_traits::allocator_node			allocator_node;
 		typedef typename tree_traits::allocator_node_pointer	allocator_node_pointer;
 
-		// TODO: node info comes from trees, type info goes here
-
-
         key_compare comp;
 
         map_traits() : comp(){};
@@ -87,17 +83,6 @@ namespace ft
     >
     class map : protected BaseTree<map_traits<Key, T, Compare, Alloc, false> >
     {
-		// protected - for stopping access from the outside
-		/* TODO: ready for writing map 
-		 *- AVLTree<value_type> as private member on stack memory
-		 *- AVLTree<value_type> knows its Compare, its Alloc => its node allocators
-		 *- map methods call tree's methods
-		 *- iterator is dereferenced by calling Get() method from pointer to tree (calls node's Get())
-		 *- if found key that's already present, throws error
-		 * 
-		 * - CAUTION: Iterators are based on Lmost and Rmost tracking! TEST THIS CAREFULLY
-		 * */
-
 		private:
 			typedef map_traits<Key, T, Compare, Alloc, false>	traits;
 			typedef BaseTree<traits>							tree;
@@ -159,6 +144,7 @@ namespace ft
 			}
 
 			virtual ~map(){
+				// TODO: this is a test code
 				std::cout << "Destroying map" << std::endl;
 			}
 
@@ -236,13 +222,39 @@ namespace ft
 					return pair<iterator, bool>(iterator(found), false);
 				return pair<iterator, bool>(this->Insert(value), true);
 			}
-			
 			template<typename InputIt>
 			void	insert(InputIt first, InputIt last){
 				for (; first != last; ++first){
 					insert(*first);
 				}
 			}
+
+			iterator erase(iterator pos){
+				// TODO: pass end and see behaviour
+				// 		NOTE: c++11 uses const iterators, will it test?  
+				/* iterator& copy(pos); */
+				/* iterator& ret(++copy); */	
+				this->Delete(*pos);
+				return iterator(pos); // compare outputs
+			}
+			size_type erase(const Key& key){
+				iterator found = find(key);
+				bool flag = (found != end());
+				if (flag)
+					erase(found);
+				return static_cast<size_type>(flag);
+				// returns 0 or 1
+			}
+			iterator erase(iterator first, iterator last){
+				// TODO: check invalid range
+				for(; first != last; ++first){
+					erase(first);
+					// Can I not copy here???
+					// 	If I can, I can not copy in erase(iterator)
+				}
+				return last;
+			}
+			
 
 			const nodeptr& getRoot(){
 				return this->Root();
