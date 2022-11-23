@@ -428,6 +428,9 @@ namespace ft{
 
             void shift_nodes(nodeptr& x, nodeptr& y)
             {
+				//DEBUG x=root CASE!!!
+				if (x == Lmost())
+					Lmost() = y;
                 nodeptr& parentx = Parent(x);
                 nodeptr& left_child = parentx->Left();
                 nodeptr& right_child = parentx->Right();
@@ -446,6 +449,7 @@ namespace ft{
 
             nodeptr Deleter(nodeptr& node)
             { // REVIEW: check all kinds of trees against this
+
                 if (IsPhony(Left(node))){
                     shift_nodes(node, node->Right());
                 }

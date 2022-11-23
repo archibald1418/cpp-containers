@@ -35,6 +35,12 @@
 
 			std::cout << "? " << *pair_ib.first << " : " << status[pair_ib.second] << " ?\n";
 		}
+
+		void	add_range(int a, int b, int value){
+			for (int i = a; i < b; ++i){
+				Map.insert(value_type(i, value));
+			}
+		}
 		
 		void	test_map_insert()
 		{
@@ -61,7 +67,6 @@
 
 		void	test_map_iterator()
 		{
-
 			// fill map
 			int i;
 
@@ -139,18 +144,18 @@
 				}
 		}
 
+		void	test_map_erase(){
+			add_range(1, 10, 0);
+			iterator first = Map.begin();	// 1
 
-			/* TODO: equal range - lower b - upper b can just be like this:
-			 * 
-			 * equal range:
-			 * - call find
-			 * - increment
-			 * - return pair<found, next_to_found>
-			 * 
-			 * lower bound:
-			 * - call find
-			 * - return found
-			 */
+			// XXX debug root case - middle case ok, end case ok
+			Map.erase(--Map.end()); // should leave [1,2]
+			// TODO: add functional end-node
+			print_map(Map);
+		}
+
+
+
 	};
 
 #endif
