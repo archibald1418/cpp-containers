@@ -105,6 +105,14 @@
 					for (; i > 0; --rit, --i){
 						std::cout << "{" << rit->first << " : "  <<	rit->second << "}" << std::endl;
 					}
+					
+					for (Rit rit = --Map.rend(); rit != Map.rbegin(); --rit){
+						std::cout <<  "{" << rit->first << " : "  << rit->second << "}" << std::endl;
+					}
+					
+					for (It it = --Map.end(); it != Map.begin(); --it){
+						std::cout <<  "{" << it->first << " : "  << it->second << "}" << std::endl;
+					}
 
 			// const
 			typename map_type::const_iterator cbegin = Map.begin();
@@ -156,13 +164,19 @@
 		}
 
 		void test_iterator_increment(){
-			add_range(1, 2, 0);
+			add_range(1, 10, 0);
 
 			It last = --Map.end();
 			It end = Map.end();
 
-			/* std::cout << *last << std::endl; */
+			std::cout << last->first << std::endl;
 			std::cout << (++last == end) << std::endl;
+
+			Rit rlast = --Map.rend();
+			Rit rend = Map.rend();
+			
+			std::cout << rlast->first << std::endl;
+			std::cout << (++rlast == rend) << std::endl;
 
 			print_map(Map);
 		}

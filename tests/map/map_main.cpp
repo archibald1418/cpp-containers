@@ -249,14 +249,14 @@ using ft::tree_traits;
 	/* test_map_ranges(); */
 	
 	TestMap<int, int> t;
-	/* t.test_map_insert(); */
+	t.test_map_insert();
 	/* print_map_tree(t.Map); */
 	/* print_map(t.Map); */
-	/* t.test_map_iterator(); */
+	t.test_map_iterator();
 
 	/* delete tree; */
 	/* t.test_map_erase(); */
-	t.test_iterator_increment();
+	/* t.test_iterator_increment(); */
 
 	return (0);
 }
