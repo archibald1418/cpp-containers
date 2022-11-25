@@ -437,8 +437,10 @@ namespace ft{
             {
 				/* bool islmost = (x == Lmost()); */
 				/* bool isrmost = (x == Rmost()); */
-				if (x == Lmost())
+				if (x == Lmost()){ 
 					Lmost() = y;
+					
+				}				
 				/* if (x == Rmost()){ */
 				/* 	Rmost() = y; */
 				/* 	End()->Parent() = Rmost(); */
@@ -470,11 +472,11 @@ namespace ft{
             { // REVIEW: check all kinds of trees against this
 
 				
-				if (node == Lmost()){
-					shift_nodes(node, node->Parent());
-					/* Lmost() = node->Parent(); */
-				}
-				else if (IsPhony(Left(node))){
+				/* if (node == Lmost()){ */
+				/* 	shift_nodes(node, node->Parent()); */
+				/* 	/1* Lmost() = node->Parent(); *1/ */
+				/* } */
+				if (IsPhony(Left(node))){
                     shift_nodes(node, node->Right());
                 }
                 else if (IsPhony(Right(node))){
