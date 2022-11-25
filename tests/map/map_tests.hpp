@@ -155,12 +155,25 @@
 		void	test_map_erase(){
 			add_range(1, 4, 0);
 			/* iterator first = Map.begin();	// 1 */
+			/* print_map(Map); */
 
 			// XXX debug root case - middle case ok, end case ok
+			Map.erase(Map.begin()); // should leave [1,2]
+			/* Map.erase(++Map.begin()); // should leave [1,2] */
+			/* print_map(Map); */
 			/* Map.erase(--Map.end()); // should leave [1,2] */
-			// TODO: add functional end-node
-			
+			/* print_map(Map); */
+			/* Map.erase(--Map.end()); // should leave [1,2] */
+			/* print_map(Map); */
+			/* Map.erase(--Map.end()); // should leave [1,2] */
+			/* print_map(Map); */
+			/* Map.erase(--Map.end()); // should leave [1,2] */
 			print_map(Map);
+			/* Map.erase(Map.begin(), Map.end()); */
+			/* print_map(Map); */
+
+			// FIXME: begin erasure doesn't work right
+			// doesn't update lmost
 		}
 
 		void test_iterator_increment(){

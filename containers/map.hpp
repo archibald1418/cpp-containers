@@ -81,7 +81,8 @@ namespace ft
         typename Compare = less<Key>,
 	typename Alloc = std::allocator<pair<const Key, T> > 
     >
-    class map : protected BaseTree<map_traits<Key, T, Compare, Alloc, false> >
+    /* class map : protected BaseTree<map_traits<Key, T, Compare, Alloc, false> > */
+    class map : public BaseTree<map_traits<Key, T, Compare, Alloc, false> >
     {
 		private:
 			typedef map_traits<Key, T, Compare, Alloc, false>	traits;

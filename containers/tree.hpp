@@ -139,8 +139,10 @@ namespace ft{
 
 			// Destructor
             virtual ~BaseTree(){
-                if (IsPhony(root))
-					freenode(root);
+                if (empty()){
+					std::cout << "destroying root" << std::endl;
+					freenode(n_rbegin);
+				}
 				else 
 				{
 					ft::stack<nodeptr> S;
@@ -435,8 +437,8 @@ namespace ft{
             {
 				/* bool islmost = (x == Lmost()); */
 				/* bool isrmost = (x == Rmost()); */
-				/* if (x == Lmost()) */
-				/* 	Lmost() = y; */
+				if (x == Lmost())
+					Lmost() = y;
 				/* if (x == Rmost()){ */
 				/* 	Rmost() = y; */
 				/* 	End()->Parent() = Rmost(); */
@@ -467,7 +469,12 @@ namespace ft{
             nodeptr Deleter(nodeptr& node)
             { // REVIEW: check all kinds of trees against this
 
-                if (IsPhony(Left(node))){
+				
+				if (node == Lmost()){
+					shift_nodes(node, node->Parent());
+					/* Lmost() = node->Parent(); */
+				}
+				else if (IsPhony(Left(node))){
                     shift_nodes(node, node->Right());
                 }
                 else if (IsPhony(Right(node))){
@@ -486,6 +493,9 @@ namespace ft{
                 }
                 freenode(node); // DEBUG: can I safely delete the node? (should be ok)
 		        node = phony;
+				_size--;
+				if (_size == 0)
+					Lmost() = End();
                 return phony;
             }
 
