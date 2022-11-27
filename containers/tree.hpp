@@ -266,6 +266,7 @@ namespace ft{
                     null             null        phony          phony
                 */
                 phony = _alloc_node.allocate(1); // init parent with NULL
+				_alloc_node.construct(phony, value_type());
                 _alloc_ptr.construct(&Left(phony), nullptr_my);
                 _alloc_ptr.construct(&Right(phony), nullptr_my); 
                 _alloc_ptr.construct(&Parent(phony), nullptr_my);
