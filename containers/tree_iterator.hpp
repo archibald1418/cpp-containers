@@ -97,11 +97,11 @@ namespace ft{
                     return &**this;
                 }
 
-		        bool operator==(const tree_iterator& x){
+		        bool operator==(const tree_iterator& x)const{
                     return _it == x._it;
                 }
 		        
-                bool operator!=(const tree_iterator& x){
+                bool operator!=(const tree_iterator& x)const{
                     return !(_it == x._it);
                 }
 
