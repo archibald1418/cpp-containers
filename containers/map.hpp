@@ -248,11 +248,8 @@ namespace ft
 				// returns 0 or 1
 			}
 			iterator erase(iterator first, iterator last){
-				// TODO: check invalid range
 				for(; first != last; ++first){
 					erase(first);
-					// Can I not copy here???
-					// 	If I can, I can not copy in erase(iterator)
 				}
 				return last;
 			}
@@ -270,11 +267,12 @@ namespace ft
 				iterator found = this->find(key);
 				if (found == end())
 					return pair_ii(end(), end());
-				const iterator& next = ++found;
+				iterator& next = ++found;
 				if (next == end())
 					return pair_ii(found, end());
 				if (found == begin())
 					return pair_ii(end(), found);
+				return pair_ii(found, next);
 			}
 
 			pair_cc equal_range(const Key& key)const

@@ -28,7 +28,9 @@
 
 	public:
 		void	print_pair_ii(const Pair_ii& pair_ii){
-			std::cout << "[ " << *pair_ii.first << " ; " << *pair_ii.second << " )\n";
+			std::cout << "[ ";	print_pair(*pair_ii.first); 
+			std::cout << " ; "; print_pair(*pair_ii.second);
+			std::cout << " )\n";
 		}
 		void	print_pair_ib(const Pair_ib& pair_ib){
 			std::string status[2] = {std::string("Not inserted"), std::string("Inserted ok")};
@@ -194,6 +196,19 @@
 			std::cout << (++rlast == rend) << std::endl;
 
 			print_map(Map);
+		}
+
+		void	test_ranges(){
+			Pair_ii  p1 = Map.equal_range(1);
+			Pair_ii  p2 = Map.equal_range(2);
+			Pair_ii  p3 = Map.equal_range(3);
+			Pair_ii  p5 = Map.equal_range(5);
+
+			print_pair_ii(p1); std::cout << std::endl;
+			print_pair_ii(p2); std::cout << std::endl;
+			print_pair_ii(p3); std::cout << std::endl;
+			print_pair_ii(p5); std::cout << std::endl;
+
 		}
 
 

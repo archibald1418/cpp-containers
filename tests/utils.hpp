@@ -257,6 +257,11 @@ void	print_map(map_type& Map){
 	
 }
 
+template<typename Pair>
+void	print_pair(const Pair& p){
+	std::cout << "{" << p.first << ":" << p.second << "}";
+}
+
 
 #endif // UTILS_H
 
