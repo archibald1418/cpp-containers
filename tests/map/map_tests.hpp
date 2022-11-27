@@ -28,8 +28,16 @@
 
 	public:
 		void	print_pair_ii(const Pair_ii& pair_ii){
-			std::cout << "[ ";	print_pair(*pair_ii.first); 
-			std::cout << " ; "; print_pair(*pair_ii.second);
+			std::cout << "[ ";	
+			if (pair_ii.first != Map.end())
+				print_pair(*pair_ii.first); 
+			else 
+				std::cout << "{" << BOLDRED << "end" << RESET << "}";
+			std::cout << " ; "; 
+			if (pair_ii.second != Map.end())
+				print_pair(*pair_ii.second);
+			else
+				std::cout << "{" << BOLDRED << "end" << RESET << "}";
 			std::cout << " )\n";
 		}
 		void	print_pair_ib(const Pair_ib& pair_ib){
