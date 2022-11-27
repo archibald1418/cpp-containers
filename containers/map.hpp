@@ -264,15 +264,15 @@ namespace ft
 			 * */
 			pair_ii equal_range(const Key& key)
 			{
-				iterator found = this->find(key);
-				if (found == end())
+				iterator tmp = this->find(key);
+				if (tmp == end())
 					return pair_ii(end(), end());
-				iterator& next = ++found;
-				if (next == end())
+				iterator found(tmp++);
+				if (tmp == end())
 					return pair_ii(found, end());
 				if (found == begin())
 					return pair_ii(end(), found);
-				return pair_ii(found, next);
+				return pair_ii(found, tmp);
 			}
 
 			pair_cc equal_range(const Key& key)const
