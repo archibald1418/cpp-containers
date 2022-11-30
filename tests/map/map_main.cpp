@@ -258,6 +258,7 @@ using ft::tree_traits;
 	/* delete tree; */
 	/* t.test_map_erase(); */
 	t.test_ranges();
+	t.test_copy();
 
 	return (0);
 }

@@ -219,6 +219,20 @@
 
 		}
 
+		void	test_copy(){
+
+			test_map_insert();
+
+			map_type Map1(Map);
+
+			print_map(Map1);
+
+			assert (Map == Map1);
+
+			const map_type& CMap(Map);
+			
+		}
+
 
 
 	};
