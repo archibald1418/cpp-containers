@@ -147,10 +147,21 @@ namespace ft
 			map(const map& other) : __base(other.comp, other._alloc){
 				this->insert(other.begin(), other.end());
 			}
+			map& operator=(const map& other){
+				if (*this == &other)
+					return *this;
+				clear();
+				this->insert(other.begin(), other.end());
+				return *this;
+			}
 
 			virtual ~map(){
 				// TODO: this is a test code
 				std::cout << "Destroying map" << std::endl;
+			}
+
+			void	clear(){
+				erase(begin(), end());
 			}
 
 			allocator_type get_allocator(){

@@ -27,9 +27,8 @@
 		map_type	Map;
 		const map_type& Cmap;
 	
-	private:
-		TestMap(){
-			Cmap = Map;
+		TestMap() : Map(map_type()), Cmap(Map){
+
 		}
 
 	public:
@@ -236,8 +235,10 @@
 			assert (Map == Map1);
 
 			const map_type& CMap(Map);
-
 			(void)CMap;
+
+			map_type Map2 = Map;
+			print_map(Map2);
 			
 		}
 
