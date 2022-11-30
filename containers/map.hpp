@@ -212,7 +212,17 @@ namespace ft
 				return end();
 			}
 			const_iterator find(const Key& key)const{
-				return const_iterator(find(key));
+				nodeptr begin = getRoot();
+				while (!IsPhony(begin)){
+					const key_type& other = getKeyByVal(begin->Get());
+					if (other == key)
+						return const_iterator(begin);
+					if (other > key)
+						begin = begin->Left();
+					else
+						begin = begin->Right();
+				}
+				return end();
 			}
 
 			size_type count(const Key& key){
@@ -255,8 +265,8 @@ namespace ft
 			}
 			
 
-			const nodeptr& getRoot(){
-				return this->Root();
+			nodeptr getRoot()const{
+				return this->root;
 			}
 
 			/*
