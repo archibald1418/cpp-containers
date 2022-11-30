@@ -125,11 +125,18 @@ namespace ft{
                 *this = other;
                 return *this;
             }
+			static void swap_nodes(nodeptr& a, nodeptr& b){
+				nodeptr tmp = a;
+				a = b;
+				b = tmp;
+			}
+			void	swap_tree(BaseTree& other){
+				swap_nodes(Root(), other.Root());
+				swap_nodes(Lmost(), other.Lmost());
+				swap_nodes(Rbegin(), other.Rbegin());
+				swap_nodes(phony, other.phony);
+			}
             BaseTree& operator=(const BaseTree& other){
-                /* 
-                    TODO: iterate tree and deep-copy nodes 
-                    ...
-                */
                _alloc_node = other._alloc_node;
                _alloc = other._alloc;
                _size = other._size;

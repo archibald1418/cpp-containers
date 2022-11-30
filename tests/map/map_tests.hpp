@@ -268,6 +268,20 @@
 			assert (Cmap.at(5) == 0);
 		}
 
+		void	test_swap(){
+			add_range(1, 10, 0);
+
+			map_type Map2;
+			Map2.insert(value_type(0, 0));
+			Map2.insert(value_type(1, 1));
+
+			Map2.swap(Map);
+
+			
+			print_map(Map2);
+			print_map(Map);
+		}
+
 
 
 	};

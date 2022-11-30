@@ -258,9 +258,11 @@ using ft::tree_traits;
 	/* delete tree; */
 	/* t.test_map_erase(); */
 	/* t.test_ranges(); */
-	t.test_copy();
+	/* t.test_copy(); */
 	/* t.test_at(); */
 	/* t.test_brackets(); */
+
+	t.test_swap();
 
 	return (0);
 }

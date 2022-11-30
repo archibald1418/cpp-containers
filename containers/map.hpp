@@ -352,8 +352,8 @@ namespace ft
 			}
 
 			void swap(map& other){
-				// TODO: swap
-				(void)other;
+
+				this->swap_tree(other);
 			}
     };
 
