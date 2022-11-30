@@ -354,6 +354,9 @@ namespace ft
 			void swap(map& other){
 
 				this->swap_tree(other);
+				size_type tmp = size();
+				this->_size = other._size;
+				other._size = tmp;
 			}
     };
 

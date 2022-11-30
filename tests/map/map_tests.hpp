@@ -275,11 +275,18 @@
 			Map2.insert(value_type(0, 0));
 			Map2.insert(value_type(1, 1));
 
+			map_type copy_Map2(Map2);
+			map_type copy_Map(Map);
+
 			Map2.swap(Map);
 
 			
 			print_map(Map2);
 			print_map(Map);
+
+			assert (Map == copy_Map2);
+			assert (copy_Map == Map2);
+
 		}
 
 
