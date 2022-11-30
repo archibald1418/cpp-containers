@@ -230,7 +230,24 @@
 			assert (Map == Map1);
 
 			const map_type& CMap(Map);
+
+			(void)CMap;
 			
+		}
+
+		void	test_brackets(){
+			add_range(1, 11, 0);
+			print_map(Map);
+			assert(Map[5] == Map.find(5)->second);
+			assert(Map[1] == Map.find(1)->second);
+			assert(Map[10] == Map.find(10)->second);
+
+			Map[5] = -5;
+			assert(Map[5] == -5);
+		}
+	
+		void	test_at(){
+
 		}
 
 

@@ -317,8 +317,31 @@ namespace ft
 				return const_iterator(equal_range(key).second);		
 			}
 
-			// TODO: erase: just call the deleter duh
-			// TODO: at + []
+			T& at(const Key& key){
+				iterator found = find(key);
+				if (found == end())
+					throw std::out_of_range(
+							std::string("Key Error: ") +  
+							std::string(key)
+							);
+				return *found;
+			}
+			const T& at(const Key& key)const{
+				const_iterator found = find(key);
+				if (found == end())
+					throw std::out_of_range(
+							std::string("Key Error: ") +  
+							std::string(key)
+							);
+				return *found;
+			}
+
+			T& operator[](const Key& key){
+				iterator found = find(key);
+				if (found == end())
+					return insert(make_pair(key, T())).first->second;
+				return found->second;
+			}
 
 			void swap(map& other){
 				// TODO: swap
