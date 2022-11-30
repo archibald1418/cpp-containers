@@ -223,7 +223,7 @@ namespace ft
 
 			pair<iterator, bool> insert(const value_type& value){
 				
-				iterator found = find(value.first); // find same key!
+				iterator found = find(value.first);
 				if (found != end())
 					return pair<iterator, bool>(iterator(found), false);
 				return pair<iterator, bool>(this->Insert(value), true);
@@ -236,10 +236,6 @@ namespace ft
 			}
 
 			iterator erase(iterator pos){
-				// TODO: pass end and see behaviour
-				// 		NOTE: c++11 uses const iterators, will it test?  
-				/* iterator& copy(pos); */
-				/* iterator& ret(++copy); */	
 				this->Delete(*pos);
 				return iterator(pos); // compare outputs
 			}
@@ -264,7 +260,7 @@ namespace ft
 			}
 
 			/*
-			 *TODO: equal range, lower bound, upper bound, erase, swap
+			 *TODO: lower bound, upper bound, swap
 			 * */
 			pair_ii equal_range(const Key& key)
 			{
@@ -295,14 +291,7 @@ namespace ft
 			}
 
 			// 
-			/* TODO: equal range - lower b - upper b
-			 * since map doesn't allow for matching keys, these can just go like this:
-			 * 
-			 * equal range:
-			 *	   - call find
-			 *	   - increment
-			 *	   - return pair<found, next_to_found>
-			 * 
+			/* TODO: lower b - upper b
 			 * lower bound:
 			 *	   - call find
 			 *	   - return found
