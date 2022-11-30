@@ -330,7 +330,77 @@ namespace ft
 
 			// TODO: erase: just call the deleter duh
 			// TODO: at + []
+
+			void swap(map& other){
+				// TODO: swap
+				(void)other;
+			}
     };
+
+				
+    // Non-member comparison operators
+
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator==(
+			const map<Key, T, Compare, Alloc> &lhs,
+			const map<Key, T, Compare, Alloc> &rhs)
+    {
+        if (rhs.size() != lhs.size())
+            return false;
+
+		typedef typename map<Key, T, Compare, Alloc>::const_iterator It;
+		
+		It lhs_it = lhs.begin();
+		It rhs_it = rhs.begin();
+		while (lhs_it != lhs.end())
+		{
+			if (lhs_it->first != rhs_it->first)
+				return false;
+			++lhs_it;
+			++rhs_it;
+		}
+        return true;
+    }
+
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator!=(
+			const map<Key, T, Compare, Alloc>& lhs,
+			const map<Key, T, Compare, Alloc>& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator<(
+			const map<Key, T, Compare, Alloc> &lhs,
+			const map<Key, T, Compare, Alloc> &rhs)
+    {
+        return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    }
+
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator>(
+			const map<Key, T, Compare, Alloc> &lhs,
+			const map<Key, T, Compare, Alloc> &rhs)
+    {
+        return rhs < lhs;
+    }
+
+    template <class Key, class T, class Compare, class Alloc>
+    bool operator>=(
+			const map<Key, T, Compare, Alloc> &lhs,
+			const map<Key, T, Compare, Alloc> &rhs)
+    {
+        return !(lhs < rhs);
+    }
+
+    template <class Key, class T, class Compare, class Alloc>
+    void swap(
+			const map<Key, T, Compare, Alloc> &lhs,
+			const map<Key, T, Compare, Alloc> &rhs)
+    {
+        lhs.swap(rhs);
+    }
 
 
 }
