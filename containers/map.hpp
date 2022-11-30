@@ -144,6 +144,10 @@ namespace ft
 				}
 			}
 
+			map(const map& other) : __base(other.comp, other._alloc){
+				this->insert(other.begin(), other.end());
+			}
+
 			virtual ~map(){
 				// TODO: this is a test code
 				std::cout << "Destroying map" << std::endl;
@@ -156,7 +160,7 @@ namespace ft
 			iterator begin(){
 				return iterator(this->Lmost());
 			} const_iterator begin()const{
-				return const_iterator(this->Lmost());
+				return const_iterator(this->lmost);
 			}
 
 			reverse_iterator rbegin(){
@@ -168,7 +172,7 @@ namespace ft
 			iterator end(){
 				return iterator(this->End());
 			} const_iterator end()const{
-				return const_iterator(this->End());
+				return const_iterator(this->n_rbegin);
 			}
 
 			// DEBUG: Rend node symmetric to End
