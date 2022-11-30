@@ -25,6 +25,12 @@
 		
 	public:
 		map_type	Map;
+		const map_type& Cmap;
+	
+	private:
+		TestMap(){
+			Cmap = Map;
+		}
 
 	public:
 		void	print_pair_ii(const Pair_ii& pair_ii){
@@ -247,7 +253,18 @@
 		}
 	
 		void	test_at(){
+			// non-const
 
+			add_range(1, 10, 0);
+
+			assert (Map.at(5) == 0);
+			
+			// RE
+			/* Map.at(50); */
+
+			const map_type& Cmap(Map);
+
+			assert (Cmap.at(5) == 0);
 		}
 
 

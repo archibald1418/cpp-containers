@@ -300,17 +300,6 @@ namespace ft
 					return pair_cc(cend, found);
 			}
 
-			// 
-			/* TODO: lower b - upper b
-			 * lower bound:
-			 *	   - call find
-			 *	   - return found
-			 *
-			 * upper bound:
-			 *	   - call find
-			 *	   - return next_to_found
-			*/
-			
 			iterator lower_bound(const Key& key){
 				return find(key);
 			}
@@ -331,19 +320,17 @@ namespace ft
 				iterator found = find(key);
 				if (found == end())
 					throw std::out_of_range(
-							std::string("Key Error: ") +  
-							std::string(key)
+							std::string("map::at")
 							);
-				return *found;
+				return found->second;
 			}
 			const T& at(const Key& key)const{
 				const_iterator found = find(key);
 				if (found == end())
 					throw std::out_of_range(
-							std::string("Key Error: ") +  
-							std::string(key)
+							std::string("map::at")
 							);
-				return *found;
+				return found->second;
 			}
 
 			T& operator[](const Key& key){
