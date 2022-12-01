@@ -256,7 +256,7 @@ using ft::tree_traits;
 	t.test_iterator_increment();
 	/* delete tree; */
 	t.test_ranges(); 
-	// t.test_copy();
+	t.test_copy();
 	t.test_at();
 	 t.test_brackets(); 
 	t.test_map_erase();
