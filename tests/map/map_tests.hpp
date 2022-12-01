@@ -168,32 +168,30 @@
 		}
 
 		void	test_map_erase(){
-			add_range(1, 7, 0);
+
+			std::cout << "TEST ERASE" << std::endl;
+			
+			map_type M;
+			M.insert(value_type(1, 4));
+			M.insert(value_type(2, 4));
+			M.insert(value_type(3, 4));
+			M.insert(value_type(6, 4));
+			M.insert(value_type(9, 4));
 			/* iterator first = Map.begin();	// 1 */
 			/* print_map(Map); */
 
-			// XXX debug root case - middle case ok, end case ok
-			Map.erase(Map.begin()); // should leave [1,2]
-			/* print_map(Map); */
-			Map.erase(++Map.begin()); // should leave [1,2]
-			/* print_map(Map); */
-			/* Map.erase(Map.begin()); // should leave [1,2] */
-			/* Map.erase(--Map.end()); // should leave [1,2] */
-			/* print_map(Map); */
-			Map.erase(--Map.end()); // should leave [1,2]
-			/* print_map(Map); */
-			/* Map.erase(--Map.end()); // should leave [1,2] */
-			/* print_map(Map); */
-			Map.erase(--Map.end()); // should leave [1,2]
-			print_map(Map);
-			Map.erase(Map.begin(), Map.end());
-			print_map(Map);
+			M.erase(M.begin()); // should leave [1,2]
+			M.erase(++M.begin());
+			print_map(M);
+			print_map(M);
+			M.erase(M.begin(), M.end());
 
-			// FIXME: begin erasure doesn't work right
-			// doesn't update lmost
+			add_range(1, 8, 0);
+		
 		}
 
 		void test_iterator_increment(){
+			std::cout << "TEST INCREMENT" << std::endl;
 			add_range(1, 10, 0);
 
 			It last = --Map.end();
@@ -212,6 +210,7 @@
 		}
 
 		void	test_ranges(){
+			std::cout << "TEST RANGES" << std::endl;
 			Pair_ii  p1 = Map.equal_range(1);
 			Pair_ii  p2 = Map.equal_range(2);
 			Pair_ii  p3 = Map.equal_range(3);
@@ -226,6 +225,7 @@
 
 		void	test_copy(){
 
+			std::cout << "TEST COPY" << std::endl;
 			test_map_insert();
 
 			map_type Map1(Map);
@@ -243,6 +243,7 @@
 		}
 
 		void	test_brackets(){
+			std::cout << "TEST BRACKETS" << std::endl;
 			add_range(1, 11, 0);
 			print_map(Map);
 			assert(Map[5] == Map.find(5)->second);
@@ -255,6 +256,7 @@
 	
 		void	test_at(){
 			// non-const
+			std::cout << "TEST AT" << std::endl;
 
 			add_range(1, 10, 0);
 
@@ -269,22 +271,31 @@
 		}
 
 		void	test_swap(){
-			add_range(1, 10, 0);
+
+			std::cout << "TEST SWAP" << std::endl;
+			
+			map_type Map1;
+
+			Map1.insert(value_type(0, 0));
+			Map1.insert(value_type(2, 0));
+			Map1.insert(value_type(2, 0));
+			Map1.insert(value_type(3, 0));
+			Map1.insert(value_type(4, 0));
 
 			map_type Map2;
 			Map2.insert(value_type(0, 0));
 			Map2.insert(value_type(1, 1));
 
 			map_type copy_Map2(Map2);
-			map_type copy_Map(Map);
+			map_type copy_Map(Map1);
 
-			Map2.swap(Map);
+			Map2.swap(Map1);
 
 			
 			print_map(Map2);
-			print_map(Map);
+			print_map(Map1);
 
-			assert (Map == copy_Map2);
+			assert (Map1 == copy_Map2);
 			assert (copy_Map == Map2);
 
 		}

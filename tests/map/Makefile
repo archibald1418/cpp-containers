@@ -61,7 +61,7 @@ map_sys:
 	@# -fsanitize=leak; export ASAN_OPTIONS=detect_leak=1
 
 map_compare: map_my map_sys
-	-${DIFF} -y  ${COLOR}  <(./testmy | tee my.log) <(./testsys | tee sys.log)
+	-${DIFF}  <(./testmy | tee my.log) <(./testsys | tee sys.log)
 	@#ignore diff writing to stderr
 
 ${TESTFILE}my: map_my

@@ -156,12 +156,12 @@ namespace ft
 			}
 
 			virtual ~map(){
-				// TODO: this is a test code
-				std::cout << "Destroying map" << std::endl;
+				//std::cout << "Destroying map" << std::endl;
 			}
 
 			void	clear(){
-				erase(begin(), end());
+				if (!empty())
+					erase(begin(), end());
 			}
 
 			allocator_type get_allocator(){

@@ -147,7 +147,7 @@ namespace ft{
 			// Destructor
             virtual ~BaseTree(){
                 if (empty()){
-					std::cout << "destroying root" << std::endl;
+					//std::cout << "destroying root" << std::endl;
 					freenode(n_rbegin);
 				}
 				else 
@@ -244,7 +244,7 @@ namespace ft{
             }
 
             void freenode(nodeptr& node){
-				std::cout << "deleting ..." << node->Get() << "...\n";
+				//std::cout << "deleting ..." << node->Get() << "...\n";
                 _alloc_ptr.destroy(&Parent(node));
                 _alloc_ptr.destroy(&Right(node));
                 _alloc_ptr.destroy(&Left(node));
